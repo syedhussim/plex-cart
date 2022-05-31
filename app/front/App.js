@@ -1,5 +1,5 @@
 const ApplicationService = require('../../core/ApplicationService');
-const Routes = require('../../core/routing/Routes');
+const Routes = require('../../core/Routes');
 
 class App extends ApplicationService{
 
@@ -7,9 +7,7 @@ class App extends ApplicationService{
 
         let routes = new Routes();
         routes.add('/home', '/Home/Inde');
-
-        response.write('front');
-        response.flush();
+        routes.add('*', 'core/http/NotFoundController');
 
         await this.run(routes, request, response);
     }

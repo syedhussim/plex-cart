@@ -6,8 +6,10 @@ class App extends ApplicationService{
     async load(request, response){
 
         let routes = new Routes();
-        routes.add('/catalog/products', 'catalog/Products');
+        routes.add('/catalog/products', 'app/console/modules/catalog/Products');
+        routes.add('*', 'core/http/NotFoundController');
 
+    
         let dependencies = {
             name : 'Syed'
         };
@@ -16,7 +18,7 @@ class App extends ApplicationService{
     }
 
     async error(e){
-        console.log(e.message);
+        console.log(e);
     }
 }
 

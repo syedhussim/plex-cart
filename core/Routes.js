@@ -7,7 +7,7 @@ class Routes{
     add(path, controller){
         this._routes.push({
             path : path,
-            controller : controller
+            controller : controller,
         });
     }
 

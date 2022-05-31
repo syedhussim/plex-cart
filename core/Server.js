@@ -13,6 +13,9 @@ class Server{
         this._registerGlobals();
 
         for(let app of apps){
+
+            app.loadConfig(this._rootDir);
+
             http.createServer(async(req, res) => {
 
                 const request = new Request(req);
