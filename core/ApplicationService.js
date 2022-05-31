@@ -18,6 +18,18 @@ class ApplicationService{
         }catch(e){}
     }
 
+    config(){
+        return this._config;
+    }
+
+    rootDir(){
+        return this._rootDir;
+    }
+
+    name(){
+        return this._name;
+    }
+
     async load(request, response){}
 
     async run(routes, request, response, dependencies){

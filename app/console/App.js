@@ -1,5 +1,6 @@
 const ApplicationService = require('../../core/ApplicationService');
 const Routes = require('../../core/Routes');
+const View = require('../../core/View');
 
 class App extends ApplicationService{
 
@@ -8,10 +9,9 @@ class App extends ApplicationService{
         let routes = new Routes();
         routes.add('/catalog/products', 'app/console/modules/catalog/Products');
         routes.add('*', 'core/http/NotFoundController');
-
     
         let dependencies = {
-            name : 'Syed'
+            view : new View(this.rootDir().concat('/app/console/templates/omega/views/'))
         };
         
         await this.run(routes, request, response, dependencies);
