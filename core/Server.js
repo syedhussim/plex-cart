@@ -21,6 +21,8 @@ class Server{
                 const request = new Request(req);
                 const response = new Response(res);
 
+                await request.init();
+
                 await app.load(this._rootDir, request, response);
 
             }).listen(app.port());

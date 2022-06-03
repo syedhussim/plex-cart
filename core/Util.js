@@ -18,3 +18,24 @@ module.exports.randomString = async function(len){
 
     return key;
 };
+
+module.exports.url = function(string, prefix = null){
+    let retString = ''; 
+    let len = string.length;
+
+    for(let i = 0; i < len; i++){
+        let chCode = string[i].toLowerCase().charCodeAt();
+
+        if(chCode == 32 || chCode == 45){
+            if(retString[retString.length - 1] != '-'){
+                retString += '-';
+            }
+        }
+        
+        if((chCode >= 48 && chCode <= 57) || (chCode >= 97 && chCode <= 122)){
+            retString += string[i].toLowerCase();
+        }
+    }
+
+    return prefix  ? '/' + prefix + '/' + retString : '/' + retString;
+}

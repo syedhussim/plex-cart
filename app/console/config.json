@@ -1,3 +1,17 @@
 {
-    "theme" : "omega"
+    "app" : { 
+        "theme" : "omega"
+    },
+    "db" : {
+        "driver" : "json",
+        "path" : "/home/syed/Desktop/plex-data",
+        "cache" : true
+    },
+    "session" : {
+        "name" : "_plx_id",
+        "path" : "/",
+        "secure" : false,
+        "samesite" :  "None",
+        "dev" : true
+    }
 }

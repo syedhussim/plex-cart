@@ -3,7 +3,7 @@ class Response{
         this._response = response;
         this._httpCode = 200;
         this._headers = {};
-        this._cookies = [];
+        this._cookies = new Map();
         this._cookieOptions = {};
         this._output = '';
         this._flushed = false;
@@ -16,6 +16,10 @@ class Response{
 
     cookieOptions(options = {}){
         this._cookieOptions = options;
+    }
+
+    cookies(){
+        return this._cookies;
     }
 
     contentType(type){
@@ -42,6 +46,10 @@ class Response{
         return this;
     }
 
+    html(string){
+        this.contentType('text/html').write(string).flush();
+    }
+
     flushed(){
         return this._flushed;
     }
@@ -54,24 +62,18 @@ class Response{
 
         let cookieHeader = '';
 
-        for(let i=0; i < this._cookies.length; i++){
-            let { name, value, path } = this._cookies[i];
-            
-            path = (path == '') ? '/' : path;
+        for(let [cookieName, cookie] of this._cookies){
 
+            let strCookieOptions = '';
 
-            let strCookieOptions = "path=" + (this._cookieOptions.path || '/') + "; HttpOnly; SameSite=" + (this._cookieOptions.samesite || 'None') + ';';
-
-            let cookieSecure = this._cookieOptions.secure || false;
-
-            if(cookieSecure){
-                strCookieOptions += 'Secure;';
+            if(cookie instanceof Object){
+                cookieHeader += `${cookieName}=${cookie.value};path=${cookie.path}; HttpOnly; SameSite=${cookie.samesite};${cookie.secure ? 'Secure' : ''};`;
+            }else{
+                cookieHeader += `${cookieName}=${cookie}`;
             }
-            
-            cookieHeader += name + '=' + value + '; ' + strCookieOptions;
         }
 
-        if(this._cookies.length > 0){
+        if(cookieHeader){
             this.addHeader("Set-Cookie", cookieHeader);
         }
 

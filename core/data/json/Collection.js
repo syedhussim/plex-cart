@@ -6,12 +6,13 @@ const Result = require('./Result');
 
 class Collection{
 
-    constructor(config, name){
-        this._config = config;
+    constructor(settings, name){
+        this._settings = settings;
         this._name = name;
         this._filters = [];
         this._sort = null;
         this._limit = null;
+        this._cachePrefix = '_db_';
     }
 
     where(property, op, value){
@@ -38,17 +39,20 @@ class Collection{
     }
 
     async get(){
-        let cache = this._config.data.cache;
+        let cacheStorage = this._settings.cacheStorage;
         let data = [];
 
-        if(cache.has(this._name)){
-            data = cache.get(this._name);
+        if(cacheStorage.has(this._cachePrefix + this._name)){
+            data = cacheStorage.get(this._cachePrefix + this._name);
         }else{
             try{
-                let collectionFile = this._config.data.path.concat('/').concat(this._name).concat('.data');
+                let collectionFile = this._settings.path.concat('/').concat(this._name).concat('.data');
                 let buffer = await fs.readFile(collectionFile);
                 data = deserialize(buffer);
-                cache.set(this._name, data);
+
+                if(this._settings.cache){
+                    cacheStorage.set(this._cachePrefix + this._name, data);
+                }
             }catch(e){}
         }
 
@@ -122,18 +126,37 @@ class Collection{
         return new Result(tmpArray);
     }
 
+    async find(id, defaultVal = null){
+        let result = await this.where('id', 'eq', id).get();
+
+        if(!result.empty()){
+            return result.first();
+        }
+
+        if(defaultVal){
+            return defaultVal;
+        }
+
+        return false;
+    }
+
     async create(object){
 
+        let timeStamp = new Date().getTime();
+
         object['id'] = await Util.randomString(20);
+        object['created_time'] = timeStamp;
+        object['updated_time'] = timeStamp;
 
-        let collectionFile = this._config.data.path.concat('/').concat(this._name).concat('.data');
-        let cache = this._config.data.cache;
+        let collectionFile = this._settings.path.concat('/').concat(this._name).concat('.data');
+        let cacheStorage = this._settings.cacheStorage;
 
-        if(cache.has(this._name)){
-            cache.get(this._name).push(object);
+        let data = [];
+
+        if(cacheStorage.has(this._cachePrefix + this._name)){
+            data = cacheStorage.get(this._cachePrefix + this._name);
+            data.push(object);
         }else{
-
-            let data = [];
 
             try{
                 let buffer = await fs.readFile(collectionFile);
@@ -141,12 +164,15 @@ class Collection{
             }catch(e){}
 
             data.push(object);
-            cache.set(this._name, data);
+
+            if(this._settings.cache){
+                cacheStorage.set(this._cachePrefix + this._name, data);
+            }
         }
 
         try{
-            await fs.writeFile(collectionFile, serialize(cache.get(this._name))); 
-        }catch(e){
+            await fs.writeFile(collectionFile, serialize(data)); 
+        }catch(e){ console.log(e);
         }
 
         return object['id'];
@@ -154,12 +180,12 @@ class Collection{
 
     async update(id, object){
 
-        let collectionFile = this._config.data.path.concat('/').concat(this._name).concat('.data');
-        let cache = this._config.data.cache;
+        let collectionFile = this._settings.path.concat('/').concat(this._name).concat('.data');
+        let cacheStorage = this._settings.cacheStorage;
         let data = [];
 
-        if(cache.has(this._name)){
-            data = cache.get(this._name);
+        if(cacheStorage.has(this._cachePrefix + this._name)){
+            data = cacheStorage.get(this._cachePrefix + this._name);
         }else{
 
             try{
@@ -167,19 +193,27 @@ class Collection{
                 data = deserialize(buffer);
             }catch(e){}
 
-            cache.set(this._name, data);
+            if(this._settings.cache){
+                cacheStorage.set(this._cachePrefix + this._name, data);
+            }
         }
+
+        let updated = false;
 
         for(let row of data){
             if(row.id == id){
+                object['updated_time'] = new Date().getTime();
                 Object.assign(row, object);
+                updated = true;
                 break;
             }
         }
 
         try{
-            await fs.writeFile(collectionFile, serialize(cache.get(this._name))); 
-            return true;
+            if(updated){
+                await fs.writeFile(collectionFile, serialize(cacheStorage.get(this._cachePrefix + this._name))); 
+                return true;
+            }
         }catch(e){}
 
         return false;

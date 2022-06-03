@@ -1,15 +1,16 @@
-const HttpController = req('core.http.HttpController');
+const ConsoleController = req('app.console.lib.ConsoleController');
 
-class Products extends HttpController{
+class Products extends ConsoleController{
 
     async get(){
-        
+
+        let products = await this.db.collection('products').get();
 
         return await this.view.render('catalog/products',{
-            data :  [1,2,3,4],
-            name : 'Syed'
+            products : products
         });
     }
+
 }
 
 module.exports = Products;

@@ -105,7 +105,7 @@ class View{
 
         let asyncConstructor = Object.getPrototypeOf(async function(){}).constructor;
 
-        var func = new asyncConstructor(...keys, output);
+        let func = new asyncConstructor(...keys, output);
 
         return await func(...vals);
     }
