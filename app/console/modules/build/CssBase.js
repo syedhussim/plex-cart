@@ -3,14 +3,59 @@ const ConsoleController = req('app.console.lib.ConsoleController');
 class CssBase extends ConsoleController{
 
     async get(){
-        let output = '';
-        let props = [
+        let output = "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');\n\n";
+        
+        output += '* { box-sizing: border-box; }\n\n:root{\n';
+
+        let props = {
+            "font" : "Inter",
+            "font-size": ".94rem",
+            "font-color-1" : "rgb(26, 32, 44)",
+            "font-color-2" : "rgba(26, 32, 44, .7)",
+            "font-color-3" : "#ff0c00",
+            "font-color-4" : "#e83e8c",
+            "border-color-1" : "#cfd9e3",
+            "border-color-2" : "#b8c5d2",
+            "border-color-focus" : "#3b82f6",
+            "background-color-1" : "#4f46e5",
+            "background-color-2" : "#e9eef7;",
+            "background-color-3" : "#e9eef790",
+            "background-color-4" : "#fff",
+        };
+
+        for(let [k,v] of Object.entries(props)){
+            output += '    --' + k  + ' : ' + v + ";\n";
+        }
+        output += "}\n\n"
+
+        let size = 4;
+
+        for(let i=1; i < 7; i++){
+            output += 'h' + i + ' { margin : 0px; font-size : ' + (((size - 1) / 5) + 1) + 'rem; font-weight : 400; text-transform : uppercase }\n'; 
+            size--;
+        }
+
+        output += "\n";
+
+        for(let i=1; i < 5; i++){
+            output += '.bg-' + i + ' { background-color : var(--background-color-' + i + '); }\n'; 
+        }
+
+        output += "\n";
+
+        for(let i=1; i < 11; i++){
+            output += '.br-' + i + '-px { border-radius : ' + i + 'px; }\n'; 
+        }
+
+        output += "\n";
+        
+        props = [
             'width', 
         ];
 
         for(let cls of props){
             for(let i=1; i < 11; i++){
-output += '.'+ this.clasName(cls) + '-' + (i* 10) + '-pc { ' + cls + ' : ' + (i * 10) + "%; }\n";
+                output += '.'+ this.clasName(cls) + '-' + (i* 10) + '-pc { ' + cls + ' : ' + (i * 10) + "%; }\n";
             }
             output += "\n";
         }
@@ -20,8 +65,15 @@ output += '.'+ this.clasName(cls) + '-' + (i* 10) + '-pc { ' + cls + ' : ' + (i 
         ];
 
         for(let cls of props){
+            for(let i=1; i < 11; i++){
+                output += '.'+ this.clasName(cls) + '-' + (i* 10) + '-px { ' + cls + ' : ' + (i * 10) + "px; }\n";
+            }
+            output += "\n";
+        }
+
+        for(let cls of props){
             for(let i=1; i < 15; i++){
-output += '.'+ this.clasName(cls) + '-' + (i* 100) + '-px { ' + cls + ' : ' + (i * 100) + "px; }\n";
+                output += '.'+ this.clasName(cls) + '-' + (i* 100) + '-px { ' + cls + ' : ' + (i * 100) + "px; }\n";
             }
             output += "\n";
         }
@@ -33,8 +85,8 @@ output += '.'+ this.clasName(cls) + '-' + (i* 100) + '-px { ' + cls + ' : ' + (i
         ];
 
         for(let cls of props){
-            for(let i=0; i < 11; i++){
-output += '.'+ this.clasName(cls) + '-' + (i* 5) + ' { ' + cls + ' : ' + (i * 5) + "px; }\n";
+            for(let i=0; i < 21; i++){
+                output += '.'+ this.clasName(cls) + '-' + (i* 5) + ' { ' + cls + ' : ' + (i * 5) + "px; }\n";
             }
             output += "\n";
         }
@@ -45,7 +97,7 @@ output += '.'+ this.clasName(cls) + '-' + (i* 5) + ' { ' + cls + ' : ' + (i * 5)
 
         for(let cls of props){
             for(let i=10; i < 36; i += 2){
-output += '.'+ this.clasName(cls) + '-' + (i+ 2) + ' { ' + cls + ' : ' + (i + 2) + "px; }\n";
+                output += '.'+ this.clasName(cls) + '-' + (i+ 2) + ' { ' + cls + ' : ' + (i + 2) + "px; }\n";
             }
             output += "\n";
         }
@@ -60,6 +112,12 @@ output += '.'+ this.clasName(cls) + '-' + (i*100) + ' { ' + cls + ' : ' + (i * 1
             }
             output += "\n";
         }
+
+        for(let i=1; i < 5; i++){
+            output += '.fc-' + i + ' { color : var(--font-color-' + i + '); }\n';
+        }
+        output += "\n";
+        
 
         props = [
             'flex', 'block', 'inline', 'inline-block', 
@@ -76,7 +134,7 @@ output += '.dy-'+ this.clasName(cls)  + ' { display : ' + cls + "; }\n";
         ];
 
         for(let cls of props){ 
-output += '.fx-jc-'+ this.clasName(cls)  + ' { justify-center : ' + cls + "; }\n";
+            output += '.fx-jc-'+ this.clasName(cls)  + ' { justify-content : ' + cls + "; }\n";
         }
 
         output += "\n";
@@ -86,7 +144,7 @@ output += '.fx-jc-'+ this.clasName(cls)  + ' { justify-center : ' + cls + "; }\n
         ];
 
         for(let cls of props){ 
-output += '.fx-ai-'+ this.clasName(cls)  + ' { align-items : ' + cls + "; }\n";
+            output += '.fx-ai-'+ this.clasName(cls)  + ' { align-items : ' + cls + "; }\n";
         }
 
         output += "\n";
@@ -96,12 +154,54 @@ output += '.fx-ai-'+ this.clasName(cls)  + ' { align-items : ' + cls + "; }\n";
         ];
 
         for(let cls of props){ 
-output += '.fx-fd-'+ this.clasName(cls)  + ' { flex-direction : ' + cls + "; }\n";
+            output += '.fx-fd-'+ this.clasName(cls)  + ' { flex-direction : ' + cls + "; }\n";
         }
 
         output += "\n";
 
-return output;
+
+        props = [
+            'auto', 'content', 'fit-content', 'max-content', 'min-content', 
+        ];
+
+        for(let cls of props){ 
+            output += '.fx-fx-'+ this.clasName(cls)  + ' { flex : ' + cls + "; }\n";
+        }
+
+        output += "\n";
+
+
+        props = [
+            'border-top', 'border-right', 'border-bottom', 'border-left', 
+        ];
+
+        for(let cls of props){ 
+            output += '.' + this.clasName(cls)  + '-cr-1-1px { ' + cls + ' : 1px solid var(--border-color-1); }\n';
+        }
+
+        output += "\n";
+
+        for(let cls of props){ 
+            output += '.' + this.clasName(cls)  + '-cr-1-2px { ' + cls + ' : 2px solid var(--border-color-1); }\n';
+        }
+
+        output += "\n";
+
+        for(let cls of props){ 
+            output += '.' + this.clasName(cls)  + '-cr-2-1px { ' + cls + ' : 1px solid var(--border-color-2); }\n';
+        }
+
+        output += "\n";
+
+        for(let cls of props){ 
+            output += '.' + this.clasName(cls)  + '-cr-2-2px { ' + cls + ' : 2px solid var(--border-color-2); }\n';
+        }
+
+        output += "\n";
+
+        this.response.contentType('text/css');
+        
+        return output;
  
     }
 
@@ -109,8 +209,12 @@ return output;
         if(string.indexOf('-') <0){
             return string.substring(0,1) + string.substring(string.length -1);
         }
-        return string.split('-').map(v => {
-            return v.substring(0,1);
+        return string.split('-').map((v,i) => {
+            let len = 1;
+            if((string.substring(0,3) == 'max' || string.substring(0,3) == 'min') && i==0){
+                len = 3;
+            }
+            return v.substring(0,len);
         }).join('');
     }
 

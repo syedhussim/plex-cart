@@ -5,7 +5,7 @@
     "db" : {
         "driver" : "json",
         "path" : "/home/syed/Desktop/plex-data",
-        "cache" : true
+        "cache" : false
     },
     "session" : {
         "name" : "_plx_id",

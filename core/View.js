@@ -4,7 +4,21 @@ class View{
 
     constructor(dir){
         this._viewDir = dir
-        this.params = {};
+        this._params = {};
+        this._prependFiles = [];
+        this._appendFiles = [];
+    }
+
+    prependFile(file){
+        this._prependFiles.push(file);
+    }
+
+    appendFile(file){
+        this._appendFiles.push(file);
+    }
+
+    param(name, value){
+        this._params[name] = value;
     }
 
     async render(files, params = {}){
@@ -12,6 +26,10 @@ class View{
         if(typeof files == 'string'){
             files = [ files ];
         }
+
+        files = this._prependFiles.concat(files);
+
+        files = files.concat(this._appendFiles);
 
         let data = [];
 
@@ -89,11 +107,25 @@ class View{
 
         output += ' return out;';
 
-        params = {...this.params, ...params };
+        params = {...this._params, ...params };
+
         params['include'] = async(file) =>{
             let view = new View(this._viewDir);
             return await view.render(file, params);
         };
+        params['equals'] = function(str1, str2, str3 = null, str4 = null){
+            if(str1 == str2){
+                if(str3 == null){
+                    return true;
+                }
+                return str3;
+            }
+
+            if(str4 == null){
+                return false;
+            }
+            return str4;
+        }
 
         let keys = [];
         let vals = []; 

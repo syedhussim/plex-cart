@@ -49,7 +49,7 @@ class ApplicationService{
                 let output = '';
 
                 if(await controller.authorize()){
-                    output = await controller.execute(request, response);
+                    output = await controller.execute();
                 }
 
                 if(output instanceof Object){

@@ -172,8 +172,7 @@ class Collection{
 
         try{
             await fs.writeFile(collectionFile, serialize(data)); 
-        }catch(e){ console.log(e);
-        }
+        }catch(e){ }
 
         return object['id'];
     }
@@ -196,7 +195,7 @@ class Collection{
             if(this._settings.cache){
                 cacheStorage.set(this._cachePrefix + this._name, data);
             }
-        }
+        } 
 
         let updated = false;
 
@@ -211,7 +210,7 @@ class Collection{
 
         try{
             if(updated){
-                await fs.writeFile(collectionFile, serialize(cacheStorage.get(this._cachePrefix + this._name))); 
+                await fs.writeFile(collectionFile, serialize(data)); 
                 return true;
             }
         }catch(e){}

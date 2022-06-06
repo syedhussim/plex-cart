@@ -15,6 +15,18 @@ class Request{
         if(this.headers().has('cookie')){
             this._cookies = this._parseCookies(this.headers().get('cookie'));
         }
+
+        this._url.segments = function(index = null){
+            let segments = this.pathname.substring(1).split('/');
+
+            if(index != null){
+                if(segments.length > index){
+                    return segments[index];
+                }
+                return false;
+            }
+            return segments;
+        }
     }
     
     async init(){
@@ -34,7 +46,7 @@ class Request{
                 }else{
                     this._post = new Post(parse(body));
                 }
-            }catch(e){ console.log(e)}
+            }catch(e){ }
         }
     }
 

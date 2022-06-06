@@ -2,6 +2,7 @@ class Validator{
     constructor(){
         this.fields = [];
         this._errors = {};
+        this._errorCount = 0;
     }
 
     add(name, value, validators = []){
@@ -33,11 +34,12 @@ class Validator{
 
                 if(!validator.validate()){
                     this._errors[field.name] = validator.message;
+                    this._errorCount++;
                     break;
                 }
             }
         }
-        if(this._errors.length == 0){
+        if(this._errorCount == 0){
             return true;
         }
         return false;
@@ -54,11 +56,22 @@ class ValidatorErrors{
         Object.assign(this, errors);
     }
 
-    get(name){
+    get(name, defaultValue = null){
         if(this[name]){
             return this[name];
         }
+
+        if(defaultValue){
+            return defaultValue;
+        }
         return '';
+    }
+
+    hasError(name, value, elseValue = ''){
+        if(this[name]){
+            return value;
+        }
+        return elseValue;
     }
 }
 
@@ -69,7 +82,7 @@ class Required{
     }
 
     validate(){
-        if(this.value.trim().length == 0){
+        if(this.value.toString().trim().length == 0){
             return false;
         }
         return true;

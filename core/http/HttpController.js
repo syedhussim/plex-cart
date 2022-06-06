@@ -6,11 +6,13 @@ class HttpController extends Controller{
 
     async post(){}
 
-    async execute(request, response){
+    async execute(){
 
-        let params = request.query().values();
+        await this.load();
 
-        switch(request.method()){
+        let params = this.request.query().values();
+
+        switch(this.request.method()){
             case 'GET':
                 return await this.get(...params);
             case 'POST': 

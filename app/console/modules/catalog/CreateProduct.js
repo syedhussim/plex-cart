@@ -11,8 +11,11 @@ class CreateProduct extends ConsoleController{
                 name : '',
                 description : '',
                 price : 0,
+                visibility : 1,
                 sku : '',
                 barcode : '',
+                quantity : 0,
+                track_quantity : 0,
                 attributes : {}
             });
         }
@@ -82,9 +85,12 @@ class CreateProduct extends ConsoleController{
             url : Util.url(post.name, 'product'),
             name : post.name,
             description : post.description,
-            price : post.price,
+            price : parseFloat(post.price),
+            visibility : parseInt(post.visibility),
             sku : post.sku,
             barcode : post.barcode,
+            quantity : parseInt(post.quantity),
+            track_quantity : parseInt(post.track_quantity),
             attributes : productAttributes
         };   
 
@@ -104,14 +110,13 @@ class CreateProduct extends ConsoleController{
             let result;
 
             if(pid){
-                result = await this.db.collection('products').update(pid, product, ['id', 'url']);
+                result = await this.db.collection('products').update(pid, product);
             }else{
                 result = await this.db.collection('products').create(product);
             }
-        }else{
-
-            return await this.get(pid, product, validator.errors());
         }
+
+        return await this.get(pid, product, validator.errors());
     }
 }
 

@@ -1,0 +1,106 @@
+html, body { height: 100%; }
+body { 
+    display: flex;
+    flex-direction: column;
+    flex : 1 ;
+    background-color: #fff; 
+    font-family: 'Inter';
+    font-size: var(--font-size);
+    color: var(--font-color-1);
+    margin: 0px;
+}
+a { text-decoration: none; color: inherit; font-weight: 500; }
+.c { display: flex; width: 25px; height: 25px; background-color: var(--background-color-2); border-radius: 4px; justify-content: center; align-items: center; }
+
+.app-bar{
+    width:70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position:fixed; 
+    top:0px; 
+    left:0px; 
+    bottom:0px;
+}
+
+.app-bar-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+    position: relative;
+    border-radius: 4px;
+}
+.app-bar-item svg{
+    fill : #000; 
+}
+.app-bar-item:hover, .app-bar-item-selected {
+    background-color: var(--background-color-1);
+}
+.app-bar-item:hover svg, .app-bar-item-selected svg {
+    fill: #fff;
+}
+
+.app-menu{
+    width:300px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 70px;
+    border-right: 1px solid var(--border-color-1);
+    padding : 20px
+}
+.menu-item {
+    display: flex;
+    justify-content : space-between;
+    align-items : center;
+    padding:10px 0px;
+}
+.menu-item:hover, .menu-item-selected {
+    background-color: var(--background-color-2);
+    margin: 0px -20px;
+    padding: 10px 20px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+.menu-item-selected .c {
+    background-color: #3b82f6; color: #fff;
+}
+
+
+
+.grid {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+input[class="input-1"],
+select[class="input-1"],
+textarea[class="input-1"],
+input[type="text"], 
+input[type="password"],
+input[type="date"], 
+textarea, select {
+    width : 100%;
+    border : 1px solid var(--border-color-1);
+    padding : 12px;
+    border-radius : 4px;
+    outline : none;
+    resize : none;
+    background-color : #fff;
+    font-family : var(--font);
+    font-size : var(--font-size);
+    color : var(--font-color);
+}
+
+input[class="input-1"],
+select[class="input-1"],
+textarea[class="input-1"]{
+    border : 1px solid var(--border-color-2);
+}
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="date"]:focus, textarea:focus, select:focus {
+    border : 1px solid var(--border-color-focus);
+    box-shadow : 0px 1px 3px #ddd inset;
+}

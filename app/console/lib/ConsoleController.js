@@ -22,6 +22,13 @@ class ConsoleController extends HttpController{
 
         return false;
     }
+
+    async load(){
+        this.view.param('request', this.request);
+        
+        this.view.prependFile('shared/header');
+        this.view.appendFile('shared/footer');
+    }
 }
 
 module.exports = ConsoleController;
