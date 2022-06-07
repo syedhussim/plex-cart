@@ -23,6 +23,7 @@ class Validator{
 
     addError(name, message){
         this._errors[name] = message;
+        this._errorCount++;
         return this;
     }
 
