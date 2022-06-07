@@ -17,7 +17,9 @@
                         </svg>
                     </div>
                 </td>
-                <td class="pg-10"><a href="/catalog/products/create?pid=${product.id}">${product.name}</a></td>
+                <td class="pg-10">
+                    <a href="/catalog/products/create?pid=${product.id}">${product.name}</a>
+                </td>
                 <td class="pg-10">${product.sku}</td>
                 <td class="pg-10">${product.price}</td>
             </tr>

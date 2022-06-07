@@ -19,12 +19,13 @@ module.exports.randomString = async function(len){
     return key;
 };
 
-module.exports.url = function(string, prefix = null){
-    let retString = ''; 
-    let len = string.length;
+module.exports.url = function(str, prefix = '', suffix = ''){
+    str = str.toLowerCase();
+    //let len = str.length;
+    let retString = '/'; 
 
-    for(let i = 0; i < len; i++){
-        let chCode = string[i].toLowerCase().charCodeAt();
+    for(let i in str){
+        let chCode = str[i].charCodeAt();
 
         if(chCode == 32 || chCode == 45){
             if(retString[retString.length - 1] != '-'){
@@ -33,11 +34,19 @@ module.exports.url = function(string, prefix = null){
         }
         
         if((chCode >= 48 && chCode <= 57) || (chCode >= 97 && chCode <= 122)){
-            retString += string[i].toLowerCase();
+            retString += str[i];
         }
     }
 
-    return prefix  ? '/' + prefix + '/' + retString : '/' + retString;
+    if(prefix){
+        retString = '/' + prefix.toLowerCase() + retString;
+    }
+
+    if(suffix){
+        retString = retString + '/' + suffix.toLowerCase();
+    }
+
+    return retString;
 }
 
 module.exports.isNumber = function(str){

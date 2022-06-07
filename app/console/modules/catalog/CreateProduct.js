@@ -83,8 +83,8 @@ class CreateProduct extends ConsoleController{
         }
 
         let product = {
-            id : '',
-            url : Util.url(post.name, 'product'),
+            id : post.id,
+            url : Util.url(post.name, 'product', post.sku),
             name : post.name,
             description : post.description,
             price : Util.tryParseFloat(post.price),
@@ -105,6 +105,18 @@ class CreateProduct extends ConsoleController{
         ]).add('price', product, [
             new Validation.IsDecimal('Price is not valid'),
         ]);
+
+        let productsRef = await this.db.collection('products')
+            .where('url', 'eq', product.url)
+            .get();
+
+        if(!productsRef.empty()){
+            let data = productsRef.first();
+console.log(data.id, product.id);
+            if(data.id != product.id){
+                validator.addError('name', 'Duplicate product name');
+            }
+        }
 
         let result = false;
 

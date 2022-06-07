@@ -5,28 +5,7 @@ class CssBase extends ConsoleController{
     async get(){
         let output = "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');\n\n";
         
-        output += '* { box-sizing: border-box; }\n\n:root{\n';
-
-        let props = {
-            "font" : "Inter",
-            "font-size": ".94rem",
-            "font-color-1" : "rgb(26, 32, 44)",
-            "font-color-2" : "rgba(26, 32, 44, .7)",
-            "font-color-3" : "#ff0c00",
-            "font-color-4" : "#e83e8c",
-            "border-color-1" : "#cfd9e3",
-            "border-color-2" : "#b8c5d2",
-            "border-color-focus" : "#3b82f6",
-            "background-color-1" : "#4f46e5",
-            "background-color-2" : "#e9eef7;",
-            "background-color-3" : "#e9eef790",
-            "background-color-4" : "#fff",
-        };
-
-        for(let [k,v] of Object.entries(props)){
-            output += '    --' + k  + ' : ' + v + ";\n";
-        }
-        output += "}\n\n"
+        output += '* { box-sizing: border-box; }\n\n';
 
         let size = 4;
 
@@ -49,7 +28,7 @@ class CssBase extends ConsoleController{
 
         output += "\n";
         
-        props = [
+        let props = [
             'width', 
         ];
 

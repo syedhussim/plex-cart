@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<link rel="stylesheet" href="/css/base"/> 
+<link rel="stylesheet" href="/css/base.css"/> 
 <link rel="stylesheet" href="/css/style.css"/> 
 
 <div class="dy-fx fx-fx-maxc wh-100-pc">

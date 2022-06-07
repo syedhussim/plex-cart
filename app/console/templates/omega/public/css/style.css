@@ -1,3 +1,19 @@
+:root{
+    --font : Inter;
+    --font-size : .94rem;
+    --font-color-1 : rgb(26, 32, 44);
+    --font-color-2 : rgba(26, 32, 44, .7);
+    --font-color-3 : #ff0c00;
+    --font-color-4 : #e83e8c;
+    --border-color-1 : #cfd9e3;
+    --border-color-2 : #b8c5d2;
+    --border-color-focus : #3b82f6;
+    --background-color-1 : #4f46e5;
+    --background-color-2 : #e9eef7;;
+    --background-color-3 : #e9eef790;
+    --background-color-4 : #fff;
+}
+
 html, body { height: 100%; }
 body { 
     display: flex;
