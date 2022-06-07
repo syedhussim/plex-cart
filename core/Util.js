@@ -39,3 +39,20 @@ module.exports.url = function(string, prefix = null){
 
     return prefix  ? '/' + prefix + '/' + retString : '/' + retString;
 }
+
+module.exports.isNumber = function(str){
+    let regexp = /^\d+?$/;
+    return regexp.test(str);
+}
+
+module.exports.isDecimal = function(str){
+    let regexp = /^\d+(\.\d+)?$/;
+    return regexp.test(str);
+}
+
+module.exports.tryParseFloat = function(str){
+    if(this.isDecimal(str)){
+        return parseFloat(str);
+    }
+    return str;
+}

@@ -8,6 +8,7 @@ class CreateProduct extends ConsoleController{
 
         if(!product){
             product = await this.db.collection('products').find(pid, {
+                id : '',
                 name : '',
                 description : '',
                 price : 0,
@@ -50,7 +51,7 @@ class CreateProduct extends ConsoleController{
         });
     }
  
-    async post(pid){
+    async post(){
 
         let post = this.request.post();
 
@@ -82,17 +83,18 @@ class CreateProduct extends ConsoleController{
         }
 
         let product = {
+            id : '',
             url : Util.url(post.name, 'product'),
             name : post.name,
             description : post.description,
-            price : parseFloat(post.price),
+            price : Util.tryParseFloat(post.price),
             visibility : parseInt(post.visibility),
             sku : post.sku,
             barcode : post.barcode,
             quantity : parseInt(post.quantity),
             track_quantity : parseInt(post.track_quantity),
             attributes : productAttributes
-        };   
+        };
 
         validator.add('name', product, [
             new Validation.Required('Name is required'),
@@ -101,22 +103,23 @@ class CreateProduct extends ConsoleController{
             new Validation.Required('SKU is required'),
             new Validation.MaxLength(40, 'SKU must not exceed @length characters')
         ]).add('price', product, [
-            new Validation.Required('Price is required'),
-            new Validation.Number('Price is not a number'),
+            new Validation.IsDecimal('Price is not valid'),
         ]);
+
+        let result = false;
 
         if(validator.isValid()){
 
-            let result;
-
-            if(pid){
-                result = await this.db.collection('products').update(pid, product);
+            if(post.id){
+                result = await this.db.collection('products').update(post.id, product);
             }else{
                 result = await this.db.collection('products').create(product);
             }
+
+            return await this.get(post.id, product);
         }
 
-        return await this.get(pid, product, validator.errors());
+        return await this.get(post.id, product, validator.errors());
     }
 }
 

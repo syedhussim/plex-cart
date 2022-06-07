@@ -179,6 +179,8 @@ class Collection{
 
     async update(id, object){
 
+        object['id'] = id;
+
         let collectionFile = this._settings.path.concat('/').concat(this._name).concat('.data');
         let cacheStorage = this._settings.cacheStorage;
         let data = [];

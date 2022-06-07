@@ -58,6 +58,7 @@
             </div>
 
             <div class="mb-20">
+                <input type="hidden" value="${product.id}" name="id" />
                 <input type="submit" value="Save" />
             </div>
         </div>

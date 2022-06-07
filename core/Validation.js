@@ -1,3 +1,5 @@
+const Util = require('./Util');
+
 class Validator{
     constructor(){
         this.fields = [];
@@ -82,7 +84,7 @@ class Required{
     }
 
     validate(){
-        if(this.value.toString().trim().length == 0){
+        if(this.value.trim().length == 0){
             return false;
         }
         return true;
@@ -119,17 +121,25 @@ class Length{
     }
 }
 
-class Number{
+class IsNumber{
     constructor(message){
         this.message = message;
         this.value = '';
     }
 
-    validate(){
-        if(isNaN(this.value)){
-            return false;
-        }
-        return true;
+    validate(){ 
+        return Util.isNumber(this.value);
+    }
+}
+
+class IsDecimal{
+    constructor(message){
+        this.message = message;
+        this.value = '';
+    }
+
+    validate(){ 
+        return Util.isDecimal(this.value);
     }
 }
 
@@ -139,5 +149,6 @@ module.exports = {
     Required : Required,
     MaxLength : MaxLength,
     Length : Length,
-    Number : Number
+    IsNumber : IsNumber,
+    IsDecimal : IsDecimal
 };
