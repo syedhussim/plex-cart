@@ -1,4 +1,5 @@
 const HttpController = req('core.http.HttpController');
+const Html= req('core.Html');
 
 class ConsoleController extends HttpController{
 
@@ -24,8 +25,22 @@ class ConsoleController extends HttpController{
     }
 
     async load(){
+
+        this.request.register('flash', (value = null) => {
+            if(value != null){
+                this.appStorage.set('_FLASH_', value);
+            }else{
+                if(this.appStorage.has('_FLASH_')){
+                    value = this.appStorage.get('_FLASH_');
+                    this.appStorage.set('_FLASH_', '');
+                    return value;
+                }
+                return {};
+            }
+        });
+
         this.view.param('request', this.request);
-        
+        this.view.param('html', Html);
         this.view.prependFile('shared/header');
         this.view.appendFile('shared/footer');
     }

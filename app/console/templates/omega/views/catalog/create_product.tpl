@@ -3,12 +3,12 @@
         <div class="dy-fx fx-fd-cn wh-70-pc pg-25">
 
             <div class="pt-10 pb-10 mb-30 bb-cr-1-2px">
-                <h3>Create Product</h3>
+                <h3>Product</h3>
             </div>
 
             <div class="mb-20">
                 <label class="mb-5 dy-bk fw-500 ${errors.hasError('name', 'fc-3')}">${errors.get('name', 'Name')}</label>
-                <input type="text" name="name" value="${product.name}" />
+                ${html.textbox('name', product)}
             </div>
 
             <div class="mb-20">
@@ -18,15 +18,16 @@
 
             <div class="mb-20">
                 <label class="mb-5 dy-bk fw-500 ${errors.hasError('price', 'fc-3')}">${errors.get('price', 'Price')}</label>
-                <input type="text" name="price" value="${product.price}" />
+                ${html.textbox('price', product)}
             </div>
 
             <div class="mb-20">
                 <label class="mb-5 dy-bk fw-500 ${errors.hasError('visibility', 'fc-3')}">${errors.get('visibility', 'Visibility')}</label>
-                <select name="visibility">
-                    <option value="1" ${product.visibility == 1 ? 'selected' : ''}>Visible</option>
-                    <option value="0" ${product.visibility == 0 ? 'selected' : ''}>Hidden</option>
-                </select>
+                ${
+                    html.select('visibility', product)
+                    .option('1', 'Visible')
+                    .option('0', 'Hidden')
+                }
             </div>
 
             <div class="pt-10 pb-10 mb-40 bb-cr-1-2px">
@@ -35,25 +36,26 @@
 
             <div class="mb-20">
                 <label class="mb-5 dy-bk fw-500 ${errors.hasError('sku', 'fc-3')}">${errors.get('sku', 'SKU')}</label>
-                <input type="text" name="sku" value="${product.sku}" />
+                ${html.textbox('sku', product)}
             </div>
 
             <div class="mb-20">
                 <label class="mb-5 dy-bk fw-500 ${errors.hasError('barcode', 'fc-3')}">${errors.get('barcode', 'Barcode')}</label>
-                <input type="text" name="barcode" value="${product.barcode}" />
+                ${html.textbox('barcode', product)}
             </div>
 
             <div class="dy-fx wh-100-pc mb-20">
                 <div class="wh-50-pc pr-15">
                     <label class="mb-5 dy-bk fw-500 ${errors.hasError('quantity', 'fc-3')}">${errors.get('quantity', 'Quantity')}</label>
-                    <input type="text" name="quantity" value="${product.quantity}" />
+                    ${html.textbox('quantity', product)}
                 </div>
                 <div class="wh-50-pc pl-15">
                     <label class="mb-5 dy-bk fw-500 ${errors.hasError('track_quantity', 'fc-3')}">${errors.get('track_quantity', 'Track Quantity')}</label>
-                    <select name="track_quantity">
-                        <option value="0" ${product.track_quantity == 0 ? 'selected' : ''}>No</option>
-                        <option value="1" ${product.track_quantity == 1 ? 'selected' : ''}>Yes</option>
-                    </select>
+                    ${
+                        html.select('track_quantity', product)
+                        .option('0', 'No')
+                        .option('1', 'Yes')
+                    }
                 </div>
             </div>
 
@@ -84,12 +86,11 @@
                 @{/if}
 
                 @{if attribute.type == 'ATTR_MENU'}
-                    <select name="attr_${attribute.property}" class="input-1">
-                        <option value=""></option>
-                    @{foreach item in attribute.menu_items}
-                        <option value="${item}" ${attribute.product_value == item ? 'selected' : ''}>${item}</option>
-                    @{/foreach}
-                    </select>
+                    ${
+                        html.select('attr_' + attribute.property, attribute.product_value)
+                        .option('', '')
+                        .fromArray(attribute.menu_items)
+                    }
                 @{/if}
             </div>
         @{/foreach}

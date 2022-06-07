@@ -74,6 +74,10 @@ class Request{
         return this._post;
     }
 
+    register(fnName, fn){
+        this[fnName] = fn;
+    }
+
     _parseCookies(cookie){
         let cookies = new Map();
 

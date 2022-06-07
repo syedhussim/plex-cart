@@ -112,21 +112,30 @@ class CreateProduct extends ConsoleController{
 
         if(!productsRef.empty()){
             let data = productsRef.first();
-console.log(data.id, product.id);
+
             if(data.id != product.id){
                 validator.addError('name', 'Duplicate product name');
             }
         }
 
-        let result = false;
-
         if(validator.isValid()){
+
+            let result;
+            let action = '';
 
             if(post.id){
                 result = await this.db.collection('products').update(post.id, product);
+                action = 'Updated';
             }else{
                 result = await this.db.collection('products').create(product);
+                action = 'Created';
             }
+
+            this.request.flash({
+                message : `${action} product ${product.name}`,
+                success : result ? true : false,
+                error : 'Operation failed'
+            });
 
             return await this.get(post.id, product);
         }
