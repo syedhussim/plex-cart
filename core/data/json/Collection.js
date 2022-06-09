@@ -220,6 +220,46 @@ class Collection{
         return false;
     }
 
+    async delete(id){
+
+        let collectionFile = this._settings.path.concat('/').concat(this._name).concat('.data');
+        let cacheStorage = this._settings.cacheStorage;
+        let data = [];
+
+        if(cacheStorage.has(this._cachePrefix + this._name)){
+            data = cacheStorage.get(this._cachePrefix + this._name);
+        }else{
+
+            try{
+                let buffer = await fs.readFile(collectionFile);
+                data = deserialize(buffer);
+            }catch(e){}
+
+            if(this._settings.cache){
+                cacheStorage.set(this._cachePrefix + this._name, data);
+            }
+        } 
+
+        let updated = false;
+
+        for(let [index, row] of data.entries()){
+            if(row.id == id){
+                data.splice(index, 1);
+                updated = true;
+                break;
+            }
+        } 
+
+        try{
+            if(updated){
+                await fs.writeFile(collectionFile, serialize(data)); 
+                return true;
+            }
+        }catch(e){}
+
+        return false;
+    }
+
     _getObjectValue(props, row){
         let property = props.reverse().pop();
 

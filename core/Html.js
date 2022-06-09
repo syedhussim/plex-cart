@@ -1,7 +1,15 @@
 class Html{
 
     static textbox(name, value){
-        return new Textbox(name, value);
+        return new Textbox(name, value, 'text');
+    }
+
+    static date(name, value){
+        return new Textbox(name, value, 'date');
+    }
+
+    static textarea(name, value){
+        return new Textbox(name, value, 'textarea');
     }
 
     static select(name, value = null){
@@ -11,8 +19,10 @@ class Html{
 
 class Textbox{
 
-    constructor(name, value){
+    constructor(name, value, type){
         this._name = name;
+        this._type = type;
+        this._classname = '';
 
         if(value instanceof Object){
             value = value[name] != null ? value[name] : '';
@@ -21,8 +31,17 @@ class Textbox{
         this._value = value;
     }
 
+    css(className){
+        this._classname = className;
+        return this;
+    }
+
     toString(){
-        return `<input type="text" name="${this._name}" id="${this._name}" value="${this._value}" />`;
+        if(this._type == 'textarea'){
+            return `<textarea name="${this._name}" id="${this._name}" class="${this._classname}">${this._value}</textarea>`;
+        }else{
+            return `<input type="${this._type}" name="${this._name}" id="${this._name}" value="${this._value}" class="${this._classname}" />`;
+        }
     }
 }
 

@@ -29,7 +29,7 @@ a { text-decoration: none; color: inherit; font-weight: 500; }
 .c { display: flex; width: 25px; height: 25px; background-color: var(--background-color-2); border-radius: 4px; justify-content: center; align-items: center; }
 
 .app-bar{
-    width:70px;
+    width:80px;
     display: flex;
     flex-direction: column;
     align-items: center;

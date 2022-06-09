@@ -12,6 +12,16 @@ class Request{
         this._query = new URLSearchParams(this._url.search);
         this._post = null;
 
+        if(this.headers().has('content-type')){
+            let [ contentType, charset ] = this.headers().get('content-type').split(';');
+            this.headers().set('content-type', contentType);
+
+            if(charset){
+                let [ name, value ] =  charset.split('=');
+                this.headers().set('charset', value);
+            }
+        }
+
         if(this.headers().has('cookie')){
             this._cookies = this._parseCookies(this.headers().get('cookie'));
         }
@@ -30,7 +40,7 @@ class Request{
     }
     
     async init(){
-        if(this.method() !='GET'){
+        if(this.method() != 'GET'){
             try{
                 let body = await this._parsePostBody();
 

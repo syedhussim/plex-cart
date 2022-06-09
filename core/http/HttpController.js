@@ -6,6 +6,8 @@ class HttpController extends Controller{
 
     async post(){}
 
+    async delete(){}
+
     async execute(){
 
         await this.load();
@@ -17,6 +19,8 @@ class HttpController extends Controller{
                 return await this.get(...params);
             case 'POST': 
                 return await this.post(...params);
+            case 'DELETE': 
+                return await this.delete(...params);
         }
     }
 }

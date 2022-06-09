@@ -6,6 +6,8 @@
                 <h3>Product</h3>
             </div>
 
+            <input type="button" value="delete" onclick="deleteProduct()" />
+
             <div class="mb-20">
                 <label class="mb-5 dy-bk fw-500 ${errors.hasError('name', 'fc-3')}">${errors.get('name', 'Name')}</label>
                 ${html.textbox('name', product)}
@@ -74,15 +76,15 @@
                 <label class="mb-5 dy-bk fw-500 ${errors.hasError('attr_' + attribute.property, 'fc-3')}">${errors.get('attr_' + attribute.property, attribute.name)}</label>
 
                 @{if attribute.type == 'ATTR_TEXT'}
-                    <input type="text" class="input-1" name="attr_${attribute.property}" value="${attribute.product_value}" />
+                    ${html.textbox('attr_' + attribute.property, attribute.product_value).css('input-1')}
                 @{/if}
 
                 @{if attribute.type == 'ATTR_TEXTAREA'}
-                    <textarea name="attr_${attribute.property}" class="input-1">${attribute.product_value}</textarea>
+                    ${html.textarea('attr_' + attribute.property, attribute.product_value).css('input-1')}
                 @{/if}
 
                 @{if attribute.type == 'ATTR_DATE'}
-                    <input type="date" class="input-1" name="attr_${attribute.property}" value="${attribute.product_value}" />
+                    ${html.date('attr_' + attribute.property, attribute.product_value).css('input-1')}
                 @{/if}
 
                 @{if attribute.type == 'ATTR_MENU'}
@@ -97,3 +99,18 @@
         </div>
     </div>
 </form>
+
+<script type="text/javascript">
+    async function deleteProduct(){
+        
+        let response = await fetch('/catalog/products/create', {
+            method : 'DELETE',
+            headers: {
+                'Content-type': 'application/json;charset=UTF-8'
+            },
+            body : JSON.stringify( { pid : '${product.id}' })
+        });
+
+        //console.log()
+    }
+</script>

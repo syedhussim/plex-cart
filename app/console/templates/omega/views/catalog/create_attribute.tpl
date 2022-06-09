@@ -17,7 +17,6 @@
             <option value="ATTR_TEXT">Text</option>
             <option value="ATTR_TEXTAREA">Large Text</option>
             <option value="ATTR_DATE">Date</option>
-            <option value="ATTR_NUMBER">Number</option>
             <option value="ATTR_MENU">Menu</option>
         </select>
     </div>
