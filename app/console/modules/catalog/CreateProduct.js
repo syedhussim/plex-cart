@@ -142,7 +142,7 @@ class CreateProduct extends ConsoleController{
 
             return await this.get(post.id, product);
         }
-
+console.log(validator.errors());
         return await this.get(post.id, product, validator.errors());
     }
 

@@ -12,8 +12,17 @@ class ApplicationService{
 
     async loadStaticFile(path, request, response){
         try{
-            let file = path.concat(request.url().pathname);
+            let file = path.concat(request.url().pathname());
             let buffer = await fs.readFile(file);
+
+            let mimeTypes = new Map();
+            mimeTypes.set('css', 'text/css');
+            mimeTypes.set('svg', 'image/svg+xml');
+
+            if(mimeTypes.has(request.url().extension())){
+                //response.contentType(mimeTypes.get(request.url().extension()));
+            }
+
 
             response.write(buffer).flush(); 
         }catch(e){}
@@ -41,7 +50,7 @@ class ApplicationService{
 
         for(let route of routes){
 
-            if(route.path == request.url().pathname || route.path == '*'){
+            if(route.path == request.url().pathname() || route.path == '*'){
 
                 let controller = new (require(this._rootDir.concat('/').concat(route.controller)))();
                 Object.assign(controller, dependencies, { rootDir : this._rootDir, config: this._config, appStorage : this._appStorage, request, response });

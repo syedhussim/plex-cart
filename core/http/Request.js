@@ -5,11 +5,11 @@ class Request{
     constructor(request){
         const protocol = request.socket.encrypted ? 'https' : 'http';
         this._request = request;
-        this._url = new URL(protocol + '://' + request.headers.host + request.url);
+        this._url = new Url(new URL(protocol + '://' + request.headers.host + request.url));
         this._method = request.method;
         this._headers = new Map(Object.entries(request.headers));
         this._cookies = null;
-        this._query = new URLSearchParams(this._url.search);
+        this._query = new URLSearchParams(this._url.search());
         this._post = null;
 
         if(this.headers().has('content-type')){
@@ -24,18 +24,6 @@ class Request{
 
         if(this.headers().has('cookie')){
             this._cookies = this._parseCookies(this.headers().get('cookie'));
-        }
-
-        this._url.segments = function(index = null){
-            let segments = this.pathname.substring(1).split('/');
-
-            if(index != null){
-                if(segments.length > index){
-                    return segments[index];
-                }
-                return false;
-            }
-            return segments;
         }
     }
     
@@ -119,6 +107,52 @@ class Request{
                 reject(err);
             });
         });
+    }
+}
+
+class Url{
+    constructor(url){
+        this._href = url.href;
+        this._origin = url.origin;
+        this._protocol = url.protocol;
+        this._username = url.username;
+        this._password = url.password;
+        this._host = url.host;
+        this._port = url.port;
+        this._host = url.host;
+        this._pathname = url.pathname;
+        this._extension = '';
+        this._search = url.search;
+        this._searchParams = url.searchParams;
+        this._segments = url.pathname.substring(1).split('/');
+
+        let pos = url.pathname.indexOf('.');
+
+        if(pos > -1){
+            this._extension = url.pathname.substring(pos + 1);
+        }
+    }
+
+    pathname(){
+        return this._pathname;
+    }
+
+    search(){
+        return this._search;
+    }
+
+    extension(){
+        return this._extension;
+    }
+
+    segments(index = null){
+        if(index != null){
+            if(this._segments.length > index){
+                return this._segments[index];
+            }
+            return false;
+        }
+        return this._segments;
     }
 }
 

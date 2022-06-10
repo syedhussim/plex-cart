@@ -335,6 +335,7 @@ h6 { margin : 0px; font-size : 0.6rem; font-weight : 400; text-transform : upper
 .pl-100 { padding-left : 100px; }
 
 .fs-12 { font-size : 12px; }
+.fs-13 { font-size : 13px; }
 .fs-14 { font-size : 14px; }
 .fs-16 { font-size : 16px; }
 .fs-18 { font-size : 18px; }
@@ -349,14 +350,17 @@ h6 { margin : 0px; font-size : 0.6rem; font-weight : 400; text-transform : upper
 .fs-36 { font-size : 36px; }
 
 .fw-300 { font-weight : 300; }
-.fw-400 { font-weight : 400; }
 .fw-500 { font-weight : 500; }
-.fw-600 { font-weight : 600; }
+.fw-700 { font-weight : 600; }
 
-.fc-1 { color : var(--font-color-1); }
-.fc-2 { color : var(--font-color-2); }
-.fc-3 { color : var(--font-color-3); }
-.fc-4 { color : var(--font-color-4); }
+.fc-1 { color : var(--color-1); }
+.fc-2 { color : var(--color-2); }
+.fc-3 { color : var(--color-3); }
+.fc-4 { color : var(--color-4); }
+.fc-5 { color : var(--color-5); }
+.fc-6 { color : var(--color-6); }
+.fc-7 { color : var(--color-7); }
+
 
 .dy-fx { display : flex; }
 .dy-bk { display : block; }

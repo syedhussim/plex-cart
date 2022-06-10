@@ -1,19 +1,13 @@
 :root{
     --font : Lato;
     --font-size : .94rem;
-    --font-color-1 : rgb(26, 32, 44);
-    --font-color-2 : rgba(26, 32, 44, .7);
-    --font-color-3 : #ff0c00;
-    --font-color-4 : #e83e8c;
-    --border-color-1 : #f0f0f3;
-    --border-color-2 : #b8c5d2;
-    --border-color-focus : #5e81f4;
     --color-1: #fff;
     --color-2 : #1C1D21;
-    --color-3 : #f5f5fa;
+    --color-3 : #eaeef2;
     --color-4 : #dbe1f9;
     --color-5: #5e81f4;
-    --color-6:#686886;
+    --color-6 : #686886;
+    --color-7 : #f9f7f7;
 }
 
 html, body { height: 100%; }
@@ -28,8 +22,10 @@ body {
     margin: 0px;
 }
 a { text-decoration: none; color: inherit; font-weight: 500; }
+ul { list-style-type: none; padding:0px; margin: 0px; }
 
 .app-bar{
+    background-color: #33344a;
     width:80px;
     display: flex;
     flex-direction: column;
@@ -51,21 +47,58 @@ a { text-decoration: none; color: inherit; font-weight: 500; }
     border-radius: 4px;
 }
 .app-bar-item svg{
-    fill : #8a8aac; 
+    fill : #fff; 
 }
 .app-bar-item-selected {
-    background-color: var(--color-4);
+    background-color: var(--color-5);
 }
 .app-bar-item:hover svg, .app-bar-item-selected svg {
-    fill: #343434;
+    fill: #fff;
 }
 
-
-
-.grid {
+.app-panel{
+    display : flex;
+    flex-direction: column; 
+    min-width: 600px;
+    max-width: 600px;
+}
+.app-panel .container{
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    border-collapse: collapse;
 }
+
+
+.data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid #fff;
+    border-bottom: 1px solid var(--color-7);
+}
+.data-row-selected {
+    background-color: #f6f8fb;
+    border-left: 4px solid var(--color-5);
+}
+
+.attr-orange, 
+.attr-green {
+    font-weight:700;  
+    display:inline-block; 
+    border-radius:4px; 
+    font-size: 10px;
+    text-transform: uppercase;
+    padding:5px 10px; 
+    background-color: #f4ecdc; 
+    color:orange; 
+}
+
+.attr-green{
+    background-color: #d8f4e5;
+    color: #4a6c5a;
+}
+
+
 
 input[class="input-1"],
 select[class="input-1"],
@@ -75,7 +108,7 @@ input[type="password"],
 input[type="date"], 
 textarea, select {
     width : 100%;
-    border : 1px solid var(--border-color-1);
+    border : 1px solid var(--color-4);
     padding : 12px;
     border-radius : 4px;
     outline : none;
@@ -86,13 +119,7 @@ textarea, select {
     color : var(--font-color);
 }
 
-input[class="input-1"],
-select[class="input-1"],
-textarea[class="input-1"]{
-    border : 1px solid var(--border-color-2);
-}
-
 input[type="text"]:focus, input[type="password"]:focus, input[type="date"]:focus, textarea:focus, select:focus {
-    border : 1px solid var(--border-color-focus);
+    border : 1px solid var(--color-5);
     box-shadow : 0px 1px 3px #ddd inset;
 }
