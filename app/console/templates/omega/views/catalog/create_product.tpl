@@ -1,12 +1,12 @@
-<form method="post" class="dy-fx fx-fx-maxc wh-100-pc">
-    <div class="dy-fx fx-fd-rw fx-fx-maxc wh-100-pc">
+${ await include('catalog/products_list'); }
+
+<form method="post" class="dy-fx fx-fx-maxc wh-100-pc pg-20" style="background-color: var(--color-3);">
+    <div class="dy-fx fx-fd-rw fx-fx-maxc wh-100-pc br-10"  style="background-color: var(--color-1);">
         <div class="dy-fx fx-fd-cn wh-70-pc pg-25">
 
             <div class="pt-10 pb-10 mb-30 bb-cr-1-2px">
                 <h3>Product</h3>
             </div>
-
-            <input type="button" value="delete" onclick="deleteProduct()" />
 
             <div class="mb-20">
                 <label class="mb-5 dy-bk fw-500 ${errors.hasError('name', 'fc-3')}">${errors.get('name', 'Name')}</label>
@@ -30,10 +30,6 @@
                     .option('1', 'Visible')
                     .option('0', 'Hidden')
                 }
-            </div>
-
-            <div class="pt-10 pb-10 mb-40 bb-cr-1-2px">
-                <h3>Inventory</h3>
             </div>
 
             <div class="mb-20">
@@ -64,6 +60,7 @@
             <div class="mb-20">
                 <input type="hidden" value="${product.id}" name="id" />
                 <input type="submit" value="Save" />
+                <input type="button" value="delete" onclick="deleteProduct()" />
             </div>
         </div>
 

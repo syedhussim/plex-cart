@@ -6,13 +6,9 @@ class Products extends ConsoleController{
 
         let products = await this.db.collection('products').get();
 
-        let selectedProduct = await this.db.collection('products').find(pid, {
-            id : ''
-        });
-        
         return await this.view.render('catalog/products',{
+            product : { id : '' },
             products : products,
-            selectedProduct : selectedProduct
         });
     }
 

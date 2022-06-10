@@ -6,6 +6,8 @@ class CreateProduct extends ConsoleController{
 
     async get(pid = null, product = null, errors = new Validation.ValidatorErrors()){
 
+        let products = await this.db.collection('products').get();
+
         if(!product){
             product = await this.db.collection('products').find(pid, {
                 id : '',
@@ -45,6 +47,7 @@ class CreateProduct extends ConsoleController{
         }
 
         return await this.view.render('catalog/create_product',{
+            products : products,
             product : product,
             attributes :  attrArray,
             errors : errors

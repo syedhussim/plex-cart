@@ -1,17 +1,19 @@
 :root{
-    --font : Inter;
+    --font : Lato;
     --font-size : .94rem;
     --font-color-1 : rgb(26, 32, 44);
     --font-color-2 : rgba(26, 32, 44, .7);
     --font-color-3 : #ff0c00;
     --font-color-4 : #e83e8c;
-    --border-color-1 : #cfd9e3;
+    --border-color-1 : #f0f0f3;
     --border-color-2 : #b8c5d2;
-    --border-color-focus : #3b82f6;
-    --background-color-1 : #4f46e5;
-    --background-color-2 : #e9eef7;;
-    --background-color-3 : #e9eef790;
-    --background-color-4 : #fff;
+    --border-color-focus : #5e81f4;
+    --color-1: #fff;
+    --color-2 : #1C1D21;
+    --color-3 : #f5f5fa;
+    --color-4 : #dbe1f9;
+    --color-5: #5e81f4;
+    --color-6:#686886;
 }
 
 html, body { height: 100%; }
@@ -20,13 +22,12 @@ body {
     flex-direction: column;
     flex : 1 ;
     background-color: #fff; 
-    font-family: 'Inter';
+    font-family: var(--font);
     font-size: var(--font-size);
-    color: var(--font-color-1);
+    color: var(--color-2);
     margin: 0px;
 }
 a { text-decoration: none; color: inherit; font-weight: 500; }
-.c { display: flex; width: 25px; height: 25px; background-color: var(--background-color-2); border-radius: 4px; justify-content: center; align-items: center; }
 
 .app-bar{
     width:80px;
@@ -50,37 +51,13 @@ a { text-decoration: none; color: inherit; font-weight: 500; }
     border-radius: 4px;
 }
 .app-bar-item svg{
-    fill : #000; 
+    fill : #8a8aac; 
 }
-.app-bar-item:hover, .app-bar-item-selected {
-    background-color: var(--background-color-1);
+.app-bar-item-selected {
+    background-color: var(--color-4);
 }
 .app-bar-item:hover svg, .app-bar-item-selected svg {
-    fill: #fff;
-}
-
-.app-menu{
-    width:300px;
-    display: flex;
-    flex-direction: column;
-    margin-left: 70px;
-    border-right: 1px solid var(--border-color-1);
-    padding : 25px
-}
-.menu-item {
-    display: flex;
-    justify-content : space-between;
-    align-items : center;
-    padding:10px 0px;
-}
-.menu-item:hover, .menu-item-selected {
-    background-color: var(--background-color-2);
-    margin: 0px -15px;
-    padding: 10px 15px;
-    border-radius: 4px;
-}
-.menu-item-selected .c {
-    background-color: #3b82f6; color: #fff;
+    fill: #343434;
 }
 
 
