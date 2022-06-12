@@ -11,7 +11,7 @@ class HttpController extends Controller{
     async execute(){
 
         await this.load();
-console.log(this.request.query());
+
         let params = this.request.query().values();
 
         switch(this.request.method()){

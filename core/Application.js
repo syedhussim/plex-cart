@@ -1,41 +1,84 @@
+const Routes = require('../core/Routes');
+
 class Application{
 
-    constructor(name, port){
-        this._name = name;
-        this._port = port;
-        this._appConfig = null;
-        this._appStorage = new Map();
+    constructor(root, config, appStorage, request, response){
+        this._root = root;
+        this._config = config;
+        this._appStorage = appStorage;
+        this._request = request;
+        this._response = response;
+        this._routes = new Routes();
+        this.__dependencies = {};
     }
 
-    name(){
-        return this._name;
+    get root(){
+        return this._root;
     }
 
-    port(){
-        return this._port;
+    get config(){
+        return this._config;
     }
 
-    async loadConfig(rootDir){
-        const fs = require('fs');
-        this._appConfig = JSON.parse(fs.readFileSync(rootDir.concat('/app/').concat(this._name).concat('/config.json')));
+    get appStorage(){
+        return this._appStorage;
     }
 
-    async load(rootDir, request, response){
+    get request(){
+        return this._request;
+    }
 
-        let baseDir = rootDir.concat('/app/').concat(this._name);
-        let appService = new (require(baseDir.concat('/App.js')))(this._appConfig, rootDir, this._name, this._appStorage);
+    get response(){
+        return this._response;
+    }
 
-        try{
-            await appService.loadStaticFile(baseDir.concat('/templates/').concat(this._appConfig.app.theme).concat('/public'), request, response);
-            
-            if(!response.flushed()){
-                await appService.load(request, response);
+    get routes(){
+        return this._routes;
+    }
+
+    dependencies(dependencies){
+        this._dependencies = dependencies;
+    }
+
+    async load(){}
+
+    async run(){
+
+        for(let route of this.routes){
+
+            if(route.path == this.request.url().pathname() || route.path == '*'){
+
+                let controller = new (require(this.root.concat('/').concat(route.controller)))();
+                
+                Object.assign(controller, { 
+                    ...this._dependencies,
+                    root : this.root, 
+                    config : this.config, 
+                    appStorage : this._appStorage, 
+                    request : this.request, 
+                    response : this.response,
+                });
+
+                let output = '';
+
+                if(await controller.authorize()){
+                    output = await controller.execute();
+                }
+
+                if(output instanceof Object){
+                    output = JSON.stringify(output);
+                    this.response.contentType('application/json');
+                }else{
+                    this.response.contentType('text/html; charset=UTF8');
+                }
+
+                this.response.write(output).flush();
+                break;
             }
-            
-        }catch(e){
-            await appService.error(e);
         }
     }
+
+    async error(e){}
 }
 
 module.exports = Application;

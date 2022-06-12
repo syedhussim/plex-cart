@@ -4,7 +4,7 @@ const ConsoleController = req('app.console.lib.ConsoleController');
 
 class CreateProduct extends ConsoleController{
 
-    async get(pid = null, product = null, errors = new Validation.ValidatorErrors()){
+    async get(pid = null, product = null, errors = new Validation.ValidatorErrors()){ 
 
         let products = await this.db.collection('products').get();
 
@@ -39,7 +39,7 @@ class CreateProduct extends ConsoleController{
                 attribute.product_value = '';
             }
 
-            if(attribute.type == 'ATTR_MENU'){
+            if(['ATTR_MENU', 'ATTR_MULTI_MENU'].includes(attribute.type)){
                 attribute.menu_items = attribute.menu_items.split("\n").map(v => { return v.trim() });
             }
 
@@ -142,7 +142,7 @@ class CreateProduct extends ConsoleController{
 
             return await this.get(post.id, product);
         }
-console.log(validator.errors());
+
         return await this.get(post.id, product, validator.errors());
     }
 

@@ -1,13 +1,14 @@
 :root{
     --font : Lato;
     --font-size : .94rem;
-    --color-1: #fff;
+    --color-1 : #fff;
     --color-2 : #1C1D21;
     --color-3 : #eaeef2;
     --color-4 : #dbe1f9;
-    --color-5: #5e81f4;
+    --color-5 : #5e81f4;
     --color-6 : #686886;
-    --color-7 : #f9f7f7;
+    --color-7 : #f2f4f8;
+    --color-8 : #40426f
 }
 
 html, body { height: 100%; }
@@ -25,7 +26,7 @@ a { text-decoration: none; color: inherit; font-weight: 500; }
 ul { list-style-type: none; padding:0px; margin: 0px; }
 
 .app-bar{
-    background-color: #33344a;
+    background-color: var(--color-8);
     width:80px;
     display: flex;
     flex-direction: column;
@@ -49,18 +50,28 @@ ul { list-style-type: none; padding:0px; margin: 0px; }
 .app-bar-item svg{
     fill : #fff; 
 }
+.app-bar-item:hover{
+    background-color: var(--color-6);;
+}
 .app-bar-item-selected {
     background-color: var(--color-5);
 }
-.app-bar-item:hover svg, .app-bar-item-selected svg {
+.app-bar-item-selected svg {
     fill: #fff;
 }
 
 .app-panel{
     display : flex;
     flex-direction: column; 
-    min-width: 600px;
-    max-width: 600px;
+    min-width: 500px;
+    max-width: 500px;
+}
+.app-panel .toolbar .actions {
+    display: flex;
+    border-top: 1px solid var(--color-3);
+    border-bottom: 1px solid var(--color-3);
+    background-color: var(--color-7);
+    justify-content: flex-end;
 }
 .app-panel .container{
     display: flex;
@@ -73,16 +84,20 @@ ul { list-style-type: none; padding:0px; margin: 0px; }
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-left: 4px solid #fff;
+    border-left: 5px solid #fff;
     border-bottom: 1px solid var(--color-7);
+}
+.data-row:hover{
+    background-color: #f6f8fb;
 }
 .data-row-selected {
     background-color: #f6f8fb;
-    border-left: 4px solid var(--color-5);
+    border-left: 5px solid var(--color-5);
 }
 
 .attr-orange, 
-.attr-green {
+.attr-green,
+.attr-pink {
     font-weight:700;  
     display:inline-block; 
     border-radius:4px; 
@@ -96,6 +111,10 @@ ul { list-style-type: none; padding:0px; margin: 0px; }
 .attr-green{
     background-color: #d8f4e5;
     color: #4a6c5a;
+}
+.attr-pink{
+    background-color: #f7d4da;
+    color: #f94d6b;
 }
 
 
@@ -122,4 +141,13 @@ textarea, select {
 input[type="text"]:focus, input[type="password"]:focus, input[type="date"]:focus, textarea:focus, select:focus {
     border : 1px solid var(--color-5);
     box-shadow : 0px 1px 3px #ddd inset;
+}
+
+.btn-1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-radius: 4px;
+    padding:5px;
 }

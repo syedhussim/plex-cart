@@ -1,27 +1,20 @@
-const ApplicationService = require('../../core/ApplicationService');
-const Routes = require('../../core/Routes');
+const Application = require('../../core/Application');
 const DatabaseEngine = require('../../core/data/DatabaseEngine');
 const View = require('../../core/View');
 
-class App extends ApplicationService{
+class App extends Application{
 
-    async load(request, response){
+    async load(){
 
-        let routes = new Routes();
-        routes.add('/catalog/products', 'app/console/modules/catalog/Products');
-        routes.add('/catalog/products/create', 'app/console/modules/catalog/CreateProduct');
-        routes.add('/catalog/attributes', 'app/console/modules/catalog/Attributes');
-        routes.add('/catalog/attributes/create', 'app/console/modules/catalog/CreateAttribute');
-
-        routes.add('/css/base', 'app/console/modules/build/CssBase');
-        routes.add('*', 'core/http/NotFoundController');
+        this.routes.add('/catalog/products', 'app/console/modules/catalog/Products');
+        this.routes.add('/catalog/products/create', 'app/console/modules/catalog/CreateProduct');
+        this.routes.add('/catalog/attributes', 'app/console/modules/catalog/Attributes');
+        this.routes.add('/catalog/attributes/create', 'app/console/modules/catalog/CreateAttribute');
     
-        let dependencies = {
-            db : DatabaseEngine.create(this.config().db, this.appStorage()),
-            view : new View(this.rootDir().concat('/app/console/templates/omega/views/'))
-        };
-        
-        await this.run(routes, request, response, dependencies);
+        this.dependencies({
+            db : DatabaseEngine.create(this.config.db, this.appStorage),
+            view : new View(this.root.concat('/app/console/templates/omega/views/'))
+        });
     }
 
     async error(e){

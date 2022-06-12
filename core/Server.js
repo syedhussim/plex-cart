@@ -1,37 +1,109 @@
-const http = require('http');
-const Request = require('./http/Request');
-const Response = require('./http/Response');
+const fs = require('fs/promises');
 
 class Server{
 
-    constructor(rootDir){
-        this._rootDir = rootDir;
+    constructor(serverConfig, appConfig){
+        this._serverConfig = serverConfig;
+        this._appConfig = appConfig;
+        this._appStorage = new Map();
     }
 
-    start(apps = []){
+    async dispatch(request, response){
 
-        this._registerGlobals();
+        let baseDir = this._serverConfig.root.concat('/app/').concat(this._serverConfig.name);
 
-        for(let app of apps){
+        this._rewrite(request);
 
-            app.loadConfig(this._rootDir);
+        await this._tryFile(request, response);
 
-            http.createServer(async(req, res) => {
+        if(!response.flushed()){
 
-                const request = new Request(req);
-                const response = new Response(res);
+            let appClass = require(baseDir.concat('/App.js'));
 
-                await request.init();
+            let app = new appClass(
+                this._serverConfig.root,
+                this._appConfig,
+                this._appStorage, 
+                request, 
+                response
+            );
 
-                await app.load(this._rootDir, request, response);
+            try{
+                await app.load();
+                await app.run();
 
-            }).listen(app.port());
+                if(!response.flushed()){
+                    response.httpCode(404)
+                        .contentType('text/html')
+                        .write('404 - Not found')
+                        .flush();
+                }
+
+            }catch(e){
+                await app.error(e);
+
+                if(!response.flushed()){
+                    response.contentType('text/html')
+                        .httpCode(500)
+                        .write('500 - Internal server error')
+                        .flush();
+                }
+            }
         }
     }
 
-    _registerGlobals(){
-        global.req = (path) => {
-            return require(this._rootDir.concat('/').concat(path.replace(/\./g, '/')));
+    _rewrite(request){
+        let rewrites = this._serverConfig.url_rewrites || [];
+
+        for(let rewrite of rewrites){
+            let pattern = rewrite.from;
+
+            let regex = new RegExp(pattern);
+            let match = regex.exec(request.url().pathname());
+
+            if(match){
+                let to = rewrite.to || '';
+                
+                for(let [key,value] of Object.entries(match.groups)){
+                    to = to.replaceAll('$' + key, value) ;
+                }
+
+                request.url().pathname(to);
+            }
+        }
+    }
+
+    async _tryFile(request, response){
+
+        let locations =  this._serverConfig.locations || [];
+
+        let vars = new Map();
+        vars.set('root', this._serverConfig.root);
+        vars.set('name', this._serverConfig.name);
+        vars.set('uri', request.url().pathname());
+
+        for(let location of locations){
+            let uri = location.uri || '';
+            let path = location.path || '';
+            let deny = location.deny || false;
+
+            let re = new RegExp(uri);
+
+            if(re.test(request.url().pathname())){
+
+                if(deny == false){
+                    for(let [key,value] of vars){ 
+                        path = path.replaceAll('$' + key, value);
+                    }
+
+                    try{
+                        let buffer = await fs.readFile(path);
+
+                        response.write(buffer).flush();
+                    }catch(e){}
+                }
+                break;
+            }
         }
     }
 }

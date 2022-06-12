@@ -1,6 +1,6 @@
 ${ await include('catalog/products_list'); }
 
-<form method="post" class="dy-fx fx-fx-maxc wh-100-pc pg-20" style="background-color: var(--color-3);">
+<form method="post" class="dy-fx fx-fx-maxc wh-100-pc pl-20 pr-20" style="background-color: var(--color-3);">
     <div class="dy-fx fx-fd-rw fx-fx-maxc wh-100-pc br-10"  style="background-color: var(--color-1);">
         <div class="dy-fx fx-fd-cn wh-70-pc pg-25">
 

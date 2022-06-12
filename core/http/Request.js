@@ -133,7 +133,10 @@ class Url{
         }
     }
 
-    pathname(){
+    pathname(path = ''){
+        if(path){
+            this._pathname = path;
+        }
         return this._pathname;
     }
 

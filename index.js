@@ -1,10 +1,3 @@
-const Server = require('./core/Server');
-const Application = require('./core/Application');
+const ApplicationServer = require('./core/ApplicationServer');
 
-let apps = [
-    new Application('front', 9091),
-    new Application('console', 9093)
-];
-
-const httpServer = new Server(__dirname);
-httpServer.start(apps);
+ApplicationServer.start(__dirname);

@@ -2,9 +2,15 @@ const ConsoleController = req('app.console.lib.ConsoleController');
 
 class Products extends ConsoleController{
 
-    async get(pid = null){
+    async get(search = null){
 
-        let products = await this.db.collection('products').get();
+        let productsRef = this.db.collection('products');
+
+        if(search){
+            productsRef.where('name', 'eq', search)
+        }
+
+        let products = await productsRef.get();
 
         return await this.view.render('catalog/products',{
             product : { id : '' },

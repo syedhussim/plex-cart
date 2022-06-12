@@ -1,7 +1,7 @@
-const ApplicationService = require('../../core/ApplicationService');
+const Application = require('../../core/Application');
 const Routes = require('../../core/Routes');
 
-class App extends ApplicationService{
+class App extends Application{
 
     async load(request, response){
 
