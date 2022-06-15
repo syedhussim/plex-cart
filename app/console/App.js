@@ -10,6 +10,8 @@ class App extends Application{
         this.routes.add('/catalog/products/create', 'app/console/modules/catalog/CreateProduct');
         this.routes.add('/catalog/attributes', 'app/console/modules/catalog/Attributes');
         this.routes.add('/catalog/attributes/create', 'app/console/modules/catalog/CreateAttribute');
+
+        this.routes.add('/media/library', 'app/console/modules/media/Library');
     
         this.dependencies({
             db : DatabaseEngine.create(this.config.db, this.appStorage),

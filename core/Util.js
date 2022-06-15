@@ -21,7 +21,6 @@ module.exports.randomString = async function(len){
 
 module.exports.url = function(str, prefix = '', suffix = ''){
     str = str.toLowerCase();
-    //let len = str.length;
     let retString = '/'; 
 
     for(let i in str){
@@ -50,13 +49,50 @@ module.exports.url = function(str, prefix = '', suffix = ''){
 }
 
 module.exports.isNumber = function(str){
-    let regexp = /^\d+?$/;
-    return regexp.test(str);
+
+    for(let i in str.toString()){
+
+        let ch =  str.toString().charCodeAt(i);
+
+        if(ch < 48 || ch > 57){
+            return false;
+        }
+    }
+    return true;
+}
+
+module.exports.tryParseInt = function(str){   
+    if(this.isNumber(str)){
+        return parseFloat(str);
+    }
+    return str;
 }
 
 module.exports.isDecimal = function(str){
-    let regexp = /^\d+(\.\d+)?$/;
-    return regexp.test(str);
+
+    let periodCounter = 0;
+
+    for(let i in str.toString()){
+
+        let ch =  str.toString().charCodeAt(i);
+
+        if(ch < 46 || ch > 57){
+            return false;
+        }
+
+        if(ch == 46){
+            periodCounter++;
+
+            if(periodCounter > 1){
+                return false;
+            }
+        }
+
+        if(ch == 47){
+            return false;
+        }
+    }
+    return true;
 }
 
 module.exports.tryParseFloat = function(str){

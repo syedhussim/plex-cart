@@ -360,8 +360,10 @@ h6 { margin : 0px; font-size : 0.6rem; font-weight : 400; text-transform : upper
 .fc-5 { color : var(--color-5); }
 .fc-6 { color : var(--color-6); }
 .fc-7 { color : var(--color-7); }
+.fc-8 { color : var(--color-8); }
+.fc-9 { color : var(--color-9); }
 
-
+.dy-ne { display : none; }
 .dy-fx { display : flex; }
 .dy-bk { display : block; }
 .dy-ie { display : inline; }

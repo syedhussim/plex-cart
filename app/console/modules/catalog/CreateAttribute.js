@@ -14,6 +14,7 @@ class CreateAttribute extends ConsoleController{
                 name : '',
                 property : '',
                 type : '',
+                visibility : ''
             });
         }
 
@@ -35,6 +36,7 @@ class CreateAttribute extends ConsoleController{
             property : post.property,
             type : post.type,
             menu_items : post.menu_items,
+            visibility : post.visibility,
             required : post.required
         };
 
@@ -44,6 +46,8 @@ class CreateAttribute extends ConsoleController{
         ]).add('property', attribute, [
             new Validation.Required('Property Name is required'),
             new Validation.MaxLength(50, 'Property Name must not exceed @length characters')
+        ]).add('visibility', attribute, [
+            new Validation.Required('Visibility Name is required')
         ]);
 
         if(validator.isValid()){

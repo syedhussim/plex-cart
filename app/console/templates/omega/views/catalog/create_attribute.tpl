@@ -30,6 +30,18 @@ ${ await include('catalog/attributes_list'); }
     </div>
 
     <div>
+        <label>Visibility</label>
+        ${
+            html.select('visibility', attribute)
+            .option('', '')
+            .option('1', 'Internal')
+            .option('2', 'Product')
+            .option('3', 'Product - Collection')
+            .option('4', 'Product - Collection - Basket')
+        }
+    </div>
+
+    <div>
         <label>Required</label>
         <input type="checkbox" name="required" value="1" />
     </div>

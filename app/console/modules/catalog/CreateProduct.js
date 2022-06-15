@@ -94,8 +94,8 @@ class CreateProduct extends ConsoleController{
             visibility : parseInt(post.visibility),
             sku : post.sku,
             barcode : post.barcode,
-            quantity : parseInt(post.quantity),
-            track_quantity : parseInt(post.track_quantity),
+            quantity : Util.tryParseInt(post.quantity),
+            track_quantity : Util.tryParseInt(post.track_quantity),
             attributes : productAttributes
         };
 
@@ -107,6 +107,8 @@ class CreateProduct extends ConsoleController{
             new Validation.MaxLength(40, 'SKU must not exceed @length characters')
         ]).add('price', product, [
             new Validation.IsDecimal('Price is not valid'),
+        ]).add('quantity', product, [
+            new Validation.IsNumber('Quantity is not valid'),
         ]);
 
         let productsRef = await this.db.collection('products')
@@ -142,7 +144,7 @@ class CreateProduct extends ConsoleController{
 
             return await this.get(post.id, product);
         }
-
+console.log(validator.errors());
         return await this.get(post.id, product, validator.errors());
     }
 

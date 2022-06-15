@@ -33,20 +33,14 @@ class Server{
                 await app.run();
 
                 if(!response.flushed()){
-                    response.httpCode(404)
-                        .contentType('text/html')
-                        .write('404 - Not found')
-                        .flush();
+                    response.html('404 - Not found', 404)
                 }
 
             }catch(e){
                 await app.error(e);
 
                 if(!response.flushed()){
-                    response.contentType('text/html')
-                        .httpCode(500)
-                        .write('500 - Internal server error')
-                        .flush();
+                    response.html('500 - Internal server error', 500)
                 }
             }
         }
