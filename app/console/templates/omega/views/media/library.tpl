@@ -1,27 +1,44 @@
 <style>
     .thumb {
         width:300px;
-        height: 300px;
+
         margin:10px;
-        border:1px solid green;
+        background-color:#fff;
+        border-radius: 4px;s
     }
     .thumb img {
         width: 100%;
+        display: block;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
+
+    .thumb .heading{
+        padding: 10px;
+    }
+
+    .grid-layout {
+        display: flex;
+        align-items: flex-start;
+        align-self: start;
+        flex-wrap : wrap;
     }
 </style>
 
 <div class="app-container">
-    <div class="dy-fx wh-100-pc fx-fx-maxc">
-        <div id="test" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);" style="border:1px solid red; height:100%; width:100%" class="dy-fx fx-fx-maxc" >
+    <div class="dy-fx wh-100-pc fx-fx-maxc" style="border:1px solid red; width:100%" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+        <div id="test" class="grid-layout" >
         </div>
     </div>
 </div>
 
 <template id="item">
     <div class="thumb">
-        <div>File Name <span data-name="name"></span></div>
-        <div>Size <span data-name="size"></span></div>
-        <div>Type<span data-name="type"></span></div>
+        <div class="heading">
+            <div>File Name <span data-name="name"></span></div>
+            <div>Size <span data-name="size"></span></div>
+            <div>Type<span data-name="type"></span></div>
+        </div>
         <img data-name="img" />
     </div>
 </template>
