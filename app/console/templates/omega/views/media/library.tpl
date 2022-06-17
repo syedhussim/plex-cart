@@ -1,6 +1,6 @@
 <style>
     .thumb {
-        width:300px;
+        width:250px;
 
         margin:10px;
         background-color:#fff;
@@ -9,8 +9,8 @@
     .thumb img {
         width: 100%;
         display: block;
-        border-bottom-left-radius: 4px;
-        border-bottom-right-radius: 4px;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
     }
 
     .thumb .heading{
@@ -25,6 +25,7 @@
     }
 </style>
 
+
 <div class="app-container">
     <div class="dy-fx wh-100-pc fx-fx-maxc" style="border:1px solid red; width:100%" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
         <div id="test" class="grid-layout" >
@@ -34,12 +35,12 @@
 
 <template id="item">
     <div class="thumb">
-        <div class="heading">
-            <div>File Name <span data-name="name"></span></div>
-            <div>Size <span data-name="size"></span></div>
-            <div>Type<span data-name="type"></span></div>
-        </div>
         <img data-name="img" />
+        <div class="heading">
+            <div class="fw-700 mb-10 fc-6">File Name <span data-name="name"></span></div>
+            <span data-name="size" class="attr-orange"></span>
+            <span data-name="type" class="attr-green"></span>
+        </div>
     </div>
 </template>
 
