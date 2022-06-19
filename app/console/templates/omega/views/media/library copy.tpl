@@ -1,35 +1,47 @@
-<div class="app-panel">
-    <div class="container" id="test">
+<style>
+    .thumb {
+        width:150px;
+        overflow : hidden;
+    }
+    .thumb img {
+        width: 100%;
+        display: block;
+    }
 
-    </div>
-</div>
+    .thumb .heading{
+        padding: 10px;
+    }
 
-<div class="app-container">
-    <div style="margin:30px; width:100%; display:flex; align-items:center; justify-content:center;">
-        <div style="background-color:#444; background-image: linear-gradient(45deg, #808080 25%, transparent 25%), linear-gradient(-45deg, #808080 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #808080 75%), linear-gradient(-45deg, transparent 75%, #808080 75%);
-  background-size: 20px 20px;
-  background-position: 0 0, 0 10px, 10px -10px, -10px 0px; width:75%"><img id="selectedImg" width="100%" /></div></div>
+    .grid-layout {
+        display: flex;
+        align-items: flex-start;
+        align-self: start;
+        flex-wrap : wrap;
+        gap : 15px;
+        justify-content : center;
+    }
+</style>
+
+
+<div class="app-container fx-fd-cn">
+
+<input type="text" />
+    <div class="dy-fx wh-100-pc fx-fx-maxc" style=" width:100%" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+        <div id="test" class="grid-layout" >
+        </div>
     </div>
-    <button onclick="greyScale()">Grey</button>
 </div>
 
 <template id="item">
-    <div class="data-row" onclick="select(this)">
-        <div class="dy-fx pl-15 pr-15">
-            <div class="dy-fx minw-80-px fx-jc-cr" style="height:80px; border-radius:4px; align-items:center; overflow:hidden; background-color:#444;
+    <div class="thumb">
+        <div style="        border-radius: 4px; height:150px; overflow:hidden; align-items:center; display:flex; background-color:#444;
          background-image: linear-gradient(45deg, #808080 25%, transparent 25%), linear-gradient(-45deg, #808080 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #808080 75%), linear-gradient(-45deg, transparent 75%, #808080 75%);
   background-size: 20px 20px;
   background-position: 0 0, 0 10px, 10px -10px, -10px 0px;">
-                <div><img data-name="img" class="wh-100-pc maxw-80-px " /></div>
-            </div>
+            <img data-name="img" />
         </div>
-        <div class="fx fx-fx-maxc pt-15 pb-15 pr-15 wh-350-px">
-            <a data-name="name" class="fs-18 fw-500"></a>
-            <div class="fs-13 fc-6 mt-5" data-name="created_time"></div>
-            <div class="fx mt-10">
-                <span class="attr-orange" data-name="size"></span>
-                <span class="attr-green" data-name="type"></span>
-            </div>
+        <div class="heading">
+            <div class="fw-700 fc-6" data-name="name" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap; text-align:center;"></div>
         </div>
     </div>
 </template>
@@ -64,33 +76,6 @@ function render(host, templateId, data = {}){
     }
 
     document.getElementById(host).appendChild(clone);
-}
-
-let selectedRow = null;
-
-function select(sender){
-    sender.classList.add('data-row-selected');
-
-    if(selectedRow != null){
-        selectedRow.classList.remove('data-row-selected')
-    }
-
-    let imgSrc = sender.getElementsByTagName('img')[0].src;
-
-    document.querySelector('#selectedImg').src = imgSrc
-
-    selectedRow = sender;
-}
-
-function greyScale(){
-    let canvas = document.querySelector('#canvas')
-    let ctx = canvas.getContext("2d");
-
-    ctx.filter = 'brightness(200%)';
-    ctx.rotate(20 * Math.PI / 180);
-        ctx.drawImage(img,0,0);
-
-        document.querySelector('#selectedImg').src =  canvas.toDataURL();
 }
 
 function dropHandler(ev) {
@@ -145,5 +130,6 @@ function dragOverHandler(ev) {
   // Prevent default behavior (Prevent file from being opened)
   ev.preventDefault();
 }
+
 
 </script>

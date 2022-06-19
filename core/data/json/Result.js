@@ -27,6 +27,10 @@ class Result{
         return false;
     }
 
+    toArray(){
+        return this._data;
+    }
+
     *[Symbol.iterator](){
         for(let row of this._data){
             yield row;

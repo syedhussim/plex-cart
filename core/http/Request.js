@@ -18,7 +18,7 @@ class Request{
 
             if(charset){
                 let [ name, value ] =  charset.split('=');
-                this.headers().set('charset', value);
+                this.headers().set(name, value);
             }
         }
 
@@ -93,14 +93,14 @@ class Request{
     _parsePostBody(){
         return new Promise((resolve, reject) => {
 
-            let body = '';
+            let chunks = [];
 
             this._request.on('data', data => {
-                body += data.toString();
+                chunks.push(data);
             });
 
             this._request.on('end', () => {
-                resolve(body);
+                resolve(Buffer.concat(chunks).toString());
             });
 
             this._request.on('error', err => {

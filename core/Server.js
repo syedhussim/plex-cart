@@ -78,7 +78,7 @@ class Server{
 
         for(let location of locations){
             let uri = location.uri || '';
-            let path = location.path || '';
+            let paths = location.paths || [];
             let deny = location.deny || false;
 
             let re = new RegExp(uri);
@@ -86,15 +86,19 @@ class Server{
             if(re.test(request.url().pathname())){
 
                 if(deny == false){
-                    for(let [key,value] of vars){ 
-                        path = path.replaceAll('$' + key, value);
+
+                    for(let path of paths){
+                        for(let [key,value] of vars){ 
+                            path = path.replaceAll('$' + key, value);
+                        }
+
+                        try{
+                            let buffer = await fs.readFile(path);
+
+                            response.write(buffer).flush();
+                            break;
+                        }catch(e){}
                     }
-
-                    try{
-                        let buffer = await fs.readFile(path);
-
-                        response.write(buffer).flush();
-                    }catch(e){}
                 }
                 break;
             }

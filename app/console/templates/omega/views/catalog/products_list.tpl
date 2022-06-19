@@ -23,7 +23,7 @@
         @{foreach productRow in products} 
             <div class="data-row ${equals(product.id, productRow.id, 'data-row-selected')}" >
                 <div class="dy-fx pl-15 pr-15">
-                    <div class="dy-fx minw-70-px fx-jc-cr" style="border:2px solid #dbe1f9; background-color:#fff; height:70px; border-radius:4px; ">
+                    <div class="dy-fx minw-80-px fx-jc-cr" style="border:2px solid #dbe1f9; background-color:#fff; height:80px; border-radius:4px; ">
                         <img src="/omega/public/images/camera.svg" class="wh-40-px" />
                     </div>
                 </div>

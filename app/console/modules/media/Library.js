@@ -1,23 +1,51 @@
+const Util = req('core.Util');
 const ConsoleController = req('app.console.lib.ConsoleController');
 
 class Library extends ConsoleController{
 
     async get(search = null){
 
-        let productsRef = this.db.collection('products');
+        let mediaRef = this.db.collection('media');
 
         if(search){
-            productsRef.where('name', 'eq', search)
+            mediaRef.where('name', 'eq', search)
         }
 
-        let products = await productsRef.get();
-
+        let media = await mediaRef.get();
+console.log(media);
         return await this.view.render('media/library',{
             product : { id : '' },
-            products : products,
+            media : media,
         });
     }
 
+    async post(){
+        let post = this.request.post();
+        
+        let image = {
+            name : post.name,
+            size : post.size,
+            type : post.type
+        };
+
+        try{
+
+            await this.db.collection('media').create(image);
+
+            let file = "/home/syed/Desktop/plex-media/".concat(image.name);
+
+            await Util.toImage(file, post.image);
+
+            return {
+                success : true
+            }
+        }catch(e){ console.log(e);
+            return {
+                success : false,
+                message : e.message
+            }
+        }
+    }
 }
 
 module.exports = Library;
