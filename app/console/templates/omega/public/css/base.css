@@ -395,23 +395,3 @@ h6 { margin : 0px; font-size : 0.6rem; font-weight : 400; text-transform : upper
 .fx-fx-fc { flex : fit-content; }
 .fx-fx-maxc { flex : max-content; }
 .fx-fx-minc { flex : min-content; }
-
-.bt-cr-1-1px { border-top : 1px solid var(--border-color-1); }
-.br-cr-1-1px { border-right : 1px solid var(--border-color-1); }
-.bb-cr-1-1px { border-bottom : 1px solid var(--border-color-1); }
-.bl-cr-1-1px { border-left : 1px solid var(--border-color-1); }
-
-.bt-cr-1-2px { border-top : 2px solid var(--border-color-1); }
-.br-cr-1-2px { border-right : 2px solid var(--border-color-1); }
-.bb-cr-1-2px { border-bottom : 2px solid var(--border-color-1); }
-.bl-cr-1-2px { border-left : 2px solid var(--border-color-1); }
-
-.bt-cr-2-1px { border-top : 1px solid var(--border-color-2); }
-.br-cr-2-1px { border-right : 1px solid var(--border-color-2); }
-.bb-cr-2-1px { border-bottom : 1px solid var(--border-color-2); }
-.bl-cr-2-1px { border-left : 1px solid var(--border-color-2); }
-
-.bt-cr-2-2px { border-top : 2px solid var(--border-color-2); }
-.br-cr-2-2px { border-right : 2px solid var(--border-color-2); }
-.bb-cr-2-2px { border-bottom : 2px solid var(--border-color-2); }
-.bl-cr-2-2px { border-left : 2px solid var(--border-color-2); }

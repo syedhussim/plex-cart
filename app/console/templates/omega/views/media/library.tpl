@@ -1,4 +1,4 @@
-<div class="app-panel">
+<div class="app-panel" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
     <div class="container" id="test">
 
     </div>
@@ -10,7 +10,6 @@
   background-size: 20px 20px;
   background-position: 0 0, 0 10px, 10px -10px, -10px 0px; width:75%"><img id="selectedImg" width="100%" /></div></div>
     </div>
-    <button onclick="greyScale()">Grey</button>
 </div>
 
 <template id="item">

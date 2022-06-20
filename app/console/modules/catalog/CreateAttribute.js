@@ -38,7 +38,7 @@ class CreateAttribute extends ConsoleController{
             menu_items : post.menu_items,
             visibility : post.visibility,
             required : post.required
-        };
+        }; console.log
 
         validator.add('name', attribute, [
             new Validation.Required('Name is required'),
@@ -47,7 +47,7 @@ class CreateAttribute extends ConsoleController{
             new Validation.Required('Property Name is required'),
             new Validation.MaxLength(50, 'Property Name must not exceed @length characters')
         ]).add('visibility', attribute, [
-            new Validation.Required('Visibility Name is required')
+            new Validation.Required('Visibility is required')
         ]);
 
         if(validator.isValid()){

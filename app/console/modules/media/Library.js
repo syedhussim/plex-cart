@@ -12,7 +12,7 @@ class Library extends ConsoleController{
         }
 
         let media = await mediaRef.get();
-console.log(media);
+
         return await this.view.render('media/library',{
             product : { id : '' },
             media : media,
@@ -20,6 +20,7 @@ console.log(media);
     }
 
     async post(){
+        
         let post = this.request.post();
         
         let image = {
@@ -30,11 +31,11 @@ console.log(media);
 
         try{
 
-            await this.db.collection('media').create(image);
-
             let file = "/home/syed/Desktop/plex-media/".concat(image.name);
 
             await Util.toImage(file, post.image);
+
+            await this.db.collection('media').create(image);
 
             return {
                 success : true

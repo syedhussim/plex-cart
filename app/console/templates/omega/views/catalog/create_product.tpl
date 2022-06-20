@@ -4,8 +4,8 @@ ${ await include('catalog/products_list'); }
     <div class="app-content-container">
         <form method="post">
             <div class="app-content-left-panel">
-                <div class="pt-10 pb-10 mb-30 bb-cr-1-2px">
-                    <h3>Product</h3>
+                <div class="app-content-header">
+                    <h3>Attribute</h3>
                 </div>
 
                 <div class="mb-20">
@@ -44,28 +44,28 @@ ${ await include('catalog/products_list'); }
                     </div>
                 @{/foreach}
 
-                <div class="mb-20">
+                <div class="mb-20 dy-fx">
                     <input type="hidden" value="${product.id}" name="id" />
-                    <input type="submit" value="Save" />
-                    <input type="button" value="delete" onclick="deleteProduct()" />
+                    <button type="submit" class="commit">Save</button>
+                    <button value="delete" class="delete" onclick="deleteAttribute()">Delete</button>
                 </div>
             </div>
 
             <div class="app-content-right-panel">
-            <div class="data-row" >
-                <div class="dy-fx pl-15 pr-15">
-                    <div class="dy-fx minw-70-px fx-jc-cr" style="border:2px solid #dbe1f9; background-color:#fff; height:70px; border-radius:4px; ">
-                        <img src="/omega/public/images/camera.svg" class="wh-40-px" />
+                <div class="data-row" >
+                    <div class="dy-fx pl-15 pr-15">
+                        <div class="dy-fx minw-70-px fx-jc-cr" style="border:2px solid #dbe1f9; background-color:#fff; height:70px; border-radius:4px; ">
+                            <img src="/omega/public/images/camera.svg" class="wh-40-px" />
+                        </div>
                     </div>
-                </div>
-                <div class="wh-100-pc pt-15 pb-15 pr-15">
-                    <a href="/catalog/products/create?pid=" class="fs-18 fw-500">Filename</a>
-                    <div class="fs-13 fc-6 mt-5">old name</div>
-                    <div class="fx mt-10">
-                        <span class="attr-orange">Visible</span>
+                    <div class="wh-100-pc pt-15 pb-15 pr-15">
+                        <a href="/catalog/products/create?pid=" class="fs-18 fw-500">Filename</a>
+                        <div class="fs-13 fc-6 mt-5">old name</div>
+                        <div class="fx mt-10">
+                            <span class="attr-orange">Visible</span>
+                        </div>
                     </div>
-                </div>
-            </div>    
+                </div>    
     
 
                 <div class="mb-20">
