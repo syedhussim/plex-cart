@@ -2,8 +2,7 @@ ${ await include('catalog/products_list'); }
 
 <style>
 
-    .men {
-        display : none;    
+    .men {  
         background:#fff;
         position: absolute;
         top: 100%;
@@ -26,10 +25,6 @@ ${ await include('catalog/products_list'); }
         background-color: var(--color-7);
     }
 
-    .ico-eclipse:hover .men{
-        display:flex;
-    }
-
     .menu-icon-bg1 {
         background: pink;
         margin-right: 10px;
@@ -44,8 +39,8 @@ ${ await include('catalog/products_list'); }
                 <div class="app-content-header">
                     <div class="inner-header">
                         <h3>Product</h3>
-                        <a class="ico-eclipse" style="position:relative">
-                            <div class="men wh-200-px" id="productMenu">
+                        <a class="ico-eclipse" style="position:relative" onmouseover="test()" onmouseout="bye()">
+                            <div class="men wh-200-px dy-ne" id="productMenu">
                                 <div class="menu-item">
                                     <i class="ico-copy mr-10 minw-30-px"></i>
                                     <span onclick="alert('test')">Copy</span>
@@ -63,8 +58,8 @@ ${ await include('catalog/products_list'); }
                                 <div class="dy-ne fx-fd-cn pg-15 bg-7" id="deleteMsg">
                                     <p class="mn-0">Are you sure you want to delete this product?<p>
                                     <div class="dy-fx fx-jc-sb">
-                                        <button type="submit" class="cancel">Cancel</button>
-                                        <button type="submit" class="delete">Delete</button>
+                                        <button type="button" class="cancel">Cancel</button>
+                                        <button type="button" class="delete">Delete</button>
                                     </div>
                                 </div>
                             </div>
@@ -174,6 +169,18 @@ ${ await include('catalog/products_list'); }
 </div>
 
 <script type="text/javascript">
+
+function test(){
+        let e = document.querySelector('#productMenu')
+        e.classList.remove('dy-ne');
+        e.classList.add('dy-fx');
+}
+
+function bye(){
+        let e = document.querySelector('#productMenu')
+        e.classList.remove('dy-fx');
+        e.classList.add('dy-ne');
+}
 
     function confirmDelete(){
         let e = document.querySelector('#deleteMsg')
