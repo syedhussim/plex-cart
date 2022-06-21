@@ -1,5 +1,42 @@
 ${ await include('catalog/products_list'); }
 
+<style>
+
+    .men {
+        display : none;    
+        background:#fff;
+        position: absolute;
+        top: 100%;
+        padding:0px;
+        box-shadow: 0 1rem 2rem rgba(0,0,0,.175);
+        border-radius : 4px;
+        flex-direction: column;
+        right:0px;
+        transition : all .1s ease-out;
+    }
+    .menu-item {
+        display : flex;
+        flex-direction: row;
+        padding: 13px 15px;
+        cursor: pointer;
+        align-items : center; 
+        user-select: none;
+    }
+    .menu-item:hover{
+        background-color: var(--color-7);
+    }
+
+    .ico-eclipse:hover .men{
+        display:flex;
+    }
+
+    .menu-icon-bg1 {
+        background: pink;
+        margin-right: 10px;
+    }
+
+</style>
+
 <div class="app-container">
     <div class="app-content-container">
         <form method="post">
@@ -7,7 +44,31 @@ ${ await include('catalog/products_list'); }
                 <div class="app-content-header">
                     <div class="inner-header">
                         <h3>Product</h3>
-                        <a class="btn-eclipse"></a>
+                        <a class="ico-eclipse" style="position:relative">
+                            <div class="men wh-200-px" id="productMenu">
+                                <div class="menu-item">
+                                    <i class="ico-copy mr-10 minw-30-px"></i>
+                                    <span onclick="alert('test')">Copy</span>
+                                </div>
+                                <div class="menu-item">
+                                    <i class="ico-paste mr-10 minw-30-px"></i>
+                                    <span onclick="alert('test')">Paste</span>
+                                </div>
+                                <div class="menu-item" onclick="confirmDelete()">
+                                    <i class="ico-trash mr-10 minw-30-px"></i>
+                                    <div class="dy-fx fx-fd-cn">
+                                        <span>Delete</span>
+                                    </div>
+                                </div>
+                                <div class="dy-ne fx-fd-cn pg-15 bg-7" id="deleteMsg">
+                                    <p class="mn-0">Are you sure you want to delete this product?<p>
+                                    <div class="dy-fx fx-jc-sb">
+                                        <button type="submit" class="cancel">Cancel</button>
+                                        <button type="submit" class="delete">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
                     </div>
                 </div>
 
@@ -50,7 +111,6 @@ ${ await include('catalog/products_list'); }
                 <div class="mb-20 dy-fx">
                     <input type="hidden" value="${product.id}" name="id" />
                     <button type="submit" class="commit">Save</button>
-                    <button value="delete" class="delete" onclick="deleteAttribute()">Delete</button>
                 </div>
             </div>
 
@@ -114,6 +174,16 @@ ${ await include('catalog/products_list'); }
 </div>
 
 <script type="text/javascript">
+
+    function confirmDelete(){
+        let e = document.querySelector('#deleteMsg')
+        e.classList.remove('dy-ne');
+        e.classList.add('dy-fx');
+
+        let m = document.querySelector('#productMenu')
+        m.classList.remove('wh-200-px');
+        m.classList.add('wh-300-px');
+    }
     async function deleteProduct(){
         
         let response = await fetch('/catalog/products/create', {

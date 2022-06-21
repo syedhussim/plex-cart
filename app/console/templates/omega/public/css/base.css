@@ -9,10 +9,15 @@ h4 { margin : 0px; font-size : 1rem; font-weight : 400; text-transform : upperca
 h5 { margin : 0px; font-size : 0.8rem; font-weight : 400; text-transform : uppercase }
 h6 { margin : 0px; font-size : 0.6rem; font-weight : 400; text-transform : uppercase }
 
-.bg-1 { background-color : var(--background-color-1); }
-.bg-2 { background-color : var(--background-color-2); }
-.bg-3 { background-color : var(--background-color-3); }
-.bg-4 { background-color : var(--background-color-4); }
+.bg-1 { background-color : var(--color-1); }
+.bg-2 { background-color : var(--color-2); }
+.bg-3 { background-color : var(--color-3); }
+.bg-4 { background-color : var(--color-4); }
+.bg-5 { background-color : var(--color-5); }
+.bg-6 { background-color : var(--color-6); }
+.bg-7 { background-color : var(--color-7); }
+.bg-8 { background-color : var(--color-8); }
+.bg-9 { background-color : var(--color-9); }
 
 .br-1-px { border-radius : 1px; }
 .br-2-px { border-radius : 2px; }

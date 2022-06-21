@@ -3,13 +3,13 @@
     --font-size : .94rem;
     --color-1 : #fff;
     --color-2 : #1C1D21;
-    --color-3 : #eaeef2;
+    --color-3 : #e1e5ea;
     --color-4 : #dbe1f9;
     --color-5 : #5e81f4;
     --color-6 : #686886;
-    --color-7 : #f2f4f8;
+    --color-7 : #f8f8fb;
     --color-8 : #40426f;
-    --color-9 : red;
+    --color-9 : #e83e8c;
 }
 
 html, body { height: 100%; }
@@ -132,10 +132,10 @@ img { display: block; }
     border-bottom: 1px solid var(--color-7);
 }
 .data-row:hover{
-    background-color: #f6f8fb;
+    background-color: var(--color-7);
 }
 .data-row-selected {
-    background-color: #f6f8fb;
+    background-color: var(--color-7);
     border-left: 5px solid var(--color-5);
 }
 
@@ -184,7 +184,11 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="date"]:focus
 }
 
 button[class="commit"],
-input[class="commit"]{
+input[class="commit"],
+button[class="cancel"],
+input[class="cancel"],
+button[class="delete"],
+input[class="delete"]{
     display: flex;
     padding:0px;
     background-color: var(--color-5);
@@ -195,25 +199,44 @@ input[class="commit"]{
     font-size: inherit;
     cursor: pointer;
     align-items: center;
-    padding:2px 15px 2px 5px;
+    padding: 10px 20px;
+}
+button[class="cancel"],
+input[class="cancel"]{
+    background-color: var(--color-3);
+    border:1px solid var(--color-3);
+    color: var(--color-6);
+}
+button[class="delete"],
+input[class="delete"]{
+    background-color: var(--color-9);
+    border:1px solid var(--color-9);
 }
 
-button[class="commit"]::before,
-input[class="commit"]::before{
-    content: '';
+.ico-eclipse{
     display: flex;
-    background: url(/omega/public/images/done.svg) no-repeat center center;
-    width: 25px;
-    height: 25px;
-    padding : 5px;
-    margin-right: 5px;
-}
-
-.btn-eclipse{
-    display: flex;
-    padding: 5px;
     background: url(/omega/public/images/eclipse.svg) no-repeat center center;
-    fill : red;
-    width: 30px;
-    height: 30px;
+    width: 24px;
+    height: 24px;
+}
+
+.ico-copy{
+    display: flex;
+    background: url(/omega/public/images/copy.svg) no-repeat center center;
+    width: 24px;
+    height: 24px;
+}
+
+.ico-paste{
+    display: flex;
+    background: url(/omega/public/images/paste.svg) no-repeat center center;
+    width: 24px;
+    height: 24px;
+}
+
+.ico-trash{
+    display: flex;
+    background: url(/omega/public/images/delete.svg) no-repeat center center;
+    width: 24px;
+    height: 24px;
 }
