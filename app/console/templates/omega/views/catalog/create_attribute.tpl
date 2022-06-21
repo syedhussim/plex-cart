@@ -6,7 +6,7 @@ ${ await include('catalog/attributes_list'); }
             <div class="app-content-left-panel">
 
                 <div class="app-content-header">
-                    <h3>Product</h3>
+                    <h3>Attribute</h3>
                 </div>
 
                 <div class="mb-20">

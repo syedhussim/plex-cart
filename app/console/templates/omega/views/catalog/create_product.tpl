@@ -5,7 +5,10 @@ ${ await include('catalog/products_list'); }
         <form method="post">
             <div class="app-content-left-panel">
                 <div class="app-content-header">
-                    <h3>Attribute</h3>
+                    <div class="inner-header">
+                        <h3>Product</h3>
+                        <a class="btn-eclipse"></a>
+                    </div>
                 </div>
 
                 <div class="mb-20">
