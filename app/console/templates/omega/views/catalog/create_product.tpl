@@ -1,37 +1,5 @@
 ${ await include('catalog/products_list'); }
 
-<style>
-
-    .men {  
-        background:#fff;
-        position: absolute;
-        top: 100%;
-        padding:0px;
-        box-shadow: 0 1rem 2rem rgba(0,0,0,.175);
-        border-radius : 4px;
-        flex-direction: column;
-        right:0px;
-        transition : all .1s ease-out;
-    }
-    .menu-item {
-        display : flex;
-        flex-direction: row;
-        padding: 13px 15px;
-        cursor: pointer;
-        align-items : center; 
-        user-select: none;
-    }
-    .menu-item:hover{
-        background-color: var(--color-7);
-    }
-
-    .menu-icon-bg1 {
-        background: pink;
-        margin-right: 10px;
-    }
-
-</style>
-
 <div class="app-container">
     <div class="app-content-container">
         <form method="post">
@@ -39,17 +7,19 @@ ${ await include('catalog/products_list'); }
                 <div class="app-content-header">
                     <div class="inner-header">
                         <h3>Product</h3>
-                        <a class="ico-eclipse" style="position:relative" onmouseover="test()" onmouseout="bye()">
-                            <div class="men wh-200-px dy-ne" id="productMenu">
+
+                        <div class="dy-fx" style="position:relative">
+                            <span class="btn-action" onclick="toggleProductMenu(event)"><i class="ico-eclipse"></i></span>
+                            <div class="dropdown-menu wh-200-px dy-ne" id="productMenu">
                                 <div class="menu-item">
                                     <i class="ico-copy mr-10 minw-30-px"></i>
-                                    <span onclick="alert('test')">Copy</span>
+                                    <span onclick="copy(event)">Copy</span>
                                 </div>
                                 <div class="menu-item">
                                     <i class="ico-paste mr-10 minw-30-px"></i>
-                                    <span onclick="alert('test')">Paste</span>
+                                    <span onclick="alert('paste')">Paste</span>
                                 </div>
-                                <div class="menu-item" onclick="confirmDelete()">
+                                <div class="menu-item" onclick="confirmDelete(event)">
                                     <i class="ico-trash mr-10 minw-30-px"></i>
                                     <div class="dy-fx fx-fd-cn">
                                         <span>Delete</span>
@@ -59,11 +29,11 @@ ${ await include('catalog/products_list'); }
                                     <p class="mn-0">Are you sure you want to delete this product?<p>
                                     <div class="dy-fx fx-jc-sb">
                                         <button type="button" class="cancel">Cancel</button>
-                                        <button type="button" class="delete">Delete</button>
+                                        <button type="button" class="delete" onclick="deleteProduct('${product.id}')">Delete</button>
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
 
@@ -169,20 +139,30 @@ ${ await include('catalog/products_list'); }
 </div>
 
 <script type="text/javascript">
+    function toggleProductMenu(){
+        let e = document.querySelector('#productMenu');
 
-function test(){
-        let e = document.querySelector('#productMenu')
-        e.classList.remove('dy-ne');
-        e.classList.add('dy-fx');
-}
+        if(e.classList.contains('dy-ne')){
+            e.classList.remove('dy-ne');
+            e.classList.add('dy-fx');
+        }else{
+            e.classList.remove('dy-fx');
+            e.classList.add('dy-ne');
+        }
+        event.stopPropagation();
+    }
 
-function bye(){
-        let e = document.querySelector('#productMenu')
-        e.classList.remove('dy-fx');
-        e.classList.add('dy-ne');
-}
+    function copy(event){
 
-    function confirmDelete(){
+        alert('ok')
+        event.stopPropagation();
+        
+    }
+
+    function confirmDelete(event){
+
+        event.stopPropagation();
+
         let e = document.querySelector('#deleteMsg')
         e.classList.remove('dy-ne');
         e.classList.add('dy-fx');
@@ -191,16 +171,21 @@ function bye(){
         m.classList.remove('wh-200-px');
         m.classList.add('wh-300-px');
     }
-    async function deleteProduct(){
+
+    async function deleteProduct(id){
         
         let response = await fetch('/catalog/products/create', {
             method : 'DELETE',
             headers: {
                 'Content-type': 'application/json;charset=UTF-8'
             },
-            body : JSON.stringify( { pid : '${product.id}' })
+            body : JSON.stringify({ product_id : id })
         });
 
-        //console.log()
+        let result = await response.json();
+
+        if(result.success){
+            window.location = '/catalog/products';
+        }
     }
 </script>

@@ -144,16 +144,23 @@ class CreateProduct extends ConsoleController{
 
             return await this.get(post.id, product);
         }
-console.log(validator.errors());
+
         return await this.get(post.id, product, validator.errors());
     }
 
     async delete(){
         let post = this.request.post();
 
-        if(post.pid){
-            let result = await this.db.collection('products').delete(post.pid);
-            console.log(result);
+        if(post.product_id){
+            let result = await this.db.collection('products').delete(post.product_id);
+
+            return {
+                success : result
+            }
+        }
+
+        return {
+            success : false
         }
     }
 }

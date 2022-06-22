@@ -1,17 +1,29 @@
 <div class="app-panel">
     <div class="toolbar">
-        <ul class="actions">
-            <li class="mn-5">
-                <a href="/catalog/products/create" class="btn-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                </a>
-            </li>
-            <li class="mn-5">
-                <a class="btn-eclipse">
-                    
-                </a>
-            </li>
-        </ul>
+        <div class="actions">
+            <a href="/catalog/products/create" class="btn-action"><i class="ico-add"></i></a>
+            <div class="dy-fx" style="position:relative">
+                <span class="btn-action" onclick="toggleCatalogMenu(event)"><i class="ico-eclipse"></i></span>
+                <div class="dropdown-menu wh-200-px dy-ne" id="catalogMenu">
+                    <div class="menu-item">
+                        <i class="ico-copy mr-10 minw-30-px"></i>
+                        <a href="/catalog/attributes">Attributes</a>
+                    </div>
+                    <div class="menu-item">
+                        <i class="ico-paste mr-10 minw-30-px"></i>
+                        <span onclick="alert('paste')">Collections</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="ico-paste mr-10 minw-30-px"></i>
+                        <span onclick="alert('paste')">Import</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="ico-paste mr-10 minw-30-px"></i>
+                        <span onclick="alert('paste')">Export</span>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="dy-fx">
             <form action="/catalog/products" class="dy-fx fx-fx-maxc">
                 <input type="text" name="search" />
@@ -40,3 +52,18 @@
         @{/foreach}
     </div>
 </div>
+
+<script type="text/javascript">
+    function toggleCatalogMenu(){
+        let e = document.querySelector('#catalogMenu');
+
+        if(e.classList.contains('dy-ne')){
+            e.classList.remove('dy-ne');
+            e.classList.add('dy-fx');
+        }else{
+            e.classList.remove('dy-fx');
+            e.classList.add('dy-ne');
+        }
+        event.stopPropagation();
+    }
+</script>
