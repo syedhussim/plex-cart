@@ -4,7 +4,7 @@
             <a href="/catalog/products/create" class="btn-action"><i class="ico-add"></i></a>
             <div class="dy-fx" style="position:relative">
                 <span class="btn-action" onclick="toggleCatalogMenu(event)"><i class="ico-eclipse"></i></span>
-                <div class="dropdown-menu wh-200-px dy-ne" id="catalogMenu">
+                <div class="dropdown-menu wh-300-px dy-ne" id="catalogMenu">
                     <div class="menu-item">
                         <i class="ico-copy mr-10 minw-30-px"></i>
                         <a href="/catalog/attributes">Attributes</a>
@@ -13,10 +13,13 @@
                         <i class="ico-paste mr-10 minw-30-px"></i>
                         <span onclick="alert('paste')">Collections</span>
                     </div>
-                    <div class="menu-item">
+                    <a class="menu-item" href="/catalog/import/feed">
                         <i class="ico-paste mr-10 minw-30-px"></i>
-                        <span onclick="alert('paste')">Import</span>
-                    </div>
+                        <div class="dy-fx fx-fd-cn">
+                            <span>Import Feed</span>
+                            <div class="fs-13 fc-6 mt-5">Import products from a Google product feed.</div>
+                        </div>
+                    </a>
                     <div class="menu-item">
                         <i class="ico-paste mr-10 minw-30-px"></i>
                         <span onclick="alert('paste')">Export</span>
