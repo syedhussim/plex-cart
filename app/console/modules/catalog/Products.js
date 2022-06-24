@@ -10,6 +10,8 @@ class Products extends ConsoleController{
             productsRef.where('name', 'eq', search)
         }
 
+        productsRef.limit(20,0);
+
         let products = await productsRef.get();
 
         return await this.view.render('catalog/products',{

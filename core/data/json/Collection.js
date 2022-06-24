@@ -12,6 +12,7 @@ class Collection{
         this._filters = [];
         this._sort = null;
         this._limit = null;
+        this._offset = 0;
         this._cachePrefix = '_db_';
     }
 
@@ -33,8 +34,9 @@ class Collection{
         return this;
     }
 
-    limit(limit){
+    limit(limit, offset = 0){
         this._limit = limit;
+        this._offset = offset;
         return this;
     }
 
@@ -48,6 +50,7 @@ class Collection{
             try{
                 let collectionFile = this._settings.path.concat('/').concat(this._name).concat('.data');
                 let buffer = await fs.readFile(collectionFile);
+
                 data = deserialize(buffer);
 
                 if(this._settings.cache){
@@ -59,7 +62,9 @@ class Collection{
         let tmpArray = [];
         let count = 0;
 
-        for(let row of data){
+        for(let idx = this._offset; idx < data.length; idx++){
+
+            let row = data[idx];
 
             let matchCount = 0;
 
@@ -98,12 +103,12 @@ class Collection{
                 }
             }
 
-            if(this._filters.length == 0){
-                tmpArray.push(row);
-            }
-
             if(this._limit == count){
                 break;
+            }
+
+            if(this._filters.length == 0){
+                tmpArray.push(row);
             }
 
             count++;

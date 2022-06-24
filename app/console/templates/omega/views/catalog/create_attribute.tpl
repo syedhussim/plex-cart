@@ -4,7 +4,7 @@ ${ await include('catalog/attributes_list'); }
     <div class="app-content-container">
         <form method="post">
             <div class="app-content-left-panel">
-
+            
                 <div class="app-content-header">
                     <h3>Attribute</h3>
                 </div>

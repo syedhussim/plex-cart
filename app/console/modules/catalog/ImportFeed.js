@@ -1,5 +1,6 @@
 const WebRequest = req('core.WebRequest');
-const XmlReader = req('core.parsers.XmlReader')
+const XmlReader = req('core.parsers.XmlReader');
+const Util = req('core.Util');
 const ConsoleController = req('app.console.lib.ConsoleController');
 
 class ImportFeed extends ConsoleController{
@@ -27,6 +28,19 @@ class ImportFeed extends ConsoleController{
 
                 if(t.type=='OPEN_TAG' && t.value == 'item'){
                     itemNode = true;
+
+                    product = {
+                        url : '',
+                        name : '',
+                        description : '',
+                        price : 0,
+                        visibility : 1,
+                        sku : '',
+                        barcode : '',
+                        quantity : 0,
+                        track_quantity : 0,
+                        attributes : {}
+                    };
                 }
 
                 if(itemNode){
@@ -49,7 +63,7 @@ class ImportFeed extends ConsoleController{
                         case 'title':     
                             if(t.type=='OPEN_TAG' && nodeLevel == 1){ 
                                 let nextNode = z.next().value;
-                                product['title'] = nextNode.value;
+                                product['name'] = nextNode.value;
                                 z.next();
                             }
                             break;
@@ -80,11 +94,18 @@ class ImportFeed extends ConsoleController{
                 if(t.type=='CLOSE_TAG' && t.value == '/item'){
                     itemNode = false;
                     nodeLevel = 0;
-console.log(product);
-                    break;
+
+                    await this._createProduct(product);
                 }
             }
         }
+    }
+
+    async _createProduct(product){
+
+        product.url = Util.url(product.name, 'product', product.sku); 
+
+        await this.db.collection('products').create(product);
     }
 
 }
