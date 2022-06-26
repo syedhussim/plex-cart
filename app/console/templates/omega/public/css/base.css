@@ -51,6 +51,16 @@ h6 { margin : 0px; font-size : 0.6rem; font-weight : 400; text-transform : upper
 .wh-80-px { width : 80px; }
 .wh-90-px { width : 90px; }
 .wh-100-px { width : 100px; }
+.wh-200-px { width : 200px; }
+.wh-300-px { width : 300px; }
+.wh-400-px { width : 400px; }
+.wh-500-px { width : 500px; }
+.wh-600-px { width : 600px; }
+.wh-700-px { width : 700px; }
+.wh-800-px { width : 800px; }
+.wh-900-px { width : 900px; }
+.wh-1000-px { width : 1000px; }
+.wh-1400-px { width : 1400px; }
 
 .minw-10-px { min-width : 10px; }
 .minw-20-px { min-width : 20px; }
@@ -62,6 +72,16 @@ h6 { margin : 0px; font-size : 0.6rem; font-weight : 400; text-transform : upper
 .minw-80-px { min-width : 80px; }
 .minw-90-px { min-width : 90px; }
 .minw-100-px { min-width : 100px; }
+.minw-200-px { min-width : 200px; }
+.minw-300-px { min-width : 300px; }
+.minw-400-px { min-width : 400px; }
+.minw-500-px { min-width : 500px; }
+.minw-600-px { min-width : 600px; }
+.minw-700-px { min-width : 700px; }
+.minw-800-px { min-width : 800px; }
+.minw-900-px { min-width : 900px; }
+.minw-1000-px { min-width : 1000px; }
+.minw-1400-px { min-width : 1400px; }
 
 .maxw-10-px { max-width : 10px; }
 .maxw-20-px { max-width : 20px; }
@@ -72,38 +92,6 @@ h6 { margin : 0px; font-size : 0.6rem; font-weight : 400; text-transform : upper
 .maxw-70-px { max-width : 70px; }
 .maxw-80-px { max-width : 80px; }
 .maxw-90-px { max-width : 90px; }
-.maxw-100-px { max-width : 100px; }
-
-.wh-100-px { width : 100px; }
-.wh-200-px { width : 200px; }
-.wh-300-px { width : 300px; }
-.wh-400-px { width : 400px; }
-.wh-500-px { width : 500px; }
-.wh-600-px { width : 600px; }
-.wh-700-px { width : 700px; }
-.wh-800-px { width : 800px; }
-.wh-900-px { width : 900px; }
-.wh-1000-px { width : 1000px; }
-.wh-1100-px { width : 1100px; }
-.wh-1200-px { width : 1200px; }
-.wh-1300-px { width : 1300px; }
-.wh-1400-px { width : 1400px; }
-
-.minw-100-px { min-width : 100px; }
-.minw-200-px { min-width : 200px; }
-.minw-300-px { min-width : 300px; }
-.minw-400-px { min-width : 400px; }
-.minw-500-px { min-width : 500px; }
-.minw-600-px { min-width : 600px; }
-.minw-700-px { min-width : 700px; }
-.minw-800-px { min-width : 800px; }
-.minw-900-px { min-width : 900px; }
-.minw-1000-px { min-width : 1000px; }
-.minw-1100-px { min-width : 1100px; }
-.minw-1200-px { min-width : 1200px; }
-.minw-1300-px { min-width : 1300px; }
-.minw-1400-px { min-width : 1400px; }
-
 .maxw-100-px { max-width : 100px; }
 .maxw-200-px { max-width : 200px; }
 .maxw-300-px { max-width : 300px; }
@@ -118,6 +106,17 @@ h6 { margin : 0px; font-size : 0.6rem; font-weight : 400; text-transform : upper
 .maxw-1200-px { max-width : 1200px; }
 .maxw-1300-px { max-width : 1300px; }
 .maxw-1400-px { max-width : 1400px; }
+
+.ht-10-px { height : 10px; }
+.ht-20-px { height : 20px; }
+.ht-30-px { height : 30px; }
+.ht-40-px { height : 40px; }
+.ht-50-px { height : 50px; }
+.ht-60-px { height : 60px; }
+.ht-70-px { height : 70px; }
+.ht-80-px { height : 80px; }
+.ht-90-px { height : 90px; }
+.ht-100-px { height : 100px; }
 
 .mn-0 { margin : 0px; }
 .mn-5 { margin : 5px; }
@@ -356,7 +355,7 @@ h6 { margin : 0px; font-size : 0.6rem; font-weight : 400; text-transform : upper
 
 .fw-300 { font-weight : 300; }
 .fw-500 { font-weight : 500; }
-.fw-700 { font-weight : 600; }
+.fw-700 { font-weight : 700; }
 
 .fc-1 { color : var(--color-1); }
 .fc-2 { color : var(--color-2); }
@@ -400,3 +399,27 @@ h6 { margin : 0px; font-size : 0.6rem; font-weight : 400; text-transform : upper
 .fx-fx-fc { flex : fit-content; }
 .fx-fx-maxc { flex : max-content; }
 .fx-fx-minc { flex : min-content; }
+
+.pr { position: relative; }
+.pa { position: absolute; }
+.pf { position: fixed; }
+
+.tp-0 { top : 0px }
+.tp-10 { top : 10px }
+.tp-20 { top : 20px }
+.tp-30 { top : 30px }
+
+.rt-0 { right : 0px }
+.rt-10 { right : 10px }
+.rt-20 { right : 20px }
+.rt-30 { right : 30px }
+
+.bm-0 { bottom : 0px }
+.bm-10 { bottom : 10px }
+.bm-20 { bottom : 20px }
+.bm-30 { bottom : 30px }
+
+.lt-0 { left : 0px }
+.lt-10 { left : 10px }
+.lt-20 { left : 20px }
+.lt-30 { left : 30px }

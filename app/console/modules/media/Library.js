@@ -13,6 +13,12 @@ class Library extends ConsoleController{
 
         let media = await mediaRef.get();
 
+        if(this.request.url().extension() == 'json'){
+            return {
+                data : media.toArray()
+            };
+        }
+
         return await this.view.render('media/library',{
             product : { id : '' },
             media : media,

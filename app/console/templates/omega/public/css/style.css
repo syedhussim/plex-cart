@@ -130,15 +130,57 @@ img { display: block; }
 .data-row {
     display: flex;
     align-items: center;
-    border-left: 5px solid #fff;
     border-bottom: 1px solid var(--color-7);
+    position: relative;
 }
-.data-row:hover{
+.data-row-selected, .data-row-bg, .data-row:hover{
     background-color: var(--color-7);
 }
-.data-row-selected {
-    background-color: var(--color-7);
-    border-left: 5px solid var(--color-5);
+.data-row-selected::before {
+    width: 5px;;
+    content: '';
+    display: flex;
+    background-color: var(--color-5);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+}
+
+.asset-panel{
+    width : 450px;
+    position: fixed;
+    top: 0px;
+    right: 20px;
+    bottom: 0px;
+    background-color: var(--color-1);
+    border-left: 1px solid var(--color-3);
+}
+.asset-thumb-150 {
+    display: flex;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    border-radius: 4px;
+    align-items: center;
+    overflow: hidden;
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    background-color: var(--color-1);
+    border: 2px solid #dbe1f9;
+}
+.x {
+    display: flex;
+    align-items: center;
+    max-width: 80px;
+    height:80px; 
+    border-radius:4px; 
+    align-items:center; 
+    overflow:hidden; 
+    background-color:#444;
+    background-image: linear-gradient(45deg, #808080 25%, transparent 25%), linear-gradient(-45deg, #808080 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #808080 75%), linear-gradient(-45deg, transparent 75%, #808080 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 }
 
 .dropdown-menu {  
@@ -278,4 +320,21 @@ input[class="delete"]{
     background: url(/omega/public/images/delete.svg) no-repeat center center;
     width: 24px;
     height: 24px;
+}
+
+.ico-done{
+    display: flex;
+    background: url(/omega/public/images/done.svg) no-repeat center center;
+    width: 24px;
+    height: 24px;
+}
+
+.symbol-green{
+    width: 25px;
+    height: 25px;
+    display: flex;
+    background: #65ca65;
+    border-radius: 100%;
+    justify-content: center;
+    align-items: center;    
 }

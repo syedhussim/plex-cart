@@ -15,10 +15,7 @@
 <template id="item">
     <div class="data-row" onclick="select(this)">
         <div class="dy-fx pl-15 pr-15">
-            <div class="dy-fx minw-80-px fx-jc-cr" style="height:80px; border-radius:4px; align-items:center; overflow:hidden; background-color:#444;
-         background-image: linear-gradient(45deg, #808080 25%, transparent 25%), linear-gradient(-45deg, #808080 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #808080 75%), linear-gradient(-45deg, transparent 75%, #808080 75%);
-  background-size: 20px 20px;
-  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;">
+            <div class="dy-fx minw-80-px fx-jc-cr">
                 <div><img data-name="img" class="wh-100-pc maxw-80-px " /></div>
             </div>
         </div>
@@ -59,7 +56,6 @@ function render(host, templateId, data = {}){
                 node.innerHTML = data[name];
             
         }
-        //node.innerHTML = data[name];
     }
 
     document.getElementById(host).appendChild(clone);

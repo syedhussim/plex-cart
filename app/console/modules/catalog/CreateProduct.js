@@ -57,7 +57,7 @@ class CreateProduct extends ConsoleController{
     async post(){
 
         let post = this.request.post();
-
+console.log(post);
         let properties = Object.keys(post);
         let productAttributes = {};
 

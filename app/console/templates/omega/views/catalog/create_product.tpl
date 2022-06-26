@@ -80,21 +80,12 @@ ${ await include('catalog/products_list'); }
             </div>
 
             <div class="app-content-right-panel">
-                <div class="data-row" >
-                    <div class="dy-fx pl-15 pr-15">
-                        <div class="dy-fx minw-70-px fx-jc-cr" style="border:2px solid #dbe1f9; background-color:#fff; height:70px; border-radius:4px; ">
-                            <img src="/omega/public/images/camera.svg" class="wh-40-px" />
-                        </div>
+
+                <div class="dy-fx fx-jc-fs">
+                    <div class="asset-thumb-150" onclick="toggleAssetPanel(this)">
+                        <img src="/omega/public/images/camera.svg" class="wh-70-pc" />
                     </div>
-                    <div class="wh-100-pc pt-15 pb-15 pr-15">
-                        <a href="/catalog/products/create?pid=" class="fs-18 fw-500">Filename</a>
-                        <div class="fs-13 fc-6 mt-5">old name</div>
-                        <div class="fx mt-10">
-                            <span class="attr-orange">Visible</span>
-                        </div>
-                    </div>
-                </div>    
-    
+                </div>
 
                 <div class="mb-20">
                     <label class="mb-5 dy-bk fw-700 ${errors.hasError('price', 'fc-9')}">${errors.get('price', 'Price')}</label>
@@ -134,11 +125,37 @@ ${ await include('catalog/products_list'); }
                     }
                 </div>
             </div>
+
+            <div class="asset-panel dy-ne" id="assetPanel">
+                <div class="dy-fx wd-100-pc " style="overflow: scroll;
+            width: 100%;
+            flex-direction:column;" id="assetList"></div>
+            </div>
         </form>
     </div>
 </div>
 
+<template id="item">
+    <div class="data-row" onclick="selectImage(this)" data-image="name" data-state="0">
+        <div class="dy-fx pl-15 pr-15">
+            <div class="dy-fx minw-80-px fx-jc-cr">
+                <div class="x"><img data-src="img" class="wh-100-pc" /></div>
+            </div>
+        </div>
+        <div class="fx fx-fx-maxc pt-30 pb-30 pr-15 wh-350-px">
+            <a data-name="name" class="fs-15 fw-500"></a>
+            <div class="fs-13 fc-6 mt-5" data-name="created_time"></div>
+        </div>
+        <div class="minw-40-px dy-fx pr-20 fx-jc-fe">
+            <i class="dy-ne tick">
+                <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="#fff"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+            </i>
+        </div>
+    </div>
+</template>
+
 <script type="text/javascript">
+
     function toggleProductMenu(){
         let e = document.querySelector('#productMenu');
 
@@ -172,6 +189,36 @@ ${ await include('catalog/products_list'); }
         m.classList.add('wh-300-px');
     }
 
+    function selectImage(sender){
+        let state = sender.dataset.state;
+
+        if(state == 0){
+
+            let input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'images';
+            input.value = sender.dataset.image;
+
+            sender.appendChild(input);
+            sender.classList.add('data-row-bg');
+
+            sender.querySelector('.tick').classList.remove('dy-ne');
+            sender.querySelector('.tick').classList.add('symbol-green');
+
+            sender.dataset.state = 1;
+        }else{
+            let input = sender.querySelector('input');
+
+            sender.removeChild(input);
+            sender.classList.remove('data-row-bg');
+
+            sender.querySelector('.tick').classList.add('dy-ne');
+            sender.querySelector('.tick').classList.remove('symbol-green');
+
+            sender.dataset.state = 0;
+        }
+    }
+
     async function deleteProduct(id){
         
         let response = await fetch('/catalog/products/create', {
@@ -187,5 +234,54 @@ ${ await include('catalog/products_list'); }
         if(result.success){
             window.location = '/catalog/products';
         }
+    }
+
+    async function toggleAssetPanel(sender){
+        let e = document.querySelector('#assetPanel');
+        e.classList.add('dy-fx');
+
+        let response = await fetch('/media/library.json');
+
+        let result = await response.json();
+
+        for(let item of result.data){
+            item.img = '/' + item.name;
+            render('assetList', 'item', item)
+        }
+    }
+
+    function render(host, templateId, data = {}){
+
+        let template = document.getElementById(templateId);
+        let clone = template.content.cloneNode(true);
+        let nodeList = clone.querySelectorAll('*');
+
+        for(let node of nodeList){
+            let attributes = node.attributes;
+            
+            for(let attribute of attributes){
+
+                if(data.hasOwnProperty(attribute.nodeValue)){
+                    switch(attribute.nodeName){
+                        case 'data-src':
+                            node.src = data[attribute.nodeValue];
+                            break;
+                        case 'data-name':
+                            node.innerHTML = data[attribute.nodeValue];
+                            break;
+                        case 'id':
+                            node.setAttribute('id', data[attribute.nodeValue]);
+                            break;
+                        default:
+                            if(attribute.nodeName.substring(0,5) == 'data-'){
+                                attribute.nodeValue = data[attribute.nodeValue];
+                            }
+                        
+                    }
+                }
+            }
+        }
+
+        document.getElementById(host).appendChild(clone);
     }
 </script>

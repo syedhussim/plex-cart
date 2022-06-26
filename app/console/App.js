@@ -13,6 +13,7 @@ class App extends Application{
         this.routes.add('/catalog/import/feed', 'app/console/modules/catalog/ImportFeed');
 
         this.routes.add('/media/library', 'app/console/modules/media/Library');
+        this.routes.add('/media/library.json', 'app/console/modules/media/Library');
     
         this.dependencies({
             db : DatabaseEngine.create(this.config.db, this.appStorage),
