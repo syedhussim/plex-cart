@@ -8,7 +8,7 @@ ${ await include('catalog/products_list'); }
                     <div class="inner-header">
                         <h3>Product</h3>
 
-                        <div class="dy-fx" style="position:relative">
+                        <div class="dy-fx pn-re">
                             <span class="btn-action" onclick="toggleProductMenu(event)"><i class="ico-eclipse"></i></span>
                             <div class="dropdown-menu wh-200-px dy-ne" id="productMenu">
                                 <div class="menu-item">
@@ -45,46 +45,6 @@ ${ await include('catalog/products_list'); }
                 <div class="mb-20">
                     <label class="mb-5 dy-bk fw-700 ${errors.hasError('description', 'fc-9')}">${errors.get('description', 'Description')}</label>
                     <textarea name="description">${product.description}</textarea>
-                </div>
-
-                @{foreach attribute in attributes}
-                    <div class="mb-20">
-                        <label class="mb-5 dy-bk fw-700 ${errors.hasError('attr_' + attribute.property, 'fc-9')}">${errors.get('attr_' + attribute.property, attribute.name)}</label>
-
-                        @{if attribute.type == 'ATTR_TEXT'}
-                            ${html.textbox('attr_' + attribute.property, attribute.product_value).css('input-1')}
-                        @{/if}
-
-                        @{if attribute.type == 'ATTR_TEXTAREA'}
-                            ${html.textarea('attr_' + attribute.property, attribute.product_value).css('input-1')}
-                        @{/if}
-
-                        @{if attribute.type == 'ATTR_DATE'}
-                            ${html.date('attr_' + attribute.property, attribute.product_value).css('input-1')}
-                        @{/if}
-
-                        @{if attribute.type == 'ATTR_MENU'}
-                            ${
-                                html.select('attr_' + attribute.property, attribute.product_value)
-                                .option('', '')
-                                .fromArray(attribute.menu_items)
-                            }
-                        @{/if}
-                    </div>
-                @{/foreach}
-
-                <div class="mb-20 dy-fx">
-                    <input type="hidden" value="${product.id}" name="id" />
-                    <button type="submit" class="commit">Save</button>
-                </div>
-            </div>
-
-            <div class="app-content-right-panel">
-
-                <div class="dy-fx fx-jc-fs">
-                    <div class="asset-thumb-150" onclick="toggleAssetPanel(this)">
-                        <img src="/omega/public/images/camera.svg" class="wh-70-pc" />
-                    </div>
                 </div>
 
                 <div class="mb-20">
@@ -124,19 +84,57 @@ ${ await include('catalog/products_list'); }
                         .option('1', 'Yes')
                     }
                 </div>
+
+                @{foreach attribute in attributes}
+                    <div class="mb-20">
+                        <label class="mb-5 dy-bk fw-700 ${errors.hasError('attr_' + attribute.property, 'fc-9')}">${errors.get('attr_' + attribute.property, attribute.name)}</label>
+
+                        @{if attribute.type == 'ATTR_TEXT'}
+                            ${html.textbox('attr_' + attribute.property, attribute.product_value).css('input-1')}
+                        @{/if}
+
+                        @{if attribute.type == 'ATTR_TEXTAREA'}
+                            ${html.textarea('attr_' + attribute.property, attribute.product_value).css('input-1')}
+                        @{/if}
+
+                        @{if attribute.type == 'ATTR_DATE'}
+                            ${html.date('attr_' + attribute.property, attribute.product_value).css('input-1')}
+                        @{/if}
+
+                        @{if attribute.type == 'ATTR_MENU'}
+                            ${
+                                html.select('attr_' + attribute.property, attribute.product_value)
+                                .option('', '')
+                                .fromArray(attribute.menu_items)
+                            }
+                        @{/if}
+                    </div>
+                @{/foreach}
+
+                <div class="mb-20 dy-fx">
+                    <input type="hidden" value="${product.id}" name="id" />
+                    <button type="submit" class="btn-commit">Save</button>
+                </div>
             </div>
 
-            <div class="asset-panel dy-ne" id="assetPanel">
-                <div class="dy-fx wd-100-pc " style="overflow: scroll;
-            width: 100%;
-            flex-direction:column;" id="assetList"></div>
+            <div class="app-content-right-panel">
+                <div class="dy-fx fx-jc-fs">
+                    <div class="dy-fx fx-fd-cn wd-100-pc" id="productImages"></div>
+                    <button type="button" class="btn-commit wh-100-px ht-100-px" onclick="toggleAssetPanel(this)">
+                        <img src="/omega/public/images/camera_add_photo.svg" class="wh-40-px" />
+                    </button>
+                </div>
+            </div>
+
+            <div class="app-side-container dy-ne" id="assetPanel">
+                <div class="inner-container" id="assetList"></div>
             </div>
         </form>
     </div>
 </div>
 
 <template id="item">
-    <div class="data-row" onclick="selectImage(this)" data-image="name" data-state="0">
+    <div class="data-row cr-pr" onclick="selectImage(this)" data-image_id="id" data-image="name" data-state="0">
         <div class="dy-fx pl-15 pr-15">
             <div class="dy-fx minw-80-px fx-jc-cr">
                 <div class="x"><img data-src="img" class="wh-100-pc" /></div>
@@ -154,7 +152,24 @@ ${ await include('catalog/products_list'); }
     </div>
 </template>
 
+<template id="productThumb">
+
+                <div class=""><img data-src="img" class="wh-100-pc" /></div>
+
+</template>
+
 <script type="text/javascript">
+
+    let productImages = new Map();
+
+    function renderProductImages(){
+
+        document.querySelector('#productImages').replaceChildren();
+
+        for(let [id,image] of productImages){
+            render('productImages', 'productThumb', { img : '/' + image });
+        }
+    }
 
     function toggleProductMenu(){
         let e = document.querySelector('#productMenu');
@@ -205,6 +220,8 @@ ${ await include('catalog/products_list'); }
             sender.querySelector('.tick').classList.remove('dy-ne');
             sender.querySelector('.tick').classList.add('symbol-green');
 
+            productImages.set(sender.dataset.image_id, sender.dataset.image);
+
             sender.dataset.state = 1;
         }else{
             let input = sender.querySelector('input');
@@ -215,8 +232,12 @@ ${ await include('catalog/products_list'); }
             sender.querySelector('.tick').classList.add('dy-ne');
             sender.querySelector('.tick').classList.remove('symbol-green');
 
+            productImages.delete(sender.dataset.image_id, sender.dataset.image);
+
             sender.dataset.state = 0;
         }
+        
+        renderProductImages();
     }
 
     async function deleteProduct(id){

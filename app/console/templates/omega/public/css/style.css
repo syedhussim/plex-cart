@@ -113,6 +113,7 @@ img { display: block; }
     flex-direction: column;
     padding: 20px;
     background-color: var(--color-7);
+    border-left: 1px solid var(--color-4);
 }
 .app-content-header{
     margin: 0px -20px 30px -25px;
@@ -125,6 +126,22 @@ img { display: block; }
     padding: 20px;
     border-top:1px solid var(--color-4);
     border-bottom:1px solid var(--color-4);
+}
+
+.app-side-container{
+    width : 450px;
+    position: fixed;
+    top: 200px;
+    right: 20px;
+    bottom: 0px;
+    background-color: var(--color-1);
+    border-left: 1px solid var(--color-3);
+}
+.app-side-container .inner-container{
+    display:  flex;
+    width: 100%;
+    flex-direction:column;
+    overflow: scroll;
 }
 
 .data-row {
@@ -147,28 +164,6 @@ img { display: block; }
     bottom: 0px;
 }
 
-.asset-panel{
-    width : 450px;
-    position: fixed;
-    top: 0px;
-    right: 20px;
-    bottom: 0px;
-    background-color: var(--color-1);
-    border-left: 1px solid var(--color-3);
-}
-.asset-thumb-150 {
-    display: flex;
-    justify-content: center;
-    width: 150px;
-    height: 150px;
-    border-radius: 4px;
-    align-items: center;
-    overflow: hidden;
-    background-size: 20px 20px;
-    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-    background-color: var(--color-1);
-    border: 2px solid #dbe1f9;
-}
 .x {
     display: flex;
     align-items: center;
@@ -177,10 +172,6 @@ img { display: block; }
     border-radius:4px; 
     align-items:center; 
     overflow:hidden; 
-    background-color:#444;
-    background-image: linear-gradient(45deg, #808080 25%, transparent 25%), linear-gradient(-45deg, #808080 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #808080 75%), linear-gradient(-45deg, transparent 75%, #808080 75%);
-    background-size: 20px 20px;
-    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 }
 
 .dropdown-menu {  
@@ -227,13 +218,11 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="date"]:focus
     box-shadow : 0px 1px 3px #ddd inset;
 }
 
-button[class="commit"],
-input[class="commit"],
-button[class="cancel"],
-input[class="cancel"],
-button[class="delete"],
-input[class="delete"]{
+.btn-commit,
+.btn-cancel,
+.btn-delete{
     display: flex;
+    justify-content: center;
     padding:0px;
     background-color: var(--color-5);
     border:1px solid var(--color-5);
@@ -245,14 +234,12 @@ input[class="delete"]{
     align-items: center;
     padding: 10px 20px;
 }
-button[class="cancel"],
-input[class="cancel"]{
+.btn-cancel{
     background-color: var(--color-3);
     border:1px solid var(--color-3);
     color: var(--color-6);
 }
-button[class="delete"],
-input[class="delete"]{
+.btn-delete{
     background-color: var(--color-9);
     border:1px solid var(--color-9);
 }

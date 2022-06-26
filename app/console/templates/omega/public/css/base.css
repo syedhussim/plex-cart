@@ -400,9 +400,10 @@ h6 { margin : 0px; font-size : 0.6rem; font-weight : 400; text-transform : upper
 .fx-fx-maxc { flex : max-content; }
 .fx-fx-minc { flex : min-content; }
 
-.pr { position: relative; }
-.pa { position: absolute; }
-.pf { position: fixed; }
+.pn-re { position: relative; }
+.pn-ae { position: absolute; }
+.pn-fd { position: fixed; }
+.pn-sy { position: sticky; }
 
 .tp-0 { top : 0px }
 .tp-10 { top : 10px }
@@ -423,3 +424,5 @@ h6 { margin : 0px; font-size : 0.6rem; font-weight : 400; text-transform : upper
 .lt-10 { left : 10px }
 .lt-20 { left : 20px }
 .lt-30 { left : 30px }
+
+.cr-pr { cursor : pointer;}

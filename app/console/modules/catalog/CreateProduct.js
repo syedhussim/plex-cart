@@ -6,7 +6,7 @@ class CreateProduct extends ConsoleController{
 
     async get(pid = null, product = null, errors = new Validation.ValidatorErrors()){ 
 
-        let products = await this.db.collection('products').get();
+        let products = await this.db.collection('products').limit(20,0).get();
 
         if(!product){
             product = await this.db.collection('products').find(pid, {
