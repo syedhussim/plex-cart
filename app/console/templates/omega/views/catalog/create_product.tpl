@@ -118,12 +118,12 @@ ${ await include('catalog/products_list'); }
             </div>
 
             <div class="app-content-right-panel">
-                <div class="dy-fx fx-jc-fs">
+               
                     <div class="dy-fx fx-fd-cn wd-100-pc" id="productImages"></div>
+
                     <button type="button" class="btn-commit wh-100-px ht-100-px" onclick="toggleAssetPanel(this)">
                         <img src="/omega/public/images/camera_add_photo.svg" class="wh-40-px" />
                     </button>
-                </div>
             </div>
 
             <div class="app-side-container dy-ne" id="assetPanel">
@@ -134,7 +134,7 @@ ${ await include('catalog/products_list'); }
 </div>
 
 <template id="item">
-    <div class="data-row cr-pr" onclick="selectImage(this)" data-image_id="id" data-image="name" data-state="0">
+    <div class="data-row cr-pr" onclick="selectImage(this)" data-image_id="id" data-image="name" data-created_time="created_time" data-state="0">
         <div class="dy-fx pl-15 pr-15">
             <div class="dy-fx minw-80-px fx-jc-cr">
                 <div class="x"><img data-src="img" class="wh-100-pc" /></div>
@@ -153,9 +153,22 @@ ${ await include('catalog/products_list'); }
 </template>
 
 <template id="productThumb">
-
-                <div class=""><img data-src="img" class="wh-100-pc" /></div>
-
+    <div class="data-row" data-image_id="id" data-image="name" data-created_time="created_time" data-state="0">
+        <div class="dy-fx pl-15 pr-15">
+            <div class="dy-fx minw-80-px fx-jc-cr">
+                <div class="x"><img data-src="img" class="wh-100-pc" /></div>
+            </div>
+        </div>
+        <div class="fx fx-fx-maxc pt-30 pb-30 pr-15 wh-350-px">
+            <a data-name="name" class="fs-15 fw-500"></a>
+            <div class="fs-13 fc-6 mt-5" data-name="created_time"></div>
+        </div>
+        <div class="minw-40-px dy-fx pr-20 fx-jc-fe">
+            <i class="dy-ne tick">
+                <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="#fff"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+            </i>
+        </div>
+    </div>
 </template>
 
 <script type="text/javascript">
@@ -167,7 +180,7 @@ ${ await include('catalog/products_list'); }
         document.querySelector('#productImages').replaceChildren();
 
         for(let [id,image] of productImages){
-            render('productImages', 'productThumb', { img : '/' + image });
+            render('productImages', 'productThumb', image);
         }
     }
 
@@ -220,8 +233,13 @@ ${ await include('catalog/products_list'); }
             sender.querySelector('.tick').classList.remove('dy-ne');
             sender.querySelector('.tick').classList.add('symbol-green');
 
-            productImages.set(sender.dataset.image_id, sender.dataset.image);
-
+            productImages.set(sender.dataset.image_id, {
+                id : sender.dataset.image_id,
+                name : sender.dataset.image,
+                img : '/' + sender.dataset.image,
+                created_time : sender.dataset.created_time
+            });
+console.log(sender.dataset.created_time);
             sender.dataset.state = 1;
         }else{
             let input = sender.querySelector('input');
@@ -232,7 +250,7 @@ ${ await include('catalog/products_list'); }
             sender.querySelector('.tick').classList.add('dy-ne');
             sender.querySelector('.tick').classList.remove('symbol-green');
 
-            productImages.delete(sender.dataset.image_id, sender.dataset.image);
+            productImages.delete(sender.dataset.image_id);
 
             sender.dataset.state = 0;
         }
