@@ -118,12 +118,12 @@ ${ await include('catalog/products_list'); }
             </div>
 
             <div class="app-content-right-panel">
-               
-                    <div class="dy-fx fx-fd-cn wd-100-pc" id="productImages"></div>
 
-                    <button type="button" class="btn-commit wh-100-px ht-100-px" onclick="toggleAssetPanel(this)">
-                        <img src="/omega/public/images/camera_add_photo.svg" class="wh-40-px" />
-                    </button>
+                <div class="pg-20">
+                    <span class="btn-action" onclick="toggleAssetPanel(this)"><i class="ico-eclipse"></i></span>
+                </div>
+               
+                <div class="dy-fx fx-fd-cn wd-100-pc" id="productImages"></div>
             </div>
 
             <div class="app-side-container dy-ne" id="assetPanel">
@@ -134,15 +134,15 @@ ${ await include('catalog/products_list'); }
 </div>
 
 <template id="item">
-    <div class="data-row cr-pr" onclick="selectImage(this)" data-image_id="id" data-image="name" data-created_time="created_time" data-state="0">
+    <div class="data-row cr-pr" onclick="selectImage(this)" data-image_id="id" data-image="name" data-image_size="image_size">
         <div class="dy-fx pl-15 pr-15">
             <div class="dy-fx minw-80-px fx-jc-cr">
                 <div class="x"><img data-src="img" class="wh-100-pc" /></div>
             </div>
         </div>
         <div class="fx fx-fx-maxc pt-30 pb-30 pr-15 wh-350-px">
-            <a data-name="name" class="fs-15 fw-500"></a>
-            <div class="fs-13 fc-6 mt-5" data-name="created_time"></div>
+            <a data-name="name" class="fs-18 fw-500"></a>
+            <div class="fs-13 fc-6 mt-5" data-name="image_size"></div>
         </div>
         <div class="minw-40-px dy-fx pr-20 fx-jc-fe">
             <i class="dy-ne tick">
@@ -153,27 +153,30 @@ ${ await include('catalog/products_list'); }
 </template>
 
 <template id="productThumb">
-    <div class="data-row" data-image_id="id" data-image="name" data-created_time="created_time" data-state="0">
+    <div class="data-row" data-image_id="id" data-image="name" data-image_size="image_size">
         <div class="dy-fx pl-15 pr-15">
             <div class="dy-fx minw-80-px fx-jc-cr">
                 <div class="x"><img data-src="img" class="wh-100-pc" /></div>
             </div>
         </div>
         <div class="fx fx-fx-maxc pt-30 pb-30 pr-15 wh-350-px">
-            <a data-name="name" class="fs-15 fw-500"></a>
-            <div class="fs-13 fc-6 mt-5" data-name="created_time"></div>
+            <a data-name="name" class="fs-18 fw-500"></a>
+            <div class="fs-13 fc-6 mt-5" data-name="image_size"></div>
         </div>
         <div class="minw-40-px dy-fx pr-20 fx-jc-fe">
             <i class="dy-ne tick">
                 <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="#fff"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
             </i>
         </div>
+        <input type="hidden" name="images" value="id" />
     </div>
 </template>
 
 <script type="text/javascript">
 
-    let productImages = new Map();
+    let productImages = new Map(${JSON.stringify(product.images)}.map(obj => [obj.id, obj]));
+
+    renderProductImages();
 
     function renderProductImages(){
 
@@ -218,41 +221,26 @@ ${ await include('catalog/products_list'); }
     }
 
     function selectImage(sender){
-        let state = sender.dataset.state;
 
-        if(state == 0){
+        if(productImages.has(sender.dataset.image_id)){
 
-            let input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'images';
-            input.value = sender.dataset.image;
+            let e = sender.querySelector('.tick');
+            e.classList.add('dy-ne');
+            e.classList.remove('symbol-green');
 
-            sender.appendChild(input);
-            sender.classList.add('data-row-bg');
+            productImages.delete(sender.dataset.image_id);
+        }else{
 
-            sender.querySelector('.tick').classList.remove('dy-ne');
-            sender.querySelector('.tick').classList.add('symbol-green');
+            let e = sender.querySelector('.tick');
+            e.classList.remove('dy-ne');
+            e.classList.add('symbol-green');
 
             productImages.set(sender.dataset.image_id, {
                 id : sender.dataset.image_id,
                 name : sender.dataset.image,
                 img : '/' + sender.dataset.image,
-                created_time : sender.dataset.created_time
+                image_size : sender.dataset.image_size
             });
-console.log(sender.dataset.created_time);
-            sender.dataset.state = 1;
-        }else{
-            let input = sender.querySelector('input');
-
-            sender.removeChild(input);
-            sender.classList.remove('data-row-bg');
-
-            sender.querySelector('.tick').classList.add('dy-ne');
-            sender.querySelector('.tick').classList.remove('symbol-green');
-
-            productImages.delete(sender.dataset.image_id);
-
-            sender.dataset.state = 0;
         }
         
         renderProductImages();
@@ -285,14 +273,28 @@ console.log(sender.dataset.created_time);
 
         for(let item of result.data){
             item.img = '/' + item.name;
-            render('assetList', 'item', item)
+            item.image_size = item.image_size.join(' x ');
+            item.selected = productImages.has(item.id);
+
+            render('assetList', 'item', item, (template) => {
+                if(item.selected){
+                    let e = template.querySelector('.tick');
+                    e.classList.remove('dy-ne');
+                    e.classList.add('symbol-green');
+                }
+            });
         }
     }
 
-    function render(host, templateId, data = {}){
+    function render(host, templateId, data = {}, callback = null){
 
         let template = document.getElementById(templateId);
         let clone = template.content.cloneNode(true);
+
+        if(callback){
+            callback(clone);
+        }
+
         let nodeList = clone.querySelectorAll('*');
 
         for(let node of nodeList){
@@ -310,6 +312,9 @@ console.log(sender.dataset.created_time);
                             break;
                         case 'id':
                             node.setAttribute('id', data[attribute.nodeValue]);
+                            break;
+                        case 'value':
+                            node.value = data[attribute.nodeValue];
                             break;
                         default:
                             if(attribute.nodeName.substring(0,5) == 'data-'){

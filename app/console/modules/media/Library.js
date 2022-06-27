@@ -31,7 +31,8 @@ class Library extends ConsoleController{
         
         let image = {
             name : post.name,
-            size : post.size,
+            file_size : post.file_size,
+            image_size : post.image_size,
             type : post.type
         };
 

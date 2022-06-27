@@ -19,8 +19,24 @@ class CreateProduct extends ConsoleController{
                 barcode : '',
                 quantity : 0,
                 track_quantity : 0,
+                images : [],
                 attributes : {}
             });
+
+            let productImagesRes = await this.db.collection('media')
+                .where('id', 'in', product.images)
+                .get();
+            
+            product.images = [];
+            
+            for(let image of productImagesRes){
+                product.images.push({
+                    id : image.id,
+                    name : image.name,
+                    img : '/' + image.name,
+                    image_size : image.image_size.join(' x ')
+                });
+            }
         }
 
         let attributes = await this.db.collection('attributes')
@@ -57,7 +73,7 @@ class CreateProduct extends ConsoleController{
     async post(){
 
         let post = this.request.post();
-console.log(post);
+
         let properties = Object.keys(post);
         let productAttributes = {};
 
@@ -96,6 +112,7 @@ console.log(post);
             barcode : post.barcode,
             quantity : Util.tryParseInt(post.quantity),
             track_quantity : Util.tryParseInt(post.track_quantity),
+            images : post.images,
             attributes : productAttributes
         };
 

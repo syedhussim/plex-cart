@@ -21,11 +21,7 @@
         </div>
         <div class="fx fx-fx-maxc pt-15 pb-15 pr-15 wh-350-px">
             <a data-name="name" class="fs-18 fw-500"></a>
-            <div class="fs-13 fc-6 mt-5" data-name="created_time"></div>
-            <div class="fx mt-10">
-                <span class="attr-orange" data-name="size"></span>
-                <span class="attr-green" data-name="type"></span>
-            </div>
+            <div class="fs-13 fc-6 mt-5" data-name="image_size"></div>
         </div>
     </div>
 </template>
@@ -36,109 +32,105 @@
 
     for(let item of media){
         item.img = '/' + item.name;
+        item.image_size = item.image_size.join(' x ');
         render('test', 'item', item);
     }
 
-function render(host, templateId, data = {}){
+    function render(host, templateId, data = {}){
 
-    let template = document.getElementById(templateId);
-    let clone = template.content.cloneNode(true);
-    let nodeList = clone.querySelectorAll('[data-name]');
+        let template = document.getElementById(templateId);
+        let clone = template.content.cloneNode(true);
+        let nodeList = clone.querySelectorAll('[data-name]');
 
-    for(let node of nodeList){
-        let name = node.dataset.name || '';
-        
-        switch(node.tagName){
-            case 'IMG':
-                node.src = data[name];
-                break;
-            default:
-                node.innerHTML = data[name];
+        for(let node of nodeList){
+            let name = node.dataset.name || '';
             
+            switch(node.tagName){
+                case 'IMG':
+                    node.src = data[name];
+                    break;
+                default:
+                    node.innerHTML = data[name];
+                
+            }
         }
+
+        document.getElementById(host).appendChild(clone);
     }
 
-    document.getElementById(host).appendChild(clone);
-}
+    let selectedRow = null;
 
-let selectedRow = null;
+    function select(sender){
+        sender.classList.add('data-row-selected');
 
-function select(sender){
-    sender.classList.add('data-row-selected');
+        if(selectedRow != null){
+            selectedRow.classList.remove('data-row-selected')
+        }
 
-    if(selectedRow != null){
-        selectedRow.classList.remove('data-row-selected')
+        let imgSrc = sender.getElementsByTagName('img')[0].src;
+
+        document.querySelector('#selectedImg').src = imgSrc
+
+        selectedRow = sender;
     }
 
-    let imgSrc = sender.getElementsByTagName('img')[0].src;
+    function dropHandler(ev) {
 
-    document.querySelector('#selectedImg').src = imgSrc
+        ev.preventDefault();
 
-    selectedRow = sender;
-}
+        const file = ev.dataTransfer.items[0].getAsFile();
 
-function greyScale(){
-    let canvas = document.querySelector('#canvas')
-    let ctx = canvas.getContext("2d");
+        const reader = new FileReader();
 
-    ctx.filter = 'brightness(200%)';
-    ctx.rotate(20 * Math.PI / 180);
-        ctx.drawImage(img,0,0);
+        reader.readAsDataURL(file);
+        reader.onload = function(evt) {
 
-        document.querySelector('#selectedImg').src =  canvas.toDataURL();
-}
+            let img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
 
-function dropHandler(ev) {
+            img.onload = async function(){
+                let canvas = document.createElement('canvas');
+                canvas.width = img.width / 2;
+                canvas.height = img.height / 2;
 
+                let ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                await fetch('/media/library', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        image: reader.result, 
+                        name: file.name, 
+                        file_size : file.size, 
+                        image_size : [img.width, img.height],
+                        type : file.type
+                    })
+                });
+
+                //const content = await rawResponse.json();
+
+                let data = {
+                    name : file.name,
+                    size : file.size,
+                    type : file.type,
+                    img :  canvas.toDataURL()
+                };
+
+                render('test', 'item', data);
+            }
+        };
+
+    }
+
+    function dragOverHandler(ev) {
+    //console.log('File(s) in drop zone');
+
+    // Prevent default behavior (Prevent file from being opened)
     ev.preventDefault();
-
-    const file = ev.dataTransfer.items[0].getAsFile();
-
-    const reader = new FileReader();
-
-    reader.readAsDataURL(file);
-    reader.onload = function(evt) {
-
-        let img = document.createElement('img');
-        img.src = URL.createObjectURL(file);
-
-        img.onload = async function(){
-            let canvas = document.createElement('canvas');
-            canvas.width = img.width / 2;
-            canvas.height = img.height / 2;
-
-            let ctx = canvas.getContext("2d");
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-            await fetch('/media/library', {
-                method: 'POST',
-                headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ image: reader.result , name: file.name, size : file.size, type : file.type })
-            });
-
-            //const content = await rawResponse.json();
-
-            let data = {
-                name : file.name,
-                size : file.size,
-                type : file.type,
-                img :  canvas.toDataURL()
-            };
-
-            render('test', 'item', data);
-        }
-    };
-
-}
-
-function dragOverHandler(ev) {
-  //console.log('File(s) in drop zone');
-
-  // Prevent default behavior (Prevent file from being opened)
-  ev.preventDefault();
-}
+    }
 
 </script>
