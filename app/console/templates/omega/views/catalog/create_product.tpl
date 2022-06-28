@@ -9,8 +9,8 @@ ${ await include('catalog/products_list'); }
                         <h3>Product</h3>
 
                         <div class="dy-fx pn-re">
-                            <span class="btn-action" onclick="toggleProductMenu(event)"><i class="ico-eclipse"></i></span>
-                            <div class="dropdown-menu wh-200-px dy-ne" id="productMenu">
+                            <span class="btn-action" id="productMenu"><i class="ico-eclipse"></i></span>
+                            <div class="dropdown-menu wh-200-px dy-ne" id="productContextMenu">
                                 <div class="menu-item">
                                     <i class="ico-copy mr-10 minw-30-px"></i>
                                     <span onclick="copy(event)">Copy</span>
@@ -19,7 +19,7 @@ ${ await include('catalog/products_list'); }
                                     <i class="ico-paste mr-10 minw-30-px"></i>
                                     <span onclick="alert('paste')">Paste</span>
                                 </div>
-                                <div class="menu-item" onclick="confirmDelete(event)">
+                                <div class="menu-item" id="confirmDelete">
                                     <i class="ico-trash mr-10 minw-30-px"></i>
                                     <div class="dy-fx fx-fd-cn">
                                         <span>Delete</span>
@@ -29,7 +29,7 @@ ${ await include('catalog/products_list'); }
                                     <p class="mn-0">Are you sure you want to delete this product?<p>
                                     <div class="dy-fx fx-jc-sb">
                                         <button type="button" class="cancel">Cancel</button>
-                                        <button type="button" class="delete" onclick="deleteProduct('${product.id}')">Delete</button>
+                                        <button type="button" class="delete" id="btnDeleteProduct" data-product_id="${product.id}">Delete</button>
                                     </div>
                                 </div>
                             </div>
@@ -119,7 +119,7 @@ ${ await include('catalog/products_list'); }
 
             <div class="app-content-right-panel">
                 <div class="pg-20">
-                    <span class="btn-action" onclick="toggleAssetPanel(this)"><i class="ico-eclipse"></i></span>
+                    <span class="btn-action" id="btnAssetPanel"><i class="ico-eclipse"></i></span>
                 </div>
                
                 <div class="dy-fx fx-fd-cn wd-100-pc" id="productImages"></div>
@@ -133,7 +133,7 @@ ${ await include('catalog/products_list'); }
 </div>
 
 <template id="item">
-    <div class="data-row cr-pr" onclick="selectImage(this)" data-image_id="id" data-image="name" data-image_size="image_size">
+    <div class="data-row cr-pr image-row" data-image_id="id" data-image="name" data-image_size="image_size">
         <div class="dy-fx pl-15 pr-15">
             <div class="dy-fx minw-80-px fx-jc-cr">
                 <div class="x"><img data-src="img" class="wh-100-pc" /></div>
@@ -171,160 +171,129 @@ ${ await include('catalog/products_list'); }
     </div>
 </template>
 
+<script type="text/javascript" src="/omega/public/js/app.js"></script>
 <script type="text/javascript">
 
-    let productImages = new Map(${JSON.stringify(product.images)}.map(obj => [obj.id, obj]));
+    class App extends AppBase{
 
-    renderProductImages();
+        mount(){
+            this.productImages = new Map(${JSON.stringify(product.images)}.map(obj => [obj.id, obj]));
 
-    function renderProductImages(){
+            this.click('#productMenu', () => {
 
-        document.querySelector('#productImages').replaceChildren();
+                event.stopPropagation();
 
-        for(let [id,image] of productImages){
-            render('productImages', 'productThumb', image);
-        }
-    }
+                let e = document.querySelector('#productContextMenu');
+                let list = e.classList;
 
-    function toggleProductMenu(){
-        let e = document.querySelector('#productMenu');
-
-        if(e.classList.contains('dy-ne')){
-            e.classList.remove('dy-ne');
-            e.classList.add('dy-fx');
-        }else{
-            e.classList.remove('dy-fx');
-            e.classList.add('dy-ne');
-        }
-        event.stopPropagation();
-    }
-
-    function copy(event){
-
-        alert('ok')
-        event.stopPropagation();
-        
-    }
-
-    function confirmDelete(event){
-
-        event.stopPropagation();
-
-        let e = document.querySelector('#deleteMsg')
-        e.classList.remove('dy-ne');
-        e.classList.add('dy-fx');
-
-        let m = document.querySelector('#productMenu')
-        m.classList.remove('wh-200-px');
-        m.classList.add('wh-300-px');
-    }
-
-    function selectImage(sender){
-
-        if(productImages.has(sender.dataset.image_id)){
-
-            let e = sender.querySelector('.tick');
-            e.classList.add('dy-ne');
-            e.classList.remove('symbol-green');
-
-            productImages.delete(sender.dataset.image_id);
-        }else{
-
-            let e = sender.querySelector('.tick');
-            e.classList.remove('dy-ne');
-            e.classList.add('symbol-green');
-
-            productImages.set(sender.dataset.image_id, {
-                id : sender.dataset.image_id,
-                name : sender.dataset.image,
-                img : '/' + sender.dataset.image,
-                image_size : sender.dataset.image_size
-            });
-        }
-        
-        renderProductImages();
-    }
-
-    async function deleteProduct(id){
-        
-        let response = await fetch('/catalog/products/create', {
-            method : 'DELETE',
-            headers: {
-                'Content-type': 'application/json;charset=UTF-8'
-            },
-            body : JSON.stringify({ product_id : id })
-        });
-
-        let result = await response.json();
-
-        if(result.success){
-            window.location = '/catalog/products';
-        }
-    }
-
-    async function toggleAssetPanel(sender){
-        let e = document.querySelector('#assetPanel');
-        e.classList.add('dy-fx');
-
-        let response = await fetch('/media/library.json');
-
-        let result = await response.json();
-
-        for(let item of result.data){
-            item.img = '/' + item.name;
-            item.image_size = item.image_size.join(' x ');
-            item.selected = productImages.has(item.id);
-
-            render('assetList', 'item', item, (template) => {
-                if(item.selected){
-                    let e = template.querySelector('.tick');
-                    e.classList.remove('dy-ne');
-                    e.classList.add('symbol-green');
+                if(list.contains('dy-ne')){
+                    list.remove('dy-ne');
+                    list.add('dy-fx');
+                }else{
+                    list.remove('dy-fx');
+                    list.add('dy-ne');
                 }
             });
-        }
-    }
 
-    function render(host, templateId, data = {}, callback = null){
+            this.click('#confirmDelete', () => {
 
-        let template = document.getElementById(templateId);
-        let clone = template.content.cloneNode(true);
+                event.stopPropagation();
 
-        if(callback){
-            callback(clone);
-        }
+                let e = document.querySelector('#deleteMsg')
+                e.classList.remove('dy-ne');
+                e.classList.add('dy-fx');
 
-        let nodeList = clone.querySelectorAll('*');
+                let ctxMenu = document.querySelector('#productContextMenu')
+                ctxMenu.classList.remove('wh-200-px');
+                ctxMenu.classList.add('wh-300-px');
+            });
 
-        for(let node of nodeList){
-            let attributes = node.attributes;
-            
-            for(let attribute of attributes){
+            this.click('#btnAssetPanel', async () => {
 
-                if(data.hasOwnProperty(attribute.nodeValue)){
-                    switch(attribute.nodeName){
-                        case 'data-src':
-                            node.src = data[attribute.nodeValue];
-                            break;
-                        case 'data-name':
-                            node.innerHTML = data[attribute.nodeValue];
-                            break;
-                        case 'id':
-                            node.setAttribute('id', data[attribute.nodeValue]);
-                            break;
-                        case 'value':
-                            node.value = data[attribute.nodeValue];
-                            break;
-                        default:
-                            if(attribute.nodeName.substring(0,5) == 'data-'){
-                                attribute.nodeValue = data[attribute.nodeValue];
+                let e = document.querySelector('#assetPanel');
+                e.classList.add('dy-fx');
+
+                document.querySelector('#assetList').replaceChildren();
+
+                let response = await fetch('/media/library.json');
+
+                let result = await response.json();
+
+                for(let item of result.data){
+                    item.img = '/' + item.name;
+                    item.image_size = item.image_size.join(' x ');
+                    item.selected = this.productImages.has(item.id);
+
+                    this.render('assetList', 'item', item, (template) => {
+
+                        let imageRow = template.querySelector('.image-row');
+
+                        imageRow.addEventListener('click', () => {
+                            if(this.productImages.has(imageRow.dataset.image_id)){
+
+                                let e = imageRow.querySelector('.tick');
+                                e.classList.add('dy-ne');
+                                e.classList.remove('symbol-green');
+
+                                this.productImages.delete(imageRow.dataset.image_id);
+                            }else{
+
+                                let e = imageRow.querySelector('.tick');
+                                e.classList.remove('dy-ne');
+                                e.classList.add('symbol-green');
+
+                                this.productImages.set(imageRow.dataset.image_id, {
+                                    id : imageRow.dataset.image_id,
+                                    name : imageRow.dataset.image,
+                                    img : '/' + imageRow.dataset.image,
+                                    image_size : imageRow.dataset.image_size
+                                });
                             }
-                        
-                    }
+                            
+                            this.renderProductImages();
+                        });
+
+                        if(item.selected){
+                            let e = template.querySelector('.tick');
+                            e.classList.remove('dy-ne');
+                            e.classList.add('symbol-green');
+                        }
+                    });
                 }
+            });
+
+            this.click('#btnDeleteProduct', async (sender) => {
+
+                let id = sender.dataset.product_id;
+
+                let response = await fetch('/catalog/products/create', {
+                    method : 'DELETE',
+                    headers: {
+                        'Content-type': 'application/json;charset=UTF-8'
+                    },
+                    body : JSON.stringify({ product_id : id })
+                });
+
+                let result = await response.json();
+
+                if(result.success){
+                    window.location = '/catalog/products';
+                }
+            });
+
+            this.renderProductImages();
+        }
+
+        renderProductImages(){
+
+            document.querySelector('#productImages').replaceChildren();
+
+            for(let [id,image] of this.productImages){
+                this.render('productImages', 'productThumb', image);
             }
         }
-
-        document.getElementById(host).appendChild(clone);
     }
+
+    new App();
+
 </script>

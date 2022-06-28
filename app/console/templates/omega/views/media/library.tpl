@@ -30,7 +30,7 @@
 
     const media = ${JSON.stringify(media.toArray())};
 
-    for(let item of media){
+    for(let item of media){ console.log(item);
         item.img = '/' + item.name;
         item.image_size = item.image_size.join(' x ');
         render('test', 'item', item);
@@ -115,8 +115,7 @@
 
                 let data = {
                     name : file.name,
-                    size : file.size,
-                    type : file.type,
+                    image_size : [img.width, img.height].join(' x '),
                     img :  canvas.toDataURL()
                 };
 

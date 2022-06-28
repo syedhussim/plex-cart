@@ -18,7 +18,7 @@ class Library extends ConsoleController{
                 data : media.toArray()
             };
         }
-
+console.log(media);
         return await this.view.render('media/library',{
             product : { id : '' },
             media : media,
