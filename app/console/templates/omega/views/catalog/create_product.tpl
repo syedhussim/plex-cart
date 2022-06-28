@@ -118,7 +118,6 @@ ${ await include('catalog/products_list'); }
             </div>
 
             <div class="app-content-right-panel">
-
                 <div class="pg-20">
                     <span class="btn-action" onclick="toggleAssetPanel(this)"><i class="ico-eclipse"></i></span>
                 </div>
