@@ -7,9 +7,9 @@
 
     if(toastData.hasOwnProperty('message')){
         if(toastData.success){
-            alert(toastData.message);
+            //alert(toastData.message);
         }else{
-            alert(toastData.error);
+            //alert(toastData.error);
         }
     }
 
@@ -20,5 +20,6 @@
                 e.classList.add('dy-ne');
             }
         })
-    })
+    });
+
 </script>

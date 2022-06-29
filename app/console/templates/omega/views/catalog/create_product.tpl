@@ -134,7 +134,7 @@ ${ await include('catalog/products_list'); }
 
 <template id="item">
     <div class="data-row cr-pr image-row" data-image_id="id" data-image="name" data-image_size="image_size">
-        <div class="dy-fx pl-15 pr-15">
+        <div class="dy-fx pl-25 pr-15">
             <div class="dy-fx minw-80-px fx-jc-cr">
                 <div class="x"><img data-src="img" class="wh-100-pc" /></div>
             </div>
@@ -153,7 +153,7 @@ ${ await include('catalog/products_list'); }
 
 <template id="productThumb">
     <div class="data-row" data-image_id="id" data-image="name" data-image_size="image_size">
-        <div class="dy-fx pl-15 pr-15">
+        <div class="dy-fx pl-25 pr-15">
             <div class="dy-fx minw-80-px fx-jc-cr">
                 <div class="x"><img data-src="img" class="wh-100-pc" /></div>
             </div>
