@@ -152,7 +152,7 @@ ${ await include('catalog/products_list'); }
 </template>
 
 <template id="productThumb">
-    <div class="data-row" data-image_id="id" data-image="name" data-image_size="image_size">
+    <div class="data-row bg-1 br-4-px mb-10" data-image_id="id" data-image="name" data-image_size="image_size">
         <div class="dy-fx pl-25 pr-15">
             <div class="dy-fx minw-80-px fx-jc-cr">
                 <div class="x"><img data-src="img" class="wh-100-pc" /></div>

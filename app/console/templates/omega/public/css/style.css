@@ -112,6 +112,7 @@ img { display: block; }
     flex-direction: column;
     border-left: 1px solid var(--color-4);
     background-color: var(--color-7);
+    padding: 20px;
 }
 .app-content-header{
     margin: 0px -20px 30px -25px;
@@ -148,7 +149,7 @@ img { display: block; }
     border-bottom: 1px solid var(--color-7);
     position: relative;
 }
-.data-row-selected, .data-row-bg, .data-row:hover{
+.data-row-selected, .data-row:hover{
     background-color: var(--color-7);
 }
 .data-row-selected::before {
