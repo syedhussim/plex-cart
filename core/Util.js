@@ -108,21 +108,7 @@ module.exports.toImage = function(file, data){
 
     let segments = data.split(',');
 
-    if(segments.length > 1){ //console.log(segments[0]);
-        // // let type = segments[0].substring(segments[0].indexOf(':') + 1, segments[0].indexOf(';'));
-        // // let file =  crypto.randomBytes(30).toString("hex").toUpperCase() + '.' + type.split('/')[1];
-        // // let buffer = Buffer.from(segments[1], 'base64');
-        // // let size = buffer.length;
-
-        // let startPos = segments[0].indexOf(':');
-        // let endPos = segments[0].indexOf(';');
-
-        // if(startPos > -1 && endPos > -1){
-        //     let mime = segments[0].substring(startPos + 1, endPos);
-        //     console.log(mime);
-        // }
-
+    if(segments.length > 1){ 
         fs.writeFile(file, segments[1], 'base64');
     }
-
 }

@@ -14,6 +14,8 @@ class App extends Application{
 
         this.routes.add('/media/library', 'app/console/modules/media/Library');
         this.routes.add('/media/library.json', 'app/console/modules/media/Library');
+
+        this.routes.add('/store/settings', 'app/console/modules/store/Settings');
     
         this.dependencies({
             db : DatabaseEngine.create(this.config.db, this.appStorage),

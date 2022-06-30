@@ -5,6 +5,9 @@ const ConsoleController = req('app.console.lib.ConsoleController');
 class CreateProduct extends ConsoleController{
 
     async get(pid = null, product = null, errors = new Validation.ValidatorErrors()){ 
+        let d= new Date();
+        let x = d.toLocaleString('en-GB', { timeZone: 'Europe/Berlin' });
+        console.log(x);
 
         let products = await this.db.collection('products').limit(20,0).get();
 
@@ -14,6 +17,7 @@ class CreateProduct extends ConsoleController{
                 name : '',
                 description : '',
                 price : 0,
+                taxable : 0,
                 visibility : 1,
                 sku : '',
                 barcode : '',
@@ -92,7 +96,8 @@ class CreateProduct extends ConsoleController{
             name : post.name,
             description : post.description,
             price : Util.tryParseFloat(post.price),
-            visibility : parseInt(post.visibility),
+            taxable : Util.tryParseInt(post.taxable),
+            visibility : Util.tryParseInt(post.visibility),
             sku : post.sku,
             barcode : post.barcode,
             quantity : Util.tryParseInt(post.quantity),

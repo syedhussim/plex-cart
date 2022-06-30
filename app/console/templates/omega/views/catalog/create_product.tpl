@@ -53,12 +53,27 @@ ${ await include('catalog/products_list'); }
                 </div>
 
                 <div class="mb-20">
+                    <label class="mb-5 dy-bk fw-700 ${errors.hasError('taxable', 'fc-9')}">${errors.get('taxable', 'Taxable')}</label>
+                    ${
+                        html.select('taxable', product)
+                        .option('0', 'No')
+                        .option('1', 'Yes')
+                    }
+                </div>
+
+                <div class="mb-20">
                     <label class="mb-5 dy-bk fw-700 ${errors.hasError('visibility', 'fc-9')}">${errors.get('visibility', 'Visibility')}</label>
                     ${
                         html.select('visibility', product)
                         .option('1', 'Visible')
                         .option('0', 'Hidden')
                     }
+                </div>
+
+                <div class="app-content-section">
+                    <div class="inner-section">
+                        <h4 class="fw-700">Inventory</h4>
+                    </div>
                 </div>
 
                 <div class="mb-20">
@@ -83,6 +98,12 @@ ${ await include('catalog/products_list'); }
                         .option('0', 'No')
                         .option('1', 'Yes')
                     }
+                </div>
+
+                <div class="app-content-section">
+                    <div class="inner-section">
+                        <h4 class="fw-700">Attributes</h4>
+                    </div>
                 </div>
 
                 @{foreach attribute in attributes}

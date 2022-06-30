@@ -70,6 +70,13 @@ class Select{
         return this;
     }
 
+    fromArrayObject(array, key, value){
+        for(let item of array){
+            this._options.push({ value : item[key], text : item[value] });
+        }
+        return this;
+    }
+
     toString(){
         let output = `<select name="${this._name}" id="${this._name}">`;
 

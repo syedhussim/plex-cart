@@ -1,4 +1,3 @@
-const Util = req('core.Util');
 const Validation = req('core.Validation');
 const ConsoleController = req('app.console.lib.ConsoleController');
 
@@ -38,7 +37,7 @@ class CreateAttribute extends ConsoleController{
             menu_items : post.menu_items,
             visibility : post.visibility,
             required : post.required
-        }; console.log
+        }; 
 
         validator.add('name', attribute, [
             new Validation.Required('Name is required'),
