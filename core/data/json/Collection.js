@@ -1,5 +1,6 @@
 
 const fs = require('fs/promises');
+const { type } = require('os');
 const { serialize, deserialize } = require("v8");
 const Util = require('../../Util');
 const Result = require('./Result');
@@ -227,6 +228,14 @@ class Collection{
 
     async delete(id){
 
+        let property = 'id';
+        let value = id;
+
+        if(id instanceof Object){
+            property = id.property;
+            value = id.value;
+        }
+
         let collectionFile = this._settings.path.concat('/').concat(this._name).concat('.data');
         let cacheStorage = this._settings.cacheStorage;
         let data = [];
@@ -247,11 +256,18 @@ class Collection{
 
         let updated = false;
 
-        for(let [index, row] of data.entries()){
-            if(row.id == id){
-                data.splice(index, 1);
+        for(let i=0; i < data.length; i++){
+
+            let row = data[i];
+
+            if(row[property] == value){
+                data.splice(i, 1);
+                i--;
                 updated = true;
-                break;
+
+                if(property == 'id'){
+                    break;
+                }
             }
         } 
 

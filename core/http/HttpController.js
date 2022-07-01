@@ -2,6 +2,8 @@ const Controller = require('./Controller');
 
 class HttpController extends Controller{
 
+    async load(){}
+
     async get(){}
 
     async post(){}

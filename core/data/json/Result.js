@@ -27,6 +27,14 @@ class Result{
         return false;
     }
 
+    select(property){
+        let array = [];
+        for(let row of this._data){
+            array.push(this._getObjectValue(property.split('.'), row));
+        }
+        return array;
+    }
+
     toArray(){
         return this._data;
     }
@@ -35,6 +43,20 @@ class Result{
         for(let row of this._data){
             yield row;
         }
+    }
+
+    _getObjectValue(props, row){
+        let property = props.reverse().pop();
+
+        if(row.hasOwnProperty(property)){
+            let value = row[property];
+
+            if(value instanceof Object){
+                return this._getObjectValue(props.reverse(), value);
+            }
+            return value;
+        } 
+        return row;
     }
 }
 

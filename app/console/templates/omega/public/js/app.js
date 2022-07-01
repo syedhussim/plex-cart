@@ -50,7 +50,15 @@ class AppBase{
     }
 
     click(selector, fn){
-        let e = document.querySelector(selector);
-        e.addEventListener('click', function () { fn(e); });
+
+        if(selector.substring(0,1) == '#'){
+            let e = document.querySelector(selector);
+            e.addEventListener('click', function () { fn(e); });
+        }else{
+            let nl = document.querySelectorAll(selector);
+            for(let e of nl){
+                e.addEventListener('click', function () { fn(e); });
+            }
+        }
     }
 }

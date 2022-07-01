@@ -4,13 +4,24 @@ const ConsoleController = req('app.console.lib.ConsoleController');
 
 class Settings extends ConsoleController{
 
+
     async get(settings = null, errors = new Validation.ValidatorErrors()){
 
         if(!settings){
             let storesRes = await this.db.collection('stores').get();
 
             if(!storesRes.empty()){
-                settings = storesRes.first();
+                settings = storesRes.first(); 
+            }else{
+                settings = {
+                    name : '',
+                    store_email : '',
+                    store_phone : '',
+                    locale : '',
+                    currency : '',
+                }
+
+                await this.db.collection('stores').create(settings);
             }
         }
 
@@ -27,16 +38,16 @@ class Settings extends ConsoleController{
         
         let post = this.request.post();
         
-        let store = {
+        let settings = {
             name : post.name,
             store_email : post.store_email,
             store_phone : post.store_phone,
             locale : post.locale
         };
 
-        await this.db.collection('stores').update(post.id, store);
+        await this.db.collection('stores').update(post.id, settings);
 
-        return await this.get(store);
+        return await this.get(settings);
     }
 }
 
