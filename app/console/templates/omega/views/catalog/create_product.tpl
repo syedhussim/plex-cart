@@ -6,7 +6,7 @@ ${ await include('catalog/products_list'); }
             <div class="app-content-left-panel">
                 <div class="app-content-header">
                     <div class="inner-header">
-                        <h3>Product</h3>
+                        <h4 class="fw-700">Product</h4>
 
                         <div class="dy-fx pn-re">
                             <span class="btn-action" id="productMenu"><i class="ico-eclipse"></i></span>

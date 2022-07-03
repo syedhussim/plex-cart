@@ -219,11 +219,18 @@ class Collection{
         try{
             if(updated){
                 await fs.writeFile(collectionFile, serialize(data)); 
-                return true;
+
+                return {
+                    action : 2,
+                    success : true
+                };
             }
         }catch(e){}
 
-        return false;
+        return {
+            action : 2,
+            success : false
+        };
     }
 
     async delete(id){

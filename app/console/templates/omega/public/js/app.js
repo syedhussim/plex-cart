@@ -6,13 +6,13 @@ class AppBase{
 
     mount(){}
 
-    render(host, templateId, data = {}, callback = null){
+    render(host, templateId, data = {}, callback = {}){
 
         let template = document.getElementById(templateId);
         let clone = template.content.cloneNode(true);
 
-        if(callback){
-            callback(clone);
+        if(callback.loaded){
+            callback.loaded(clone);
         }
 
         let nodeList = clone.querySelectorAll('*');
@@ -46,18 +46,30 @@ class AppBase{
             }
         }
 
-        document.getElementById(host).appendChild(clone);
+        let hostElement = document.getElementById(host);
+        hostElement.appendChild(clone);
+
+        if(callback.mounted){
+            callback.mounted(hostElement, clone);
+        }
     }
 
     click(selector, fn){
+        this._event('click', selector, fn);
+    }
 
+    change(selector, fn){
+        this._event('change', selector, fn);
+    }
+
+    _event(eventType, selector, fn){
         if(selector.substring(0,1) == '#'){
             let e = document.querySelector(selector);
-            e.addEventListener('click', function () { fn(e); });
+            e.addEventListener(eventType, function () { fn(e); });
         }else{
             let nl = document.querySelectorAll(selector);
             for(let e of nl){
-                e.addEventListener('click', function () { fn(e); });
+                e.addEventListener(eventType, function () { fn(e); });
             }
         }
     }

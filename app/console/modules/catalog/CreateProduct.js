@@ -5,9 +5,6 @@ const ConsoleController = req('app.console.lib.ConsoleController');
 class CreateProduct extends ConsoleController{
 
     async get(pid = null, product = null, errors = new Validation.ValidatorErrors()){ 
-        let d= new Date();
-        let x = d.toLocaleString('en-GB', { timeZone: 'Europe/Berlin' });
-        console.log(x);
 
         let products = await this.db.collection('products').limit(20,0).get();
 

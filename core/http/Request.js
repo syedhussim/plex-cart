@@ -163,12 +163,17 @@ class Post{
     constructor(post){
 
         Object.assign(this, post);
+    }
 
-        return new Proxy(this, {
-            get: function(target, name) {
-                return target.hasOwnProperty(name) ? target[name] : '';
-            }
-        }); 
+    get(property, defaultValue = null){
+        if(this.hasOwnProperty(property)){
+            return this[property];
+        }
+
+        if(defaultValue){
+            return defaultValue;
+        }
+        return '';
     }
 }
 

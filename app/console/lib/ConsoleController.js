@@ -26,6 +26,12 @@ class ConsoleController extends HttpController{
 
     async load(){
 
+        let storesRes = await this.db.collection('stores').get();
+
+        if(!storesRes.empty()){
+            this.store = storesRes.first();
+        }
+
         this.request.register('flash', (value = null) => {
             if(value != null){
                 this.appStorage.set('_FLASH_', value);
@@ -39,6 +45,7 @@ class ConsoleController extends HttpController{
             }
         });
 
+        this.view.param('store', this.store);
         this.view.param('request', this.request);
         this.view.param('html', Html);
         this.view.prependFile('shared/header');

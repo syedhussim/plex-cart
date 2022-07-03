@@ -6,7 +6,7 @@ ${ await include('store/menu'); }
             <div class="app-content-left-panel">
                 <div class="app-content-header">
                     <div class="inner-header">
-                        <h3>Shipping Countries</h3>
+                        <h4 class="fw-700">Shipping Countries</h4>
                     </div>
                 </div>
 

@@ -4,32 +4,19 @@ const ConsoleController = req('app.console.lib.ConsoleController');
 
 class Settings extends ConsoleController{
 
-
     async get(settings = null, errors = new Validation.ValidatorErrors()){
 
         if(!settings){
             let storesRes = await this.db.collection('stores').get();
 
-            if(!storesRes.empty()){
-                settings = storesRes.first(); 
-            }else{
-                settings = {
-                    name : '',
-                    store_email : '',
-                    store_phone : '',
-                    locale : '',
-                    currency : '',
-                }
-
-                await this.db.collection('stores').create(settings);
-            }
+            settings = storesRes.first(); 
         }
-
-        // console.log(Intl.NumberFormat(settings.locale, {currency: 'USD', style:"currency"}).format(3000.99));
 
         return await this.view.render('store/settings',{
             settings : settings,
+            currencies : Intlz.currencies(),
             locales : Intlz.locales(),
+            timeZones : Intlz.timeZones(),
             errors : errors
         });
     }
@@ -37,17 +24,47 @@ class Settings extends ConsoleController{
     async post(){
         
         let post = this.request.post();
+
+        let validator = new Validation.Validator();
         
         let settings = {
-            name : post.name,
-            store_email : post.store_email,
-            store_phone : post.store_phone,
-            locale : post.locale
+            name : post.get('name'),
+            admin_email : post.get('admin_email'),
+            currency : post.get('currency'),
+            locale : post.get('locale'),
+            timezone : post.get('timezone')
         };
 
-        await this.db.collection('stores').update(post.id, settings);
+        validator.add('name', settings, [
+            new Validation.Required('Name is required'),
+            new Validation.MaxLength(50, 'Name must not exceed @length characters')
+        ]).add('admin_email', settings, [
+            new Validation.Required('Admin Email is required'),
+        ]).add('currency', settings, [
+            new Validation.Required('Currency is required'),
+            new Validation.MaxLength(3, 'Currency must not exceed @length characters')
+        ]).add('locale', settings, [
+            new Validation.Required('Regional Format is required'),
+            new Validation.MaxLength(10, 'Regional Format must not exceed @length characters')
+        ]).add('timezone', settings, [
+            new Validation.Required('Timezone is required'),
+            new Validation.MaxLength(50, 'Timezone must not exceed @length characters')
+        ]);
 
-        return await this.get(settings);
+        if(validator.isValid()){
+
+            let result = await this.db.collection('stores').update(post.id, settings);
+
+            this.request.flash({
+                message : 'Store settings have been updated',
+                success : result.success,
+                error : 'Operation failed'
+            });
+
+            return await this.get(settings);
+        }
+
+        return await this.get(settings, validator.errors());
     }
 }
 

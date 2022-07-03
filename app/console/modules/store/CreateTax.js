@@ -1,20 +1,22 @@
 const ConsoleController = req('app.console.lib.ConsoleController');
+const Validation = req('core.Validation');
 
-class ShippingCountries extends ConsoleController{
+class CreateTax extends ConsoleController{
 
-    async get(){
+    async get(tax, errors = new Validation.ValidatorErrors()){
+
+        let shippingCountriesRes = await this.db.collection('shipping_countires')
+            .get();
 
         let countriesRes = await this.db.collection('countries')
+            .where('id', 'in', shippingCountriesRes.select('country_id'))
             .sort('code', 'ASC')
             .get();
 
-        let shippingCountriesRes = await this.db.collection('shipping_countires')
-            .where('country_id', 'in', countriesRes.select('id'))
-            .get();
-
-        return await this.view.render('store/shipping_countires',{
+        return await this.view.render('store/create_tax',{
+            tax : {},
             countries : countriesRes,
-            shippingCountryIds : shippingCountriesRes.select('country_id')
+            errors : errors
         });
     }
 
@@ -44,4 +46,4 @@ class ShippingCountries extends ConsoleController{
     }
 }
 
-module.exports = ShippingCountries;
+module.exports = CreateTax;

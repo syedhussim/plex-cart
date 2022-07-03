@@ -6,7 +6,7 @@ ${ await include('store/menu'); }
             <div class="app-content-left-panel">
                 <div class="app-content-header">
                     <div class="inner-header">
-                        <h3>General Settings</h3>
+                        <h4 class="fw-700">General Settings</h4>
                     </div>
                 </div>
 
@@ -16,21 +16,31 @@ ${ await include('store/menu'); }
                 </div>
 
                 <div class="mb-20">
-                    <label class="mb-5 dy-bk fw-700 ${errors.hasError('store_email', 'fc-9')}">${errors.get('store_email', 'Store Email')}</label>
-                    ${html.textbox('store_email', settings)}
+                    <label class="mb-5 dy-bk fw-700 ${errors.hasError('admin_email', 'fc-9')}">${errors.get('admin_email', 'Admin Email')}</label>
+                    ${html.textbox('admin_email', settings)}
                 </div>
 
                 <div class="mb-20">
-                    <label class="mb-5 dy-bk fw-700 ${errors.hasError('store_phone', 'fc-9')}">${errors.get('store_phone', 'Store Phone')}</label>
-                    ${html.textbox('store_phone', settings)}
+                    <label class="mb-5 dy-bk fw-700 ${errors.hasError('currency', 'fc-9')}">${errors.get('currency', 'Currency')}</label>
+                    ${
+                        html.select('currency', settings)
+                        .fromArrayObject(currencies, 'currency_code', (c) => c.currency_code + ' - ' + c.name)
+                    }
                 </div>
 
                 <div class="mb-20">
-                    <label class="mb-5 dy-bk fw-700 ${errors.hasError('locale', 'fc-9')}">${errors.get('locale', 'Regional format')}</label>
+                    <label class="mb-5 dy-bk fw-700 ${errors.hasError('locale', 'fc-9')}">${errors.get('locale', 'Regional Format')}</label>
                     ${
                         html.select('locale', settings)
-                        .option('', '')
                         .fromArrayObject(locales, 'code', 'name')
+                    }
+                </div>
+
+                <div class="mb-20">
+                    <label class="mb-5 dy-bk fw-700 ${errors.hasError('timezone', 'fc-9')}">${errors.get('timezone', 'Timezone')}</label>
+                    ${
+                        html.select('timezone', settings)
+                        .fromArrayObject(timeZones, 'id', 'name')
                     }
                 </div>
 

@@ -1,25 +1,48 @@
-    </div>
-</div>
+            </div>
+        </div>
 
-<script type="text/javascript">
+        <template id="tplToast">
+            <div class="app-toast">
+                <div class="dy-fx fx-jc-fe mr-20">
+                    <i class="symbol-green">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="#fff"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                    </i>
+                </div>
+                <div data-name="message"></div>
+            </div>
+        </template>
 
-    let toastData = ${JSON.stringify(request.flash())};
+        <script type="text/javascript">
 
-    if(toastData.hasOwnProperty('message')){
-        if(toastData.success){
-            //alert(toastData.message);
-        }else{
-            //alert(toastData.error);
-        }
-    }
+            class System extends AppBase{
 
-    document.querySelector('html').addEventListener('click', () => {
-        document.querySelectorAll('.dropdown-menu').forEach(e => {
-            if(e.classList.contains('dy-fx')){
-                e.classList.remove('dy-fx');
-                e.classList.add('dy-ne');
+                mount(){
+
+                    this.click('#app', () => {
+                        document.querySelectorAll('.dropdown-menu').forEach(e => {
+                            if(e.classList.contains('dy-fx')){
+                                e.classList.remove('dy-fx');
+                                e.classList.add('dy-ne');
+                            }
+                        })
+                    });
+
+                    let toastData = ${JSON.stringify(request.flash())};
+
+                    if(toastData.hasOwnProperty('message')){
+                        if(toastData.success){
+                            this.render('toast', 'tplToast', toastData, {
+                                mounted : (e) => { setTimeout(() => { e.replaceChildren(); }, 4000); }
+                            });
+                        }else{
+                            alert(toastData.error);
+                        }
+                    }
+                }
             }
-        })
-    });
 
-</script>
+            new System();
+
+        </script>
+    </body>
+</html>

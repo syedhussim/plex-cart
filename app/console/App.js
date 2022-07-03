@@ -16,7 +16,10 @@ class App extends Application{
         this.routes.add('/media/library.json', 'app/console/modules/media/Library');
 
         this.routes.add('/store/settings', 'app/console/modules/store/Settings');
+        this.routes.add('/store/themes', 'app/console/modules/store/Themes');
         this.routes.add('/store/shipping/countries', 'app/console/modules/store/ShippingCountries');
+        this.routes.add('/store/taxes', 'app/console/modules/store/Taxes');
+        this.routes.add('/store/taxes/create', 'app/console/modules/store/CreateTax');
 
         this.routes.add('/install/setup', 'app/console/modules/install/Setup');
     

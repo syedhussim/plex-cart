@@ -70,9 +70,19 @@ class Select{
         return this;
     }
 
-    fromArrayObject(array, key, value){
+    fromArrayObject(array, valueProperty, textProperty){
+        
         for(let item of array){
-            this._options.push({ value : item[key], text : item[value] });
+
+            let text;
+
+            if(textProperty instanceof Function){
+                text = textProperty(item);
+            }else{
+                text = item[textProperty];
+            }
+
+            this._options.push({ value : item[valueProperty], text : text });
         }
         return this;
     }

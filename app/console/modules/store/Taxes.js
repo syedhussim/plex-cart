@@ -1,20 +1,19 @@
 const ConsoleController = req('app.console.lib.ConsoleController');
 
-class ShippingCountries extends ConsoleController{
+class Taxes extends ConsoleController{
 
     async get(){
 
-        let countriesRes = await this.db.collection('countries')
-            .sort('code', 'ASC')
-            .get();
+//         let shippingCountriesRes = await this.db.collection('shipping_countires')
+//             .get();
 
-        let shippingCountriesRes = await this.db.collection('shipping_countires')
-            .where('country_id', 'in', countriesRes.select('id'))
-            .get();
-
-        return await this.view.render('store/shipping_countires',{
-            countries : countriesRes,
-            shippingCountryIds : shippingCountriesRes.select('country_id')
+//         let countriesRes = await this.db.collection('countries')
+//             .where('id', 'in', shippingCountriesRes.select('country_id'))
+//             .sort('code', 'ASC')
+//             .get();
+// console.log(countriesRes);
+        return await this.view.render('store/taxes',{
+            //countries : countriesRes,
         });
     }
 
@@ -44,4 +43,4 @@ class ShippingCountries extends ConsoleController{
     }
 }
 
-module.exports = ShippingCountries;
+module.exports = Taxes;

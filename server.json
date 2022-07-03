@@ -31,7 +31,7 @@
         },
         {
             "port" : 9090,
-            "name" : "front",
+            "name" : "store",
 
             "locations" : [
                 {
