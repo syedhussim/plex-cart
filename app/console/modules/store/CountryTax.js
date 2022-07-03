@@ -1,7 +1,7 @@
 const ConsoleController = req('app.console.lib.ConsoleController');
 const Validation = req('core.Validation');
 
-class CreateTax extends ConsoleController{
+class CountryTax extends ConsoleController{
 
     async get(tax, errors = new Validation.ValidatorErrors()){
 
@@ -46,4 +46,4 @@ class CreateTax extends ConsoleController{
     }
 }
 
-module.exports = CreateTax;
+module.exports = CountryTax;

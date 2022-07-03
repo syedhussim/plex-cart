@@ -26,14 +26,6 @@ ${ await include('store/menu'); }
                 </div>
 
                 <div class="mb-20">
-                    <label class="mb-5 dy-bk fw-700 ${errors.hasError('country', 'fc-9')}">${errors.get('country', 'Shipping Country')}</label>
-                    ${
-                        html.select('country', tax)
-                        .fromArrayObject(countries, 'id', 'name')
-                    }
-                </div>
-
-                <div class="mb-20">
                     <label class="mb-5 dy-bk fw-700 ${errors.hasError('name', 'fc-9')}">${errors.get('name', 'Tax Percentage')}</label>
                     ${html.textbox('name', tax)}
                 </div>
@@ -44,14 +36,6 @@ ${ await include('store/menu'); }
         </form>
     </div>
 </div>
-
-<template id="tplStateTax">
-    <div class="data-row">
-        <div data-name="name">
-            <
-        </div>
-    </div>
-</template>
 
 <script type="text/javascript">
 
@@ -76,19 +60,6 @@ ${ await include('store/menu'); }
                     list.add('dy-ne');
                 }
             });
-
-            this.change('#country', (sender) => {
-                
-                for(let country of this.countries){
-                    if(country.id == sender.value){
-                        
-                        for(let state of country.states){
-                            this.render('states', 'tplStateTax', state);
-                        }
-                        break;
-                    }
-                }
-            })
 
         }
     }
