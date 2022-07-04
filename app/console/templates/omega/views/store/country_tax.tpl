@@ -30,7 +30,12 @@ ${ await include('store/menu'); }
                     ${html.textbox('name', tax)}
                 </div>
 
-                <div id="states"></div>
+                @{foreach state in country.states}
+                    <div>
+                        <div>${state.name}</div>
+                        <div>${html.textbox('name', tax)}</div>
+                    </div>
+                @{/foreach}
 
             </div>
         </form>
@@ -42,8 +47,6 @@ ${ await include('store/menu'); }
     class App extends AppBase{
 
         mount(){
-
-            this.countries = ${JSON.stringify(countries.toArray())};
 
             this.click('#taxMenu', () => {
 

@@ -3,19 +3,21 @@ const Validation = req('core.Validation');
 
 class CountryTax extends ConsoleController{
 
-    async get(tax, errors = new Validation.ValidatorErrors()){
-
-        let shippingCountriesRes = await this.db.collection('shipping_countires')
-            .get();
+    async get(id, errors = new Validation.ValidatorErrors()){
 
         let countriesRes = await this.db.collection('countries')
-            .where('id', 'in', shippingCountriesRes.select('country_id'))
-            .sort('code', 'ASC')
+            .where('id', 'in', id)
             .get();
 
-        return await this.view.render('store/create_tax',{
+        let country = null;
+
+        if(!countriesRes.empty()){
+            country = countriesRes.first();
+        }
+
+        return await this.view.render('store/country_tax',{
             tax : {},
-            countries : countriesRes,
+            country : country,
             errors : errors
         });
     }
