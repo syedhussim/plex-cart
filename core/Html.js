@@ -21,6 +21,7 @@ class Textbox{
 
     constructor(name, value, type){
         this._name = name;
+        this._id = name;
         this._type = type;
         this._classname = '';
 
@@ -31,6 +32,11 @@ class Textbox{
         this._value = value;
     }
 
+    id(id){
+        this._id = id;
+        return this;
+    }
+
     css(className){
         this._classname = className;
         return this;
@@ -38,9 +44,9 @@ class Textbox{
 
     toString(){
         if(this._type == 'textarea'){
-            return `<textarea name="${this._name}" id="${this._name}" class="${this._classname}">${this._value}</textarea>`;
+            return `<textarea name="${this._name}" id="${this._id}" class="${this._classname}">${this._value}</textarea>`;
         }else{
-            return `<input type="${this._type}" name="${this._name}" id="${this._name}" value="${this._value}" class="${this._classname}" />`;
+            return `<input type="${this._type}" name="${this._name}" id="${this._id}" value="${this._value}" class="${this._classname}" />`;
         }
     }
 }
@@ -49,6 +55,7 @@ class Select{
 
     constructor(name, value){
         this._name = name;
+        this._id = name;
 
         if(value instanceof Object){
             value = value[name] != null ? value[name] : '';
@@ -56,6 +63,11 @@ class Select{
 
         this._selectedValue = value;
         this._options = [];
+    }
+
+    id(id){
+        this._id = id;
+        return this;
     }
 
     option(value, text){
@@ -88,7 +100,7 @@ class Select{
     }
 
     toString(){
-        let output = `<select name="${this._name}" id="${this._name}">`;
+        let output = `<select name="${this._name}" id="${this._id}">`;
 
         for(let option of this._options){
             output += `<option value="${option.value}" ${this._selectedValue == option.value ? 'selected' : ''}>${option.text}</option>`;

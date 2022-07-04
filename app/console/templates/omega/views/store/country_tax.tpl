@@ -30,12 +30,33 @@ ${ await include('store/menu'); }
                     ${html.textbox('name', tax)}
                 </div>
 
+                <div class="app-content-section">
+                    <div class="inner-section">
+                        <h4 class="fw-700">State Tax Overrides</h4>
+                    </div>
+                </div>
+
+                <div class="mb-20">
+                    ${
+                        html.select('')
+                        .id('state_override')
+                        .option('', '')
+                        .fromArrayObject(country.states, 'code', 'name')
+                    }
+                </div>
+
                 @{foreach state in country.states}
-                    <div>
-                        <div>${state.name}</div>
-                        <div>${html.textbox('name', tax)}</div>
+                    <div class="dy-ne fx-jc-sb fx-ai-cr br-cr-4 br-4-px bg-7 mb-10 state" id="row_${state.code}">
+                        <div class="pl-15 pt-15 pb-15 pr-15">
+                            ${state.name}
+                        </div>
+                        <div class="dy-fx fx-ai-cr pt-15 pb-15 pr-15 wh-200-px">
+                            ${html.textbox('state_' + state.code, tax).id('state_' + state.code)}
+                        </div>
                     </div>
                 @{/foreach}
+
+                <input type="submit" value="save" />
 
             </div>
         </form>
@@ -62,6 +83,24 @@ ${ await include('store/menu'); }
                     list.remove('dy-fx');
                     list.add('dy-ne');
                 }
+            });
+
+            this.change('#state_override', (sender) => {
+                let stateCode = sender.value;
+
+                document.querySelectorAll('[data-selected]').forEach(e => {
+                    let input = e.querySelector('input');
+                    if(input.value.length == 0){
+                        e.classList.remove('dy-fx');
+                        e.classList.add('dy-ne');
+                    }
+                });
+
+                let e = document.querySelector('#row_' + stateCode);
+
+                e.classList.remove('dy-ne');
+                e.classList.add('dy-fx');
+                e.dataset.selected = 1;
             });
 
         }

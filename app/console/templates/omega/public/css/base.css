@@ -30,6 +30,16 @@ h6 { margin : 0px; font-size : 0.6rem; font-weight : 400; text-transform : upper
 .br-9-px { border-radius : 9px; }
 .br-10-px { border-radius : 10px; }
 
+.br-cr-1 { border : 1px solid var(--color-1); }
+.br-cr-2 { border : 1px solid var(--color-2); }
+.br-cr-3 { border : 1px solid var(--color-3); }
+.br-cr-4 { border : 1px solid var(--color-4); }
+.br-cr-5 { border : 1px solid var(--color-5); }
+.br-cr-6 { border : 1px solid var(--color-6); }
+.br-cr-7 { border : 1px solid var(--color-7); }
+.br-cr-8 { border : 1px solid var(--color-8); }
+.br-cr-9 { border : 1px solid var(--color-9); }
+
 .wh-10-pc { width : 10%; }
 .wh-20-pc { width : 20%; }
 .wh-30-pc { width : 30%; }

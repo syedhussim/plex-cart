@@ -25,26 +25,7 @@ class CountryTax extends ConsoleController{
     async post(){
         let post = this.request.post();
 
-        if(post.state == 1){
-
-            await this.db.collection('shipping_countires').delete({ property : 'country_id', value : post.country_id });
-
-            return {
-                success : 200,
-                state : 0
-            }
-        }else{
-            let shippingCountry = {
-                country_id : post.country_id
-            };
-
-            await this.db.collection('shipping_countires').create(shippingCountry);
-            
-            return {
-                success : 200,
-                state : 1
-            }
-        }
+        console.log(post);
     }
 }
 
