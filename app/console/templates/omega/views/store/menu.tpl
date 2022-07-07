@@ -26,11 +26,11 @@
             </div>
             <div class="wh-100-pc pt-15 pb-15 pr-15">
                 <a href="/store/taxes" class="fs-18 fw-500">Taxes</a>
-                <div class="fs-13 fc-6 mt-5">Manage where you collect taxes and duties.</div>
+                <div class="fs-13 fc-6 mt-5">Manage where you collect taxes.</div>
             </div>
         </div>
 
-        <div class="data-row ${equals(request.url().segments(1), 'themes', 'data-row-selected')}" >
+        <div class="data-row ${equals(request.url().segments(1), 'themes', 'data-row-selected')}">
             <div class="pl-20 pr-20">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#686886"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M21 2H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h7v2H8v2h8v-2h-2v-2h7c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H3V4h18v12z"/></svg>
             </div>
@@ -40,13 +40,13 @@
             </div>
         </div>
 
-        <div class="data-row" >
+        <div class="data-row ${equals(request.url().segments(1), 'payment', 'data-row-selected')}">
             <div class="pl-20 pr-20">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#686886"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
             </div>
             <div class="wh-100-pc pt-15 pb-15 pr-15">
-                <a href="/catalog/products/create?pid=" class="fs-18 fw-500">Payment Gateways</a>
-                <div class="fs-13 fc-6 mt-5">Enable payment gateways and API credentials.</div>
+                <a href="/store/payment/gateways" class="fs-18 fw-500">Payment Gateways</a>
+                <div class="fs-13 fc-6 mt-5">Enable payment gateways and manage API credentials.</div>
             </div>
         </div>
 

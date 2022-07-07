@@ -268,6 +268,34 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="date"]:focus
     box-shadow : 0px 1px 3px #ddd inset;
 }
 
+input[type=checkbox]{
+    display: none;
+}
+input[type=checkbox] + label{
+    display: flex;
+    width: 45px;
+    background: var(--color-7);
+    position: relative;
+    border-radius: 4px;
+    cursor: pointer;
+}
+input[type=checkbox] + label::before{
+    display: flex;
+    content: " ";
+    width: 20px;
+    height: 20px;
+    background: var(--color-3);
+    top:0px;
+    border-radius: 4px;
+}
+input[type=checkbox]:checked + label{
+    justify-content: flex-end;
+}
+input[type=checkbox]:checked + label::before{
+    right: 0px;
+    background: var(--color-5);
+}
+
 .btn-commit,
 .btn-cancel,
 .btn-delete{

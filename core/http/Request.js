@@ -187,6 +187,17 @@ class Post{
         return 0;
     }
 
+    getInt(property, defaultValue = null){
+        if(this.hasOwnProperty(property)){
+            return Util.tryParseInt(this[property]);
+        }
+
+        if(defaultValue){
+            return defaultValue;
+        }
+        return 0;
+    }
+
     *entries(){
         let properties = Object.keys(this);
 
