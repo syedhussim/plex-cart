@@ -33,7 +33,7 @@ class Validator{
 
             for(let j=0; j < field.validators.length; j++){
                 let validator = field.validators[j];
-                validator.value = field.value || '';
+                validator.value = field.value;
 
                 if(!validator.validate()){
                     this._errors[field.name] = validator.message;
@@ -133,14 +133,14 @@ class IsNumber{
     }
 }
 
-class IsDecimal{
+class IsFloat{
     constructor(message){
         this.message = message;
         this.value = '';
     }
 
-    validate(){ 
-        return Util.isDecimal(this.value);
+    validate(){
+        return Util.isFloat(this.value);
     }
 }
 
@@ -151,5 +151,5 @@ module.exports = {
     MaxLength : MaxLength,
     Length : Length,
     IsNumber : IsNumber,
-    IsDecimal : IsDecimal
+    IsFloat : IsFloat
 };

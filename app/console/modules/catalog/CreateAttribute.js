@@ -78,7 +78,6 @@ class CreateAttribute extends ConsoleController{
 
         if(post.id){
             let result = await this.db.collection('attributes').delete(post.id);
-            console.log(result);
         }
     }
 }

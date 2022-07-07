@@ -1,4 +1,5 @@
 const { parse } = require('querystring');
+const Util = require('../Util');
 
 class Request{
 
@@ -161,7 +162,6 @@ class Url{
 
 class Post{
     constructor(post){
-
         Object.assign(this, post);
     }
 
@@ -174,6 +174,25 @@ class Post{
             return defaultValue;
         }
         return '';
+    }
+
+    getFloat(property, defaultValue = null){
+        if(this.hasOwnProperty(property)){
+            return Util.tryParseFloat(this[property]);
+        }
+
+        if(defaultValue){
+            return defaultValue;
+        }
+        return 0;
+    }
+
+    *entries(){
+        let properties = Object.keys(this);
+
+        for(let property of properties){
+            yield { name : property, value : this[property] };
+        }
     }
 }
 

@@ -18,7 +18,7 @@ class Library extends ConsoleController{
                 data : media.toArray()
             };
         }
-console.log(media);
+
         return await this.view.render('media/library',{
             product : { id : '' },
             media : media,
@@ -47,7 +47,7 @@ console.log(media);
             return {
                 success : true
             }
-        }catch(e){ console.log(e);
+        }catch(e){
             return {
                 success : false,
                 message : e.message

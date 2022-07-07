@@ -50,6 +50,10 @@ module.exports.url = function(str, prefix = '', suffix = ''){
 
 module.exports.isNumber = function(str){
 
+    if(str.length == 0){
+        return false;
+    }
+
     for(let i in str.toString()){
 
         let ch =  str.toString().charCodeAt(i);
@@ -68,7 +72,11 @@ module.exports.tryParseInt = function(str){
     return str;
 }
 
-module.exports.isDecimal = function(str){
+module.exports.isFloat = function(str){
+
+    if(str.length == 0){
+        return false;
+    }
 
     let periodCounter = 0;
 
@@ -96,7 +104,7 @@ module.exports.isDecimal = function(str){
 }
 
 module.exports.tryParseFloat = function(str){
-    if(this.isDecimal(str)){
+    if(this.isFloat(str)){
         return parseFloat(str);
     }
     return str;

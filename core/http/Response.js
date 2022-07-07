@@ -9,10 +9,6 @@ class Response{
         this._flushed = false;
     }
 
-    x(){ console.log(this._response.constructor.name)
-        return this._response
-    }
-
     httpCode(code){
         this._httpCode = code;
         return this;

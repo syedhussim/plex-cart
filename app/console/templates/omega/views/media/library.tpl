@@ -30,7 +30,7 @@
 
     const media = ${JSON.stringify(media.toArray())};
 
-    for(let item of media){ console.log(item);
+    for(let item of media){
         item.img = '/' + item.name;
         item.image_size = item.image_size.join(' x ');
         render('test', 'item', item);
@@ -126,10 +126,7 @@
     }
 
     function dragOverHandler(ev) {
-    //console.log('File(s) in drop zone');
-
-    // Prevent default behavior (Prevent file from being opened)
-    ev.preventDefault();
+        ev.preventDefault();
     }
 
 </script>
