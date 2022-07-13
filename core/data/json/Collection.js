@@ -93,7 +93,7 @@ class Collection{
                         break;
 
                     case 'in':
-                        if(filter.value.includes(this._getObjectValue(props, row))){
+                        if(filter.value.includes(this._getObjectValue(props, row))){ 
                             matchCount++;
                         }
                         break;
@@ -178,9 +178,16 @@ class Collection{
 
         try{
             await fs.writeFile(collectionFile, serialize(data)); 
-        }catch(e){ }
+        }catch(e){ 
+            return {
+                success : false
+            }
+        }
 
-        return object['id'];
+        return {
+            id : object['id'],
+            success : true
+        }
     }
 
     async update(id, object){
@@ -221,14 +228,12 @@ class Collection{
                 await fs.writeFile(collectionFile, serialize(data)); 
 
                 return {
-                    action : 2,
                     success : true
                 };
             }
         }catch(e){}
 
         return {
-            action : 2,
             success : false
         };
     }
@@ -281,11 +286,16 @@ class Collection{
         try{
             if(updated){
                 await fs.writeFile(collectionFile, serialize(data)); 
-                return true;
+
+                return {
+                    success : true
+                };
             }
         }catch(e){}
 
-        return false;
+        return {
+            success : false
+        };
     }
 
     _getObjectValue(props, row){

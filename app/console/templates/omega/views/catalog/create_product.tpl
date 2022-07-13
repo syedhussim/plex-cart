@@ -139,7 +139,7 @@ ${ await include('catalog/products_list'); }
             </div>
 
             <div class="app-content-right-panel">
-                <div class="pg-20">
+                <div>
                     <span class="btn-action" id="btnAssetPanel"><i class="ico-eclipse"></i></span>
                 </div>
                
@@ -154,7 +154,7 @@ ${ await include('catalog/products_list'); }
 </div>
 
 <template id="item">
-    <div class="data-row cr-pr image-row" data-image_id="id" data-image="name" data-image_size="image_size">
+    <div class="data-row cr-pr image-row bg-1 mb-10 br-4-px" data-image_id="id" data-image="name" data-image_size="image_size">
         <div class="dy-fx pl-25 pr-15">
             <div class="dy-fx minw-80-px fx-jc-cr">
                 <div class="x"><img data-src="img" class="wh-100-pc" /></div>
@@ -173,7 +173,7 @@ ${ await include('catalog/products_list'); }
 </template>
 
 <template id="productThumb">
-    <div class="data-row bg-1 br-4-px mb-10" data-image_id="id" data-image="name" data-image_size="image_size">
+    <div class="data-row data-row-active mb-10 br-4-px" data-image_id="id" data-image="name" data-image_size="image_size">
         <div class="dy-fx pl-25 pr-15">
             <div class="dy-fx minw-80-px fx-jc-cr">
                 <div class="x"><img data-src="img" class="wh-100-pc" /></div>
@@ -192,7 +192,6 @@ ${ await include('catalog/products_list'); }
     </div>
 </template>
 
-<script type="text/javascript" src="/omega/public/js/app.js"></script>
 <script type="text/javascript">
 
     class App extends AppBase{
@@ -245,39 +244,41 @@ ${ await include('catalog/products_list'); }
                     item.image_size = item.image_size.join(' x ');
                     item.selected = this.productImages.has(item.id);
 
-                    this.render('assetList', 'item', item, (template) => {
+                    this.render('assetList', 'item', item, {
+                        loaded : (template) => {
 
-                        let imageRow = template.querySelector('.image-row');
+                            let imageRow = template.querySelector('.image-row');
 
-                        imageRow.addEventListener('click', () => {
-                            if(this.productImages.has(imageRow.dataset.image_id)){
+                            imageRow.addEventListener('click', () => {
+                                if(this.productImages.has(imageRow.dataset.image_id)){
 
-                                let e = imageRow.querySelector('.tick');
-                                e.classList.add('dy-ne');
-                                e.classList.remove('symbol-green');
+                                    let e = imageRow.querySelector('.tick');
+                                    e.classList.add('dy-ne');
+                                    e.classList.remove('symbol-green');
 
-                                this.productImages.delete(imageRow.dataset.image_id);
-                            }else{
+                                    this.productImages.delete(imageRow.dataset.image_id);
+                                }else{
 
-                                let e = imageRow.querySelector('.tick');
+                                    let e = imageRow.querySelector('.tick');
+                                    e.classList.remove('dy-ne');
+                                    e.classList.add('symbol-green');
+
+                                    this.productImages.set(imageRow.dataset.image_id, {
+                                        id : imageRow.dataset.image_id,
+                                        name : imageRow.dataset.image,
+                                        img : '/' + imageRow.dataset.image,
+                                        image_size : imageRow.dataset.image_size
+                                    });
+                                }
+                                
+                                this.renderProductImages();
+                            });
+
+                            if(item.selected){
+                                let e = template.querySelector('.tick');
                                 e.classList.remove('dy-ne');
                                 e.classList.add('symbol-green');
-
-                                this.productImages.set(imageRow.dataset.image_id, {
-                                    id : imageRow.dataset.image_id,
-                                    name : imageRow.dataset.image,
-                                    img : '/' + imageRow.dataset.image,
-                                    image_size : imageRow.dataset.image_size
-                                });
                             }
-                            
-                            this.renderProductImages();
-                        });
-
-                        if(item.selected){
-                            let e = template.querySelector('.tick');
-                            e.classList.remove('dy-ne');
-                            e.classList.add('symbol-green');
                         }
                     });
                 }

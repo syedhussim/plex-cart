@@ -57,8 +57,7 @@ class Settings extends ConsoleController{
 
             this.request.flash({
                 message : 'Store settings have been updated',
-                success : result.success,
-                error : 'Operation failed'
+                success : result.success
             });
 
             return await this.get(settings);

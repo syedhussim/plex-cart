@@ -88,23 +88,23 @@ class CreateProduct extends ConsoleController{
         }
 
         let product = {
-            id : post.id,
-            url : Util.url(post.name, 'product', post.sku),
-            name : post.name,
-            description : post.description,
-            price : Util.tryParseFloat(post.price),
-            taxable : Util.tryParseInt(post.taxable),
-            visibility : Util.tryParseInt(post.visibility),
-            sku : post.sku,
-            barcode : post.barcode,
-            quantity : Util.tryParseInt(post.quantity),
-            track_quantity : Util.tryParseInt(post.track_quantity),
+            id : post.get('id'),
+            url : Util.url(post.get('name'), 'product', post.get('sku')),
+            name : post.get('name'),
+            description : post.get('description'),
+            price : post.getFloat('price'),
+            taxable : post.getInt('taxable'),
+            visibility : post.getInt('visibility'),
+            sku : post.get('sku'),
+            barcode : post.get('name'),
+            quantity : post.getInt('quantity'),
+            track_quantity : post.getInt('track_quantity'),
             images : [],
             attributes : productAttributes
         };
 
         let productImagesRes = await this.db.collection('media')
-            .where('id', 'in', post.images)
+            .where('id', 'in', post.getArray('images'))
             .get();
         
         for(let image of productImagesRes){
@@ -123,7 +123,7 @@ class CreateProduct extends ConsoleController{
             new Validation.Required('SKU is required'),
             new Validation.MaxLength(40, 'SKU must not exceed @length characters')
         ]).add('price', product, [
-            new Validation.IsDecimal('Price is not valid'),
+            new Validation.IsFloat('Price is not valid'),
         ]).add('quantity', product, [
             new Validation.IsNumber('Quantity is not valid'),
         ]);
@@ -143,20 +143,16 @@ class CreateProduct extends ConsoleController{
         if(validator.isValid()){
 
             let result;
-            let action = '';
 
             if(post.id){
-                result = await this.db.collection('products').update(post.id, product);
-                action = 'Updated';
+                result = await this.db.collection('products').update(product.id, product);
             }else{
                 result = await this.db.collection('products').create(product);
-                action = 'Created';
             }
 
             this.request.flash({
-                message : `${action} product ${product.name}`,
-                success : result ? true : false,
-                error : 'Operation failed'
+                message : `Product details for ${product.name} have been updated`,
+                success : result.success,
             });
 
             return await this.get(post.id, product);
@@ -168,8 +164,8 @@ class CreateProduct extends ConsoleController{
     async delete(){
         let post = this.request.post();
 
-        if(post.product_id){
-            let result = await this.db.collection('products').delete(post.product_id);
+        if(post.get('product_id')){
+            let result = await this.db.collection('products').delete(post.get('product_id'));
 
             return {
                 success : result

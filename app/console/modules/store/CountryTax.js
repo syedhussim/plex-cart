@@ -105,7 +105,7 @@ class CountryTax extends ConsoleController{
 
             this.request.flash({
                 success : result.success,
-                message : `Tax details for ${country.name} has been updated.`,
+                message : `Tax details have been updated.`,
             });
         }
 

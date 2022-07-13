@@ -168,8 +168,9 @@ img { display: block; }
     top: 200px;
     right: 20px;
     bottom: 0px;
-    background-color: var(--color-1);
+    background-color: var(--color-4);
     border-left: 1px solid var(--color-3);
+    padding: 20px;
 }
 .app-side-container .inner-container{
     display:  flex;
@@ -184,7 +185,7 @@ img { display: block; }
     border-bottom: 1px solid var(--color-7);
     position: relative;
 }
-.data-row-selected, .data-row:hover{
+.data-row-active, .data-row-selected .data-row:hover{
     background-color: var(--color-7);
 }
 .data-row-selected::before {
@@ -229,11 +230,12 @@ img { display: block; }
     position: absolute;
     top: 100%;
     padding:0px;
-    box-shadow: 1px 7px 14px -5px rgba(0,0,0,0.90);
+    box-shadow: 0 0.5rem 1rem #a9afc4;
     border-radius : 4px;
     flex-direction: column;
     right:0px;
     transition : all .1s ease-out;
+    z-index: 999;
 }
 .dropdown-menu .menu-item {
     display : flex;

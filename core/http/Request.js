@@ -198,6 +198,16 @@ class Post{
         return 0;
     }
 
+    getArray(property){
+        if(this.hasOwnProperty(property)){
+            if(Array.isArray(this[property])){
+                return this[property];
+            }
+            return [ this[property] ];
+        }
+        return [];
+    }
+
     *entries(){
         let properties = Object.keys(this);
 
