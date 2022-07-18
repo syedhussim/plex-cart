@@ -1,4 +1,4 @@
-${ await include('catalog/products_list'); }
+{{ await include('catalog/products_list') }} }}
 
 <div class="app-container">
     <div class="app-content-container">
@@ -29,7 +29,7 @@ ${ await include('catalog/products_list'); }
                                     <p class="mn-0">Are you sure you want to delete this product?<p>
                                     <div class="dy-fx fx-jc-sb">
                                         <button type="button" class="cancel">Cancel</button>
-                                        <button type="button" class="delete" id="btnDeleteProduct" data-product_id="${product.id}">Delete</button>
+                                        <button type="button" class="delete" id="btnDeleteProduct" data-product_id="{{ product.id }}">Delete</button>
                                     </div>
                                 </div>
                             </div>
@@ -38,36 +38,36 @@ ${ await include('catalog/products_list'); }
                 </div>
 
                 <div class="mb-20">
-                    <label class="mb-5 dy-bk fw-700 ${errors.hasError('name', 'fc-9')}">${errors.get('name', 'Name')}</label>
-                    ${html.textbox('name', product)}
+                    <label class="mb-5 dy-bk fw-700 {{ errors.hasError ('name', 'fc-9') }}" >{{ errors.get('name', 'Name') }}</label>
+                    {{ html.textbox('name', product) }}
                 </div>
 
                 <div class="mb-20">
-                    <label class="mb-5 dy-bk fw-700 ${errors.hasError('description', 'fc-9')}">${errors.get('description', 'Description')}</label>
-                    <textarea name="description">${product.description}</textarea>
+                    <label class="mb-5 dy-bk fw-700 {{ errors.hasError('description', 'fc-9') }}">{{ errors.get('description', 'Description') }}</label>
+                    <textarea name="description">{{ product.description }}</textarea>
                 </div>
 
                 <div class="mb-20">
-                    <label class="mb-5 dy-bk fw-700 ${errors.hasError('price', 'fc-9')}">${errors.get('price', 'Price')}</label>
-                    ${html.textbox('price', product)}
+                    <label class="mb-5 dy-bk fw-700 {{ errors.hasError('price', 'fc-9') }}">{{ errors.get('price', 'Price') }}</label>
+                    {{ html.textbox('price', product) }}
                 </div>
 
                 <div class="mb-20">
-                    <label class="mb-5 dy-bk fw-700 ${errors.hasError('taxable', 'fc-9')}">${errors.get('taxable', 'Taxable')}</label>
-                    ${
+                    <label class="mb-5 dy-bk fw-700 {{ errors.hasError('taxable', 'fc-9') }}">{{ errors.get('taxable', 'Taxable') }}</label>
+                    {{ 
                         html.select('taxable', product)
                         .option('0', 'No')
                         .option('1', 'Yes')
-                    }
+                    }}
                 </div>
 
                 <div class="mb-20">
-                    <label class="mb-5 dy-bk fw-700 ${errors.hasError('visibility', 'fc-9')}">${errors.get('visibility', 'Visibility')}</label>
-                    ${
+                    <label class="mb-5 dy-bk fw-700 {{ errors.hasError('visibility', 'fc-9') }}">{{ errors.get('visibility', 'Visibility') }}</label>
+                    {{ 
                         html.select('visibility', product)
                         .option('1', 'Visible')
                         .option('0', 'Hidden')
-                    }
+                    }}
                 </div>
 
                 <div class="app-content-section">
@@ -77,27 +77,27 @@ ${ await include('catalog/products_list'); }
                 </div>
 
                 <div class="mb-20">
-                    <label class="mb-5 dy-bk fw-700 ${errors.hasError('sku', 'fc-9')}">${errors.get('sku', 'SKU')}</label>
-                    ${html.textbox('sku', product)}
+                    <label class="mb-5 dy-bk fw-700 {{ errors.hasError('sku', 'fc-9') }}">{{ errors.get('sku', 'SKU') }}</label>
+                    {{ html.textbox('sku', product) }}
                 </div>
 
                 <div class="mb-20">
-                    <label class="mb-5 dy-bk fw-700 ${errors.hasError('barcode', 'fc-9')}">${errors.get('barcode', 'Barcode')}</label>
-                    ${html.textbox('barcode', product)}
+                    <label class="mb-5 dy-bk fw-700 {{ errors.hasError('barcode', 'fc-9') }}">{{ errors.get('barcode', 'Barcode') }}</label>
+                    {{ html.textbox('barcode', product) }}
                 </div>
 
                 <div class="mb-20">
-                    <label class="mb-5 dy-bk fw-700 ${errors.hasError('quantity', 'fc-9')}">${errors.get('quantity', 'Quantity')}</label>
-                    ${html.textbox('quantity', product)}
+                    <label class="mb-5 dy-bk fw-700 {{ errors.hasError('quantity', 'fc-9') }}">{{ errors.get('quantity', 'Quantity') }}</label>
+                    {{ html.textbox('quantity', product) }}
                 </div>
 
                 <div class="mb-20">
-                    <label class="mb-5 dy-bk fw-700 ${errors.hasError('track_quantity', 'fc-9')}">${errors.get('track_quantity', 'Track Quantity')}</label>
-                    ${
+                    <label class="mb-5 dy-bk fw-700 {{ errors.hasError('track_quantity', 'fc-9') }}">{{ errors.get('track_quantity', 'Track Quantity') }}</label>
+                    {{ 
                         html.select('track_quantity', product)
                         .option('0', 'No')
                         .option('1', 'Yes')
-                    }
+                    }}
                 </div>
 
                 <div class="app-content-section">
@@ -106,34 +106,34 @@ ${ await include('catalog/products_list'); }
                     </div>
                 </div>
 
-                @{foreach attribute in attributes}
+                {% foreach attribute in attributes %}
                     <div class="mb-20">
-                        <label class="mb-5 dy-bk fw-700 ${errors.hasError('attr_' + attribute.property, 'fc-9')}">${errors.get('attr_' + attribute.property, attribute.name)}</label>
+                        <label class="mb-5 dy-bk fw-700 {{ errors.hasError('attr_' + attribute.property, 'fc-9') }}">{{ errors.get('attr_' + attribute.property, attribute.name) }}</label>
 
-                        @{if attribute.type == 'ATTR_TEXT'}
-                            ${html.textbox('attr_' + attribute.property, attribute.product_value).css('input-1')}
-                        @{/if}
+                        {% if attribute.type == 'ATTR_TEXT' %}
+                            {{ html.textbox('attr_' + attribute.property, attribute.product_value).css('input-1') }}
+                        {% /if %}       
 
-                        @{if attribute.type == 'ATTR_TEXTAREA'}
-                            ${html.textarea('attr_' + attribute.property, attribute.product_value).css('input-1')}
-                        @{/if}
+                        {% if attribute.type == 'ATTR_TEXTAREA' %}
+                            {{ html.textarea('attr_' + attribute.property, attribute.product_value).css('input-1') }}
+                        {% /if %}
 
-                        @{if attribute.type == 'ATTR_DATE'}
-                            ${html.date('attr_' + attribute.property, attribute.product_value).css('input-1')}
-                        @{/if}
+                        {% if attribute.type == 'ATTR_DATE' %}
+                            {{ html.date('attr_' + attribute.property, attribute.product_value).css('input-1') }}
+                        {% /if %}
 
-                        @{if attribute.type == 'ATTR_MENU'}
-                            ${
+                        {% if attribute.type == 'ATTR_MENU' %}
+                            {{ 
                                 html.select('attr_' + attribute.property, attribute.product_value)
                                 .option('', '')
                                 .fromArray(attribute.menu_items)
-                            }
-                        @{/if}
+                             }}
+                        {% /if %}
                     </div>
-                @{/foreach}
+                {% /foreach %}
 
                 <div class="mb-20 dy-fx">
-                    <input type="hidden" value="${product.id}" name="id" />
+                    <input type="hidden" value="{{ product.id }}" name="id" />
                     <button type="submit" class="btn-commit">Save</button>
                 </div>
             </div>
@@ -192,130 +192,3 @@ ${ await include('catalog/products_list'); }
     </div>
 </template>
 
-<script type="text/javascript">
-
-    class App extends AppBase{
-
-        mount(){
-            this.productImages = new Map(${JSON.stringify(product.images)}.map(obj => [obj.id, obj]));
-
-            this.click('#productMenu', () => {
-
-                event.stopPropagation();
-
-                let e = document.querySelector('#productContextMenu');
-                let list = e.classList;
-
-                if(list.contains('dy-ne')){
-                    list.remove('dy-ne');
-                    list.add('dy-fx');
-                }else{
-                    list.remove('dy-fx');
-                    list.add('dy-ne');
-                }
-            });
-
-            this.click('#confirmDelete', () => {
-
-                event.stopPropagation();
-
-                let e = document.querySelector('#deleteMsg')
-                e.classList.remove('dy-ne');
-                e.classList.add('dy-fx');
-
-                let ctxMenu = document.querySelector('#productContextMenu')
-                ctxMenu.classList.remove('wh-200-px');
-                ctxMenu.classList.add('wh-300-px');
-            });
-
-            this.click('#btnAssetPanel', async () => {
-
-                let e = document.querySelector('#assetPanel');
-                e.classList.add('dy-fx');
-
-                document.querySelector('#assetList').replaceChildren();
-
-                let response = await fetch('/media/library.json');
-
-                let result = await response.json();
-
-                for(let item of result.data){
-                    item.img = '/' + item.name;
-                    item.image_size = item.image_size.join(' x ');
-                    item.selected = this.productImages.has(item.id);
-
-                    this.render('assetList', 'item', item, {
-                        loaded : (template) => {
-
-                            let imageRow = template.querySelector('.image-row');
-
-                            imageRow.addEventListener('click', () => {
-                                if(this.productImages.has(imageRow.dataset.image_id)){
-
-                                    let e = imageRow.querySelector('.tick');
-                                    e.classList.add('dy-ne');
-                                    e.classList.remove('symbol-green');
-
-                                    this.productImages.delete(imageRow.dataset.image_id);
-                                }else{
-
-                                    let e = imageRow.querySelector('.tick');
-                                    e.classList.remove('dy-ne');
-                                    e.classList.add('symbol-green');
-
-                                    this.productImages.set(imageRow.dataset.image_id, {
-                                        id : imageRow.dataset.image_id,
-                                        name : imageRow.dataset.image,
-                                        img : '/' + imageRow.dataset.image,
-                                        image_size : imageRow.dataset.image_size
-                                    });
-                                }
-                                
-                                this.renderProductImages();
-                            });
-
-                            if(item.selected){
-                                let e = template.querySelector('.tick');
-                                e.classList.remove('dy-ne');
-                                e.classList.add('symbol-green');
-                            }
-                        }
-                    });
-                }
-            });
-
-            this.click('#btnDeleteProduct', async (sender) => {
-
-                let id = sender.dataset.product_id;
-
-                let response = await fetch('/catalog/products/create', {
-                    method : 'DELETE',
-                    headers: {
-                        'Content-type': 'application/json;charset=UTF-8'
-                    },
-                    body : JSON.stringify({ product_id : id })
-                });
-
-                let result = await response.json();
-
-                if(result.success){
-                    window.location = '/catalog/products';
-                }
-            });
-
-            this.renderProductImages();
-        }
-
-        renderProductImages(){
-
-            document.querySelector('#productImages').replaceChildren();
-
-            for(let [id,image] of this.productImages){
-                this.render('productImages', 'productThumb', image);
-            }
-        }
-    }
-
-    new App();
-
-</script>

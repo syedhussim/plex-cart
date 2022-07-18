@@ -1,15 +1,32 @@
 const Application = require('../../core/Application');
-const Routes = require('../../core/Routes');
+const DatabaseEngine = require('../../core/data/DatabaseEngine');
 
 class App extends Application{
 
-    async load(request, response){
+    async load(){
 
-        let routes = new Routes();
-        routes.add('/home', '/Home/Inde');
-        routes.add('*', 'core/http/NotFoundController');
+        this._registerDynamicRoute();
 
-        await this.run(routes, request, response);
+        this.routes.add('/basket', 'app/store/modules/basket/View');
+
+        this.dependencies({
+            db : DatabaseEngine.create(this.config.db, this.appStorage)
+        });
+    }
+
+    _registerDynamicRoute(){
+
+        let url = this.request.url().pathname();
+
+        let [type] = url.toLowerCase().split('/').filter(seg => seg.length > 0);
+        
+        if(type){
+            switch(type){
+                case 'product':
+                    this.routes.add(url, 'app/store/modules/catalog/Product');
+                    break;
+            }
+        }
     }
 
     async error(e){

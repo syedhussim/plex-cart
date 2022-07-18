@@ -33,14 +33,14 @@ class Server{
                 await app.run();
 
                 if(!response.flushed()){
-                    response.html('404 - Not found', 404)
+                    response.html('404 - Not found', 404);
                 }
 
             }catch(e){
                 await app.error(e);
 
                 if(!response.flushed()){
-                    response.html('500 - Internal server error', 500)
+                    response.html('500 - Internal server error', 500);
                 }
             }
         }

@@ -9,7 +9,7 @@ class Application{
         this._request = request;
         this._response = response;
         this._routes = new Routes();
-        this.__dependencies = {};
+        this._dependencies = {};
     }
 
     get root(){

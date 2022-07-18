@@ -1,7 +1,4 @@
 {
-    "app" : { 
-        "theme" : "omega"
-    },
     "db" : {
         "driver" : "json",
         "path" : "/home/syed/Desktop/plex-data",

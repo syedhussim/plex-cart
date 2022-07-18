@@ -1,3 +1,18 @@
 {
-    "theme" : "alpha"
+    "db" : {
+        "driver" : "json",
+        "path" : "/home/syed/Desktop/plex-data",
+        "cache" : false
+    },
+    "session" : {
+        "name" : "_plx_id",
+        "path" : "/",
+        "secure" : false,
+        "samesite" :  "None",
+        "dev" : true
+    },
+
+    "middleware" : [
+        "lib.middleware.Test"
+    ]
 }

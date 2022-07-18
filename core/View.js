@@ -57,8 +57,8 @@ class View{
             let ch =  string[i];
             let nc = string[i + 1] || false;
 
-            if((ch == '$' || ch == '@') && nc == '{'){
-                codeType = (ch == '$') ? 'VARIABLE' : 'CODE';
+            if((ch == '{' && nc == '%') || (ch == '{' && nc == '{')){
+                codeType = (ch == '{' && nc == '{') ? 'VARIABLE' : 'CODE';
                 tokens.push({
                     type : 'STRING',
                     value : token
@@ -70,7 +70,7 @@ class View{
                 continue;
             }
 
-            if(ch == '}' && codeBlock){
+            if((ch == '%' && nc == '}') || (ch == '}' && nc == '}') && codeBlock){
                 tokens.push({
                     type : codeType,
                     value : token
@@ -78,6 +78,7 @@ class View{
 
                 token = '';
                 codeBlock = false;
+                i++;
                 continue;
             }
 
@@ -97,7 +98,7 @@ class View{
                     output += "out +=`" + token.value + "`;"
                     break;
                 case 'VARIABLE':
-                    output += "out +=" + token.value + ";"
+                    output += "out +=" + this._parseVariable(token.value) + ";"
                     break;
                 case 'CODE': 
                     output += this._processCode(token.value);
@@ -113,19 +114,18 @@ class View{
             let view = new View(this._viewDir);
             return await view.render(file, params);
         };
-        params['equals'] = function(str1, str2, str3 = null, str4 = null){
-            if(str1 == str2){
-                if(str3 == null){
-                    return true;
-                }
-                return str3;
-            }
 
-            if(str4 == null){
-                return false;
-            }
-            return str4;
-        }
+        params['trim'] = function(str){
+            return str.trim()
+        };
+
+        params['upper'] = function(str){
+            return str.toUpperCase();
+        };
+
+        params['lower'] = function(str){
+            return str.toLowerCase();
+        };
 
         let keys = [];
         let vals = []; 
@@ -142,8 +142,38 @@ class View{
         return await func(...vals);
     }
 
+    _parseVariable(tokenValue){
+
+        if(tokenValue.indexOf('|') > -1){
+            let [variable, ...funcs] = tokenValue.split('|').map(i => i.trim());
+
+            if(funcs.length > 0){
+
+                let x = function(str, funcs, idx){
+
+
+                    str = funcs[idx] + '(' + str + ')';
+
+                    idx++;
+
+                    if(idx < funcs.length){
+                        return x(str, funcs, idx);
+                    }
+
+                    return str;
+                };
+
+                let y = x(variable, funcs, 0);
+
+                return y;
+            }
+        }
+
+        return tokenValue;
+    }
+
     _processCode(blockToken){
-        let tokens = blockToken.split(' ');
+        let tokens = blockToken.trim().split(' ');
 
         switch(tokens[0]){
             case 'if':  

@@ -1,7 +1,7 @@
-${ await include('catalog/products_list'); }
+{{ await include('catalog/products_list') }}
 
 <div class="app-container fx-jc-cr fx-ai-cr">
    
-ssss
+ssss ccc
 
 </div>

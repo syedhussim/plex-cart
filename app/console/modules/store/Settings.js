@@ -29,6 +29,7 @@ class Settings extends ConsoleController{
         
         let settings = {
             name : post.get('name'),
+            url : post.get('url'),
             admin_email : post.get('admin_email'),
             currency : post.get('currency'),
             locale : post.get('locale'),
@@ -38,6 +39,8 @@ class Settings extends ConsoleController{
         validator.add('name', settings, [
             new Validation.Required('Name is required'),
             new Validation.MaxLength(50, 'Name must not exceed @length characters')
+        ]).add('url', settings, [
+            new Validation.Required('Store URL is required'),
         ]).add('admin_email', settings, [
             new Validation.Required('Admin Email is required'),
         ]).add('currency', settings, [

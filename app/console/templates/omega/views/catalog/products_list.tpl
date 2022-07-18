@@ -35,38 +35,27 @@
     </div>
 
     <div class="container">
-        @{foreach productRow in products} 
-            <div class="data-row ${equals(product.id, productRow.id, 'data-row-selected')}" >
+        {% foreach productRow in products %}
+            <div class="data-row {{ product.id == productRow.id ? 'data-row-selected' : '' }}" >
                 <div class="dy-fx pl-20 pr-15">
                     <div class="dy-fx minw-80-px fx-jc-cr" style="border:2px solid #dbe1f9; background-color:#fff; height:80px; border-radius:4px; ">
                         <img src="/omega/public/images/camera.svg" class="wh-40-px" />
                     </div>
                 </div>
                 <div class="wh-100-pc pt-15 pb-15 pr-15">
-                    <a href="/catalog/products/create?pid=${productRow.id}" class="fs-18 fw-500">${productRow.sku}</a>
-                    <div class="fs-13 fc-6 mt-5">${productRow.name}</div>
+                    <div>
+                        <a href="/catalog/products/create?pid={{ productRow.id }}" class="fs-18 fw-500">{{ productRow.sku }}</a>
+                    </div>
+                    <div>
+                        <a href="{{ store.url }}{{ productRow.url }}" class="fs-13 fc-6 mt-5" target="_blank">{{ productRow.name }}</a>
+                    </div>
                     <div class="fx mt-10">
                         <span class="attr-orange">Visible</span>
-                        <span class="attr-green">${productRow.quantity}</span>
+                        <span class="attr-green">{{ productRow.quantity }}</span>
                     </div>
                 </div>
-                <div class="minw-100-px dy-fx pr-20 fx-jc-fe fs-16">${productRow.price}</div>
+                <div class="minw-100-px dy-fx pr-20 fx-jc-fe fs-16">{{ productRow.price }}</div>
             </div>
-        @{/foreach}
+        {% /foreach %}
     </div>
 </div>
-
-<script type="text/javascript">
-    function toggleCatalogMenu(){
-        let e = document.querySelector('#catalogMenu');
-
-        if(e.classList.contains('dy-ne')){
-            e.classList.remove('dy-ne');
-            e.classList.add('dy-fx');
-        }else{
-            e.classList.remove('dy-fx');
-            e.classList.add('dy-ne');
-        }
-        event.stopPropagation();
-    }
-</script>
