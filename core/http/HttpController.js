@@ -4,6 +4,8 @@ class HttpController extends Controller{
 
     async load(){}
 
+    async unload(){}
+
     async get(){}
 
     async post(){}
@@ -16,14 +18,23 @@ class HttpController extends Controller{
 
         let params = this.request.query().values();
 
+        let result;
+
         switch(this.request.method()){
             case 'GET':
-                return await this.get(...params);
+                result = await this.get(...params);
+                break;
             case 'POST': 
-                return await this.post(...params);
+                result = await this.post(...params);
+                break;
             case 'DELETE': 
-                return await this.delete(...params);
+                result = await this.delete(...params);
+                break;
         }
+
+        await this.unload();
+
+        return result;
     }
 }
 

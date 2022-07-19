@@ -192,3 +192,131 @@
     </div>
 </template>
 
+<script type="text/javascript">
+
+    class App extends AppBase{
+
+        mount(){
+            this.productImages = new Map({{JSON.stringify(product.images)}}.map(obj => [obj.id, obj]));
+
+            this.click('#productMenu', () => {
+
+                event.stopPropagation();
+
+                let e = document.querySelector('#productContextMenu');
+                let list = e.classList;
+
+                if(list.contains('dy-ne')){
+                    list.remove('dy-ne');
+                    list.add('dy-fx');
+                }else{
+                    list.remove('dy-fx');
+                    list.add('dy-ne');
+                }
+            });
+
+            this.click('#confirmDelete', () => {
+
+                event.stopPropagation();
+
+                let e = document.querySelector('#deleteMsg')
+                e.classList.remove('dy-ne');
+                e.classList.add('dy-fx');
+
+                let ctxMenu = document.querySelector('#productContextMenu')
+                ctxMenu.classList.remove('wh-200-px');
+                ctxMenu.classList.add('wh-300-px');
+            });
+
+            this.click('#btnAssetPanel', async () => {
+
+                let e = document.querySelector('#assetPanel');
+                e.classList.add('dy-fx');
+
+                document.querySelector('#assetList').replaceChildren();
+
+                let response = await fetch('/media/library.json');
+
+                let result = await response.json();
+
+                for(let item of result.data){
+                    item.img = '/' + item.name;
+                    item.image_size = item.image_size.join(' x ');
+                    item.selected = this.productImages.has(item.id);
+
+                    this.render('assetList', 'item', item, {
+                        loaded : (template) => {
+
+                            let imageRow = template.querySelector('.image-row');
+
+                            imageRow.addEventListener('click', () => {
+                                if(this.productImages.has(imageRow.dataset.image_id)){
+
+                                    let e = imageRow.querySelector('.tick');
+                                    e.classList.add('dy-ne');
+                                    e.classList.remove('symbol-green');
+
+                                    this.productImages.delete(imageRow.dataset.image_id);
+                                }else{
+
+                                    let e = imageRow.querySelector('.tick');
+                                    e.classList.remove('dy-ne');
+                                    e.classList.add('symbol-green');
+
+                                    this.productImages.set(imageRow.dataset.image_id, {
+                                        id : imageRow.dataset.image_id,
+                                        name : imageRow.dataset.image,
+                                        img : '/' + imageRow.dataset.image,
+                                        image_size : imageRow.dataset.image_size
+                                    });
+                                }
+                                
+                                this.renderProductImages();
+                            });
+
+                            if(item.selected){
+                                let e = template.querySelector('.tick');
+                                e.classList.remove('dy-ne');
+                                e.classList.add('symbol-green');
+                            }
+                        }
+                    });
+                }
+            });
+
+            this.click('#btnDeleteProduct', async (sender) => {
+
+                let id = sender.dataset.product_id;
+
+                let response = await fetch('/catalog/products/create', {
+                    method : 'DELETE',
+                    headers: {
+                        'Content-type': 'application/json;charset=UTF-8'
+                    },
+                    body : JSON.stringify({ product_id : id })
+                });
+
+                let result = await response.json();
+
+                if(result.success){
+                    window.location = '/catalog/products';
+                }
+            });
+
+            this.renderProductImages();
+        }
+
+        renderProductImages(){
+
+            document.querySelector('#productImages').replaceChildren();
+
+            for(let [id,image] of this.productImages){
+                this.render('productImages', 'productThumb', image);
+            }
+        }
+    }
+
+    new App();
+
+</script>
+

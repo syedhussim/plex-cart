@@ -4,7 +4,6 @@ class Response{
         this._httpCode = 200;
         this._headers = {};
         this._cookies = new Map();
-        this._cookieOptions = {};
         this._output = '';
         this._flushed = false;
     }
@@ -12,10 +11,6 @@ class Response{
     httpCode(code){
         this._httpCode = code;
         return this;
-    }
-
-    cookieOptions(options = {}){
-        this._cookieOptions = options;
     }
 
     cookies(){
@@ -66,8 +61,6 @@ class Response{
         let cookieHeader = '';
 
         for(let [cookieName, cookie] of this._cookies){
-
-            let strCookieOptions = '';
 
             if(cookie instanceof Object){
                 cookieHeader += `${cookieName}=${cookie.value};path=${cookie.path}; HttpOnly; SameSite=${cookie.samesite};${cookie.secure ? 'Secure' : ''};`;

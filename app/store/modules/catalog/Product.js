@@ -10,7 +10,8 @@ class Product extends StoreController{
 
         if(!productsRes.empty()){
 
-            if(this.models.has('product')){
+            if(this.models.has('product')){ 
+
                 let model = req(this.models.get('product'));
                 let product = new model(productsRes.first());
 

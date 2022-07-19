@@ -8,7 +8,15 @@ class View extends StoreController{
     }
 
     async post(){
-        console.log('ok')
+        
+        let post = this.request.post();
+        
+        let item = {
+            id : post.get('id'),
+            quantity : post.getInt('quantity')
+        };
+
+        this.basket.add(item);
     }
 }
 
