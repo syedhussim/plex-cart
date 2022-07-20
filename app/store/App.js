@@ -8,6 +8,7 @@ class App extends Application{
         this._registerDynamicRoute();
 
         this.routes.add('/basket', 'app/store/modules/basket/View');
+        this.routes.add('/basket/checkout/shipping', 'app/store/modules/basket/Shipping');
 
         this.dependencies({
             db : DatabaseEngine.create(this.config.db, this.appStorage)

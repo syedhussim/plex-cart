@@ -25,6 +25,8 @@ class Textbox{
         this._type = type;
         this._classname = '';
 
+        value = value || '';
+
         if(value instanceof Object){
             value = value[name] != null ? value[name] : '';
         }

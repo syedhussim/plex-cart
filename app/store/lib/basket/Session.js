@@ -1,5 +1,3 @@
-const Item = req('app.store.lib.basket.Item');
-
 class Session{
 
     constructor(config, request, response, db, models){
@@ -9,7 +7,7 @@ class Session{
         this._response = response;
         this._db = db;
         this._productModel = req(models.get('product'));;
-        this._session = [];
+        this._session = { items : [], voucher :  '' };
 
         if(request.cookies().has(config.name)){
             try{
@@ -20,7 +18,11 @@ class Session{
 
     async refresh(){
 
-        let cartItemIds = this._session.map(i => { return i.id });
+        this._subtotal = 0;
+        this._discount = 0;
+        this._total = 0;
+
+        let cartItemIds = this._session.items.map(i => { return i.id });
         
         let products = await this._db.collection('products')
             .where('id', 'in', cartItemIds)
@@ -28,21 +30,26 @@ class Session{
 
         for(let product of products){
 
-            for(let i=0; i < this._session.length; i++){
+            for(let i=0; i < this._session.items.length; i++){
 
-                if(this._session[i].id == product.id){
-                    this._session[i] = new Item(new this._productModel(product), this._session[i].quantity);
+                if(this._session.items[i].id == product.id){
+
+                    this._session.items[i].product = new this._productModel(product);
+                    this._session.items[i].line_total = this._session.items[i].quantity * this._session.items[i].product.price;
+                    
+                    this._subtotal += this._session.items[i].line_total;
                     break;
                 }
             }
         }
-        console.log(this._session);
+
+        this._total = this._subtotal - this._discount;
     }
 
     add(item){
         let found = false;
 
-        for(let cartItem of this._session){ 
+        for(let cartItem of this._session.items){ 
             if(cartItem.id == item.id){
                 cartItem.quantity += item.quantity;
                 found = true;
@@ -51,17 +58,50 @@ class Session{
         }
 
         if(!found){
-            this._session.push(item);
+            this._session.items.push(item);
         }
+
+        this.save();
+    }
+
+    subtotal(){
+        return this._subtotal;
+    }
+
+    discount(){
+        return this._discount;
+    }
+
+    total(){
+        return this._total;
     }
 
     save(){
-        // this._response.cookies().set(this._config.name, {
-        //     secure : this._config.secure,
-        //     samesite : this._config.samesite,
-        //     path : '/',
-        //     value : JSON.stringify(this._session)
-        // });
+
+        let data = {
+            items : [],
+            voucher : ''
+        };
+
+        for(let item of this._session.items){
+            data.items.push({
+                id : item.id,
+                quantity : item.quantity
+            });
+        }
+
+        this._response.cookies().set(this._config.name, {
+            secure : this._config.secure,
+            samesite : this._config.samesite,
+            path : '/',
+            value : JSON.stringify(data)
+        });
+    }
+
+    *[Symbol.iterator](){
+        for(let item of this._session.items){
+            yield item;
+        }
     }
 }
 

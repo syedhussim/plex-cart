@@ -4,7 +4,8 @@ class View extends StoreController{
 
     async get(){
         
-
+        return this.view.render('basket/view', {
+        });
     }
 
     async post(){
