@@ -4,6 +4,10 @@ class WebRequest{
         return WebRequest._request(options, null);
     }
 
+    static async post(options, data = {}){ 
+        return WebRequest._request(options, data);
+    }
+
     static async _request(options = {}, postData = null){
 
         let client = options.port == 443 ? require('https') : require('http');

@@ -5,6 +5,7 @@ class Response{
         this._headers = {};
         this._cookies = new Map();
         this._output = '';
+        this._redirectLocation = '';
         this._flushed = false;
     }
 
@@ -46,6 +47,12 @@ class Response{
             this.httpCode(httpCode);
         }
         this.contentType('text/html').write(string).flush();
+    }
+
+     redirect(location, code = 302){
+        this._redirectLocation = location;
+        this.httpCode(code);
+        this.flush();
     }
 
     flushed(){

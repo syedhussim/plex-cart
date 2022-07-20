@@ -6,6 +6,8 @@ class App extends Application{
 
     async load(){
 
+        this.routes.add('/sales/orders', 'app/console/modules/sales/Orders');
+
         this.routes.add('/catalog/products', 'app/console/modules/catalog/Products');
         this.routes.add('/catalog/products/create', 'app/console/modules/catalog/CreateProduct');
         this.routes.add('/catalog/attributes', 'app/console/modules/catalog/Attributes');
