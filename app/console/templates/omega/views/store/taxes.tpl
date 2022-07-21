@@ -1,4 +1,4 @@
-${ await include('store/menu'); }
+{{  await include('store/menu') }}
 
 <div class="app-container">
     <div class="app-content-container">
@@ -10,15 +10,15 @@ ${ await include('store/menu'); }
                     </div>
                 </div>
 
-                @{foreach country in countries}
+                {% foreach country in countries %}
                     <div class="data-row country">
                         <div class="wh-100-pc pl-15 pt-15 pb-15 pr-15">
                             <div class="fs-18 fw-500">
-                                <a href="/store/taxes/country?id=${country.id}">${country.name}</a>
+                                <a href="/store/taxes/country?id={{ country.id }}">{{ country.name }}</a>
                             </div>
                         </div>
                     </div>
-                @{/foreach}
+                {% /foreach %}
             </div>
         </form>
     </div>
