@@ -6,16 +6,19 @@ class CreateProduct extends ConsoleController{
 
     async get(pid = null, product = null, errors = new Validation.ValidatorErrors()){ 
 
-        let products = await this.db.collection('products').limit(20,0).get();
+        let products = await this.db.collection('products')
+            .limit(20,0)
+            .sort('created_time', 'DESC')
+            .get();
 
         if(!product){
             product = await this.db.collection('products').find(pid, {
                 id : '',
+                active : 0,
                 name : '',
                 description : '',
                 price : 0,
                 taxable : 0,
-                visibility : 1,
                 sku : '',
                 barcode : '',
                 quantity : 0,
@@ -41,7 +44,7 @@ class CreateProduct extends ConsoleController{
                 attribute.product_value = '';
             }
 
-            if(['ATTR_MENU', 'ATTR_MULTI_MENU'].includes(attribute.type)){
+            if(attribute.type == 'ATTR_MENU'){
                 attribute.menu_items = attribute.menu_items.split("\n").map(v => { return v.trim() });
             }
 
@@ -89,14 +92,14 @@ class CreateProduct extends ConsoleController{
 
         let product = {
             id : post.get('id'),
+            active : post.getInt('active'),
             url : Util.url(post.get('name'), 'product', post.get('sku')),
             name : post.get('name'),
             description : post.get('description'),
             price : post.getFloat('price'),
             taxable : post.getInt('taxable'),
-            visibility : post.getInt('visibility'),
             sku : post.get('sku'),
-            barcode : post.get('name'),
+            barcode : post.get('barcode'),
             quantity : post.getInt('quantity'),
             track_quantity : post.getInt('track_quantity'),
             images : [],
@@ -164,12 +167,12 @@ class CreateProduct extends ConsoleController{
     async delete(){
         let post = this.request.post();
 
-        if(post.get('product_id')){
-            let result = await this.db.collection('products').delete(post.get('product_id'));
+        if(post.has('id')){
+            
+            let id = post.get('id');
+            let result = await this.db.collection('products').delete(id);
 
-            return {
-                success : result
-            }
+            return result;
         }
 
         return {

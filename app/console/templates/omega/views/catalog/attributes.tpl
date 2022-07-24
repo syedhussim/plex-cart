@@ -1,9 +1,14 @@
-${ await include('catalog/attributes_list'); }
+{{ await include('catalog/attributes_list') }}
 
-<div class="dy-fx fx-fd-cn wh-100-pc fx-fx-maxc pl-20 pr-20" style="background-color: var(--color-3);">
-    <div class="dy-fx fx-fd-cn wh-100-pc pt-25 pb-25">
-        <div class="pt-10 pb-10 mb-30 bb-cr-1-2px">
-            <h3>Attributes</h3>
-        </div>
+<div class="{{ attributes.empty() ? 'app-container-full' : 'app-container' }} fx-jc-cr fx-ai-cr">
+   
+    <div class="dy-fx fx-fd-cn fx-ai-cr">
+        <h1>Catalog Attributes</h1>
+        {% if attributes.empty() %}
+            <p class="fs-18 fw-500">Create attributes to add dynamic properties to product data.</p>
+            <a href="/catalog/attributes/create" class="btn-commit maxw-200-px">Create Attribute</a>
+        {% else %}
+            <p class="fs-18 fw-500">Click an attribute to view and edit details.</p>
+        {% /if %}
     </div>
 </div>

@@ -1,40 +1,50 @@
-{{ await include('catalog/products_list') }} }}
+{{ await include('catalog/products_list') }}
 
-<div class="app-container">
+<div class="{{ products.empty() ? 'app-container-full' : 'app-container' }}">
     <div class="app-content-container">
         <form method="post">
             <div class="app-content-left-panel">
                 <div class="app-content-header">
                     <div class="inner-header">
-                        <h4 class="fw-700">Product</h4>
-
-                        <div class="dy-fx pn-re">
-                            <span class="btn-action" id="productMenu"><i class="ico-eclipse"></i></span>
-                            <div class="dropdown-menu wh-200-px dy-ne" id="productContextMenu">
-                                <div class="menu-item">
-                                    <i class="ico-copy mr-10 minw-30-px"></i>
-                                    <span onclick="copy(event)">Copy</span>
-                                </div>
-                                <div class="menu-item">
-                                    <i class="ico-paste mr-10 minw-30-px"></i>
-                                    <span onclick="alert('paste')">Paste</span>
-                                </div>
-                                <div class="menu-item" id="confirmDelete">
-                                    <i class="ico-trash mr-10 minw-30-px"></i>
-                                    <div class="dy-fx fx-fd-cn">
-                                        <span>Delete</span>
+                        <h4>Product</h4>
+                        {% if product.id %}
+                            <div class="dy-fx pn-re">
+                                <span class="btn-action" id="productMenu"><i class="ico-eclipse"></i></span>
+                                <div class="dropdown-menu wh-200-px dy-ne" id="productContextMenu">
+                                    <a class="menu-item" href="{{ store.url }}{{ product.url }}" target="_blank">
+                                        <i class="ico-open-window mr-10 minw-30-px"></i>
+                                        <div class="dy-fx fx-fd-cn">
+                                            <span>Store View</span>
+                                        </div>
+                                    </a>
+                                    <div class="menu-item" id="btnCloneProduct" data-product_id="{{ product.id }}">
+                                        <i class="ico-copy mr-10 minw-30-px"></i>
+                                        <div class="dy-fx fx-fd-cn">
+                                            <span>Clone</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="dy-ne fx-fd-cn pg-15 bg-7" id="deleteMsg">
-                                    <p class="mn-0">Are you sure you want to delete this product?<p>
-                                    <div class="dy-fx fx-jc-sb">
-                                        <button type="button" class="cancel">Cancel</button>
-                                        <button type="button" class="delete" id="btnDeleteProduct" data-product_id="{{ product.id }}">Delete</button>
+                                    <div class="menu-item" id="btnConfirmDeleteProduct">
+                                        <i class="ico-trash mr-10 minw-30-px"></i>
+                                        <div class="dy-fx fx-fd-cn">
+                                            <span>Delete</span>
+                                        </div>
+                                    </div>
+                                    <div class="dy-ne fx-fd-cn pg-15 bg-7" id="deleteMsg">
+                                        <p class="mn-0">Are you sure you want to delete this product?<p>
+                                        <div class="dy-fx fx-jc-sb">
+                                            <button type="button" class="btn-cancel">Cancel</button>
+                                            <button type="button" class="btn-delete" id="btnDeleteProduct" data-product_id="{{ product.id }}">Delete</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        {% /if %}
                     </div>
+                </div>
+
+                <div class="dy-fx fx-jc-fe mb-20">
+                    <input type="checkbox" id="chk_{{ product.id }}" value="1" name="active" {{ product.active == 1 ? 'checked' : '' }}>
+                    <label for="chk_{{ product.id }}"></label>
                 </div>
 
                 <div class="mb-20">
@@ -44,7 +54,7 @@
 
                 <div class="mb-20">
                     <label class="mb-5 dy-bk fw-700 {{ errors.hasError('description', 'fc-9') }}">{{ errors.get('description', 'Description') }}</label>
-                    <textarea name="description">{{ product.description }}</textarea>
+                    {{ html.textarea('description', product).css('ht-100-px') }}</textarea>
                 </div>
 
                 <div class="mb-20">
@@ -58,15 +68,6 @@
                         html.select('taxable', product)
                         .option('0', 'No')
                         .option('1', 'Yes')
-                    }}
-                </div>
-
-                <div class="mb-20">
-                    <label class="mb-5 dy-bk fw-700 {{ errors.hasError('visibility', 'fc-9') }}">{{ errors.get('visibility', 'Visibility') }}</label>
-                    {{ 
-                        html.select('visibility', product)
-                        .option('1', 'Visible')
-                        .option('0', 'Hidden')
                     }}
                 </div>
 
@@ -100,37 +101,40 @@
                     }}
                 </div>
 
-                <div class="app-content-section">
-                    <div class="inner-section">
-                        <h4 class="fw-700">Attributes</h4>
+                {% if attributes.length > 0 %}
+
+                    <div class="app-content-section">
+                        <div class="inner-section">
+                            <h4 class="fw-700">Attributes</h4>
+                        </div>
                     </div>
-                </div>
 
-                {% foreach attribute in attributes %}
-                    <div class="mb-20">
-                        <label class="mb-5 dy-bk fw-700 {{ errors.hasError('attr_' + attribute.property, 'fc-9') }}">{{ errors.get('attr_' + attribute.property, attribute.name) }}</label>
+                    {% foreach attribute in attributes %}
+                        <div class="mb-20">
+                            <label class="mb-5 dy-bk fw-700 {{ errors.hasError('attr_' + attribute.property, 'fc-9') }}">{{ errors.get('attr_' + attribute.property, attribute.name) }}</label>
 
-                        {% if attribute.type == 'ATTR_TEXT' %}
-                            {{ html.textbox('attr_' + attribute.property, attribute.product_value).css('input-1') }}
-                        {% /if %}       
+                            {% if attribute.type == 'ATTR_TEXT' %}
+                                {{ html.textbox('attr_' + attribute.property, attribute.product_value).css('input-1') }}
+                            {% /if %}       
 
-                        {% if attribute.type == 'ATTR_TEXTAREA' %}
-                            {{ html.textarea('attr_' + attribute.property, attribute.product_value).css('input-1') }}
-                        {% /if %}
+                            {% if attribute.type == 'ATTR_TEXTAREA' %}
+                                {{ html.textarea('attr_' + attribute.property, attribute.product_value).css('input-1') }}
+                            {% /if %}
 
-                        {% if attribute.type == 'ATTR_DATE' %}
-                            {{ html.date('attr_' + attribute.property, attribute.product_value).css('input-1') }}
-                        {% /if %}
+                            {% if attribute.type == 'ATTR_DATE' %}
+                                {{ html.date('attr_' + attribute.property, attribute.product_value).css('input-1') }}
+                            {% /if %}
 
-                        {% if attribute.type == 'ATTR_MENU' %}
-                            {{ 
-                                html.select('attr_' + attribute.property, attribute.product_value)
-                                .option('', '')
-                                .fromArray(attribute.menu_items)
-                             }}
-                        {% /if %}
-                    </div>
-                {% /foreach %}
+                            {% if attribute.type == 'ATTR_MENU' %}
+                                {{ 
+                                    html.select('attr_' + attribute.property, attribute.product_value)
+                                    .option('', '')
+                                    .fromArray(attribute.menu_items)
+                                }}
+                            {% /if %}
+                        </div>
+                    {% /foreach %}
+                {% /if %}
 
                 <div class="mb-20 dy-fx">
                     <input type="hidden" value="{{ product.id }}" name="id" />
@@ -215,17 +219,22 @@
                 }
             });
 
-            this.click('#confirmDelete', () => {
+            this.click('#btnCloneProduct', async(sender) => {
 
-                event.stopPropagation();
+                let response = await fetch('/catalog/products/clone', {
+                    method : 'POST',
+                    headers: {
+                        'Content-type': 'application/json;charset=UTF-8'
+                    },
+                    body : JSON.stringify({ id : sender.dataset.product_id })
+                });
 
-                let e = document.querySelector('#deleteMsg')
-                e.classList.remove('dy-ne');
-                e.classList.add('dy-fx');
+                let result = await response.json();
 
-                let ctxMenu = document.querySelector('#productContextMenu')
-                ctxMenu.classList.remove('wh-200-px');
-                ctxMenu.classList.add('wh-300-px');
+                if(result.success){
+                    window.location = '/catalog/products/create?pid=' + result.id;
+                }
+                
             });
 
             this.click('#btnAssetPanel', async () => {
@@ -284,16 +293,27 @@
                 }
             });
 
-            this.click('#btnDeleteProduct', async (sender) => {
+            this.click('#btnConfirmDeleteProduct', () => {
 
-                let id = sender.dataset.product_id;
+                event.stopPropagation();
+
+                let e = document.querySelector('#deleteMsg')
+                e.classList.remove('dy-ne');
+                e.classList.add('dy-fx');
+
+                let ctxMenu = document.querySelector('#productContextMenu')
+                ctxMenu.classList.remove('wh-200-px');
+                ctxMenu.classList.add('wh-300-px');
+            });
+
+            this.click('#btnDeleteProduct', async (sender) => {
 
                 let response = await fetch('/catalog/products/create', {
                     method : 'DELETE',
                     headers: {
                         'Content-type': 'application/json;charset=UTF-8'
                     },
-                    body : JSON.stringify({ product_id : id })
+                    body : JSON.stringify({ id : sender.dataset.product_id })
                 });
 
                 let result = await response.json();

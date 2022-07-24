@@ -62,6 +62,10 @@ class AppBase{
         this._event('change', selector, fn);
     }
 
+    keyup(selector, fn){
+        this._event('keyup', selector, fn);
+    }
+
     _event(eventType, selector, fn){
         if(selector.substring(0,1) == '#'){
             let e = document.querySelector(selector);

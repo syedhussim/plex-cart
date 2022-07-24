@@ -117,14 +117,28 @@ class Collection{
 
         if(this._sort){
             tmpArray = tmpArray.sort((a, b) => {
-
+                
                 let v1 = this._getObjectValue(this._sort.property.split('.'), a);
                 let v2 = this._getObjectValue(this._sort.property.split('.'), b);
 
                 if(this._sort.direction == 'ASC'){
-                    return v1.localeCompare(v2);
+                    
+                    if(typeof v1 == 'number'){
+                        return v1 - v2;
+                    }
+    
+                    if(typeof v1 == 'string'){
+                        v1.localeCompare(v2);
+                    }
+                }else{
+                    if(typeof v1 == 'number'){
+                        return v2 - v1;
+                    }
+    
+                    if(typeof v1 == 'string'){
+                        return v2.localeCompare(v1);
+                    }
                 }
-                return v2.localeCompare(v1);
             });
         }
 

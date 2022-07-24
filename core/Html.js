@@ -77,9 +77,17 @@ class Select{
         return this;
     }
 
-    fromArray(array = []){
-        for(let item of array){
-            this._options.push({ value : item, text : item });
+    fromArray(array = [], useIndex = false){
+        for(let idx in array){
+
+            let item = array[idx];
+            let value = item;
+            
+            if(useIndex){
+                value = idx;
+            }
+
+            this._options.push({ value : value, text : item });
         }
         return this;
     }

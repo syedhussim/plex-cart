@@ -1,4 +1,4 @@
-${ await include('store/menu'); }
+{{ await include('store/menu') }}
 
 <div class="app-container">
     <div class="app-content-container">

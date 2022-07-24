@@ -165,6 +165,10 @@ class Post{
         Object.assign(this, post);
     }
 
+    has(property){
+        return this.hasOwnProperty(property);
+    }
+
     get(property, defaultValue = null){
         if(this.hasOwnProperty(property)){
             return this[property];

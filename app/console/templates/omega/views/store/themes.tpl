@@ -1,4 +1,4 @@
-{{  await include('store/menu') }}
+{{ await include('store/menu') }}
 
 <div class="app-container">
     <div class="app-content-container">
@@ -15,11 +15,11 @@
                         <div class="inner-card">
                             <div class="fs-18 fw-700 mt-5 mb-5">{{ theme.name }}</div>
 
-                            @{if theme.image}
+                            {% if theme.image %}
                                 <img src="{{ theme.image }}" class="wh-100-pc dy-bk br-4" />
-                            @{else}
+                            {% else  %}
                                 Image Not Available
-                            @{/if}
+                            {% /if %}
 
                             <div class="dy-fx fx-jc-fe pn-ae bm-20 rt-20">
                                 <i class="{{ store.theme == theme.code ? 'symbol-green' : 'dy-ne' }} tick">

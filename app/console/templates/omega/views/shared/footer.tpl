@@ -30,18 +30,20 @@
                     let toastData = ${JSON.stringify(request.flash())};
 
                     if(toastData.hasOwnProperty('message')){
-                        if(toastData.success){
-                            this.render('toast', 'tplToast', toastData, {
-                                mounted : (e) => { setTimeout(() => { e.replaceChildren(); }, 4000); }
-                            });
-                        }else{
-                            alert(toastData.error);
-                        }
+                        this.toast(toastData);
+                    }
+                }
+
+                toast(data){
+                    if(data.success){
+                        this.render('toast', 'tplToast', data, {
+                            mounted : (e) => { setTimeout(() => { e.replaceChildren(); }, 4000); }
+                        });
                     }
                 }
             }
 
-            new System();
+            const sys = new System();
 
         </script>
     </body>

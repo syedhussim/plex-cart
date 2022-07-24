@@ -48,6 +48,15 @@ class ConsoleController extends HttpController{
         this.view.param('store', this.store);
         this.view.param('request', this.request);
         this.view.param('html', Html);
+        this.view.param('money', (amount) => {
+            let formatter = new Intl.NumberFormat(this.store.locale, {
+                style: 'currency',
+                currency: this.store.currency,
+            });
+            
+            return formatter.format(amount);
+        });
+
         this.view.prependFile('shared/header');
         this.view.appendFile('shared/footer');
     }

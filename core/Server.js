@@ -95,7 +95,9 @@ class Server{
                         try{
                             let buffer = await fs.readFile(path);
 
-                            response.write(buffer).flush();
+                            response.write(buffer)
+                                .contentType(response.mimeType(request.url().extension()))
+                                .flush();
                             break;
                         }catch(e){}
                     }

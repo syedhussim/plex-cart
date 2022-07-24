@@ -7,6 +7,12 @@ class Response{
         this._output = '';
         this._redirectLocation = '';
         this._flushed = false;
+        this._mimeTypes = new Map();
+        this._mimeTypes.set('txt', 'text/plain');
+        this._mimeTypes.set('html', 'text/html');
+        this._mimeTypes.set('js', 'text/javascript');
+        this._mimeTypes.set('css', 'text/css');
+        this._mimeTypes.set('svg', 'image/svg+xml');
     }
 
     httpCode(code){
@@ -16,6 +22,13 @@ class Response{
 
     cookies(){
         return this._cookies;
+    }
+
+    mimeType(type){
+        if(this._mimeTypes.has(type)){
+            return this._mimeTypes.get(type);
+        }
+        return this._mimeTypes.get('txt');
     }
 
     contentType(type){

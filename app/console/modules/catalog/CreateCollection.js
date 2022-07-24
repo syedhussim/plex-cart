@@ -1,14 +1,12 @@
 const Validation = req('core.Validation');
 const ConsoleController = req('app.console.lib.ConsoleController');
 
-class CreateAttribute extends ConsoleController{
+class CreateCollection extends ConsoleController{
 
-    async get(id = null, attribute = null, errors = new Validation.ValidatorErrors()){
+    async get(id = null, collection = null, errors = new Validation.ValidatorErrors()){
 
-        let attributes = await this.db.collection('attributes').get();
-
-        if(!attribute){
-            attribute = await this.db.collection('attributes').find(id, {
+        if(!collection){
+            collection = await this.db.collection('collections').find(id, {
                 id : '',
                 name : '',
                 property : '',
@@ -17,17 +15,22 @@ class CreateAttribute extends ConsoleController{
             });
         }
 
-        let visibility = [
-            'Internal',
-            'Product',
-            'Product - Collection',
-            'Product - Collection - Basket'
-        ];
+        let collectionsRes = await this.db.collection('collections').get();
 
-        return await this.view.render('catalog/create_attribute',{
+        let attributes = await this.db.collection('attributes')
+            .sort('name')
+            .get();
+
+        for(let attribute of attributes){
+            if(attribute.type == 'ATTR_MENU'){
+                attribute.menu_items = attribute.menu_items.split("\n").map(v => { return v.trim() });
+            }
+        }
+
+        return await this.view.render('catalog/create_collection',{
+            collections : collectionsRes,
             attributes : attributes,
-            attribute : attribute,
-            visibility : visibility,
+            collection : collection,
             errors : errors
         });
     }
@@ -100,4 +103,4 @@ class CreateAttribute extends ConsoleController{
     }
 }
 
-module.exports = CreateAttribute;
+module.exports = CreateCollection;

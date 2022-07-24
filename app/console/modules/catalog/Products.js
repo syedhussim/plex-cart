@@ -11,6 +11,7 @@ class Products extends ConsoleController{
         }
 
         productsRef.limit(20,0);
+        productsRef.sort('created_time', 'DESC');
 
         let products = await productsRef.get();
 

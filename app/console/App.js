@@ -10,8 +10,11 @@ class App extends Application{
 
         this.routes.add('/catalog/products', 'app/console/modules/catalog/Products');
         this.routes.add('/catalog/products/create', 'app/console/modules/catalog/CreateProduct');
+        this.routes.add('/catalog/products/clone', 'app/console/modules/catalog/CloneProduct');
         this.routes.add('/catalog/attributes', 'app/console/modules/catalog/Attributes');
         this.routes.add('/catalog/attributes/create', 'app/console/modules/catalog/CreateAttribute');
+        this.routes.add('/catalog/collections', 'app/console/modules/catalog/Collections');
+        this.routes.add('/catalog/collections/create', 'app/console/modules/catalog/CreateCollection');
         this.routes.add('/catalog/import/feed', 'app/console/modules/catalog/ImportFeed');
 
         this.routes.add('/media/library', 'app/console/modules/media/Library');
