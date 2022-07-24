@@ -39,53 +39,7 @@ class CreateCollection extends ConsoleController{
 
         let post = this.request.post();
 
-        let validator = new Validation.Validator();
-
-        let attribute = {
-            name : post.name,
-            property : post.property,
-            type : post.type,
-            menu_items : post.menu_items,
-            visibility : post.visibility,
-            required : post.required
-        }; 
-
-        validator.add('name', attribute, [
-            new Validation.Required('Name is required'),
-            new Validation.MaxLength(50, 'Name must not exceed @length characters')
-        ]).add('property', attribute, [
-            new Validation.Required('Property Name is required'),
-            new Validation.MaxLength(50, 'Property Name must not exceed @length characters')
-        ]).add('type', attribute, [
-            new Validation.Required('Type is required')
-        ]).add('visibility', attribute, [
-            new Validation.Required('Visibility is required')
-        ]).add('required', attribute, [
-            new Validation.Required('Required is required')
-        ]);
-
-        if(validator.isValid()){
-            let result;
-            let action = '';
-
-            if(post.id){
-                result = await this.db.collection('attributes').update(post.id, attribute); 
-                action = 'Updated';
-            }else{
-                result = await this.db.collection('attributes').create(attribute); 
-                action = 'Created';
-            }
-
-            this.request.flash({
-                message : `${action} attribute ${attribute.name}`,
-                success : result ? true : false,
-                error : 'Operation failed'
-            });
-
-            return await this.get(post.id, attribute);
-        }
-
-        return await this.get(post.id, attribute, validator.errors());
+        console.log(post);
     }
 
     async delete(){

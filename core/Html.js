@@ -12,6 +12,10 @@ class Html{
         return new Textbox(name, value, 'textarea');
     }
 
+    static hidden(name, value){
+        return new Textbox(name, value, 'hidden');
+    }
+
     static select(name, value = null){
         return new Select(name, value);
     }

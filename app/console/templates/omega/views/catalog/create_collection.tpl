@@ -39,6 +39,7 @@
                     <div class="dy-fx fx-jc-sb fx-ai-cr br-cr-4 br-4-px mb-10">
                         <div class="pl-15 pr-15">
                             {{ attribute.name }}
+                            {{ html.hidden('property', attribute).id('') }}
                         </div>
 
                         <div class="dy-fx">
@@ -46,6 +47,7 @@
                         <div class="dy-fx wh-200-px">
                             {{ 
                                 html.select('op')
+                                .id('')
                                 .option('eq', 'Equals')
                                 .option('lk', 'Like')
                                 .option('lt', 'Less Than')
@@ -55,16 +57,16 @@
 
                         <div class="dy-fx wh-300-px">
                             {% if attribute.type == 'ATTR_TEXT' %}
-                                {{ html.textbox('attr_' + attribute.property, attribute.product_value).css('input-1') }}
+                                {{ html.textbox('property_value', attribute.product_value).css('input-1') }}
                             {% /if %}       
 
                             {% if attribute.type == 'ATTR_DATE' %}
-                                {{ html.date('attr_' + attribute.property, attribute.product_value).css('input-1') }}
+                                {{ html.date('property_value', attribute.product_value).css('input-1') }}
                             {% /if %}
 
                             {% if attribute.type == 'ATTR_MENU' %}
                                 {{ 
-                                    html.select('attr_' + attribute.property, attribute.product_value)
+                                    html.select('property_value', attribute.product_value)
                                     .option('', '')
                                     .fromArray(attribute.menu_items)
                                 }}
