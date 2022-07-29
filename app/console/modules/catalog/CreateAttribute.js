@@ -63,20 +63,16 @@ class CreateAttribute extends ConsoleController{
 
         if(validator.isValid()){
             let result;
-            let action = '';
 
             if(post.id){
                 result = await this.db.collection('attributes').update(post.id, attribute); 
-                action = 'Updated';
             }else{
                 result = await this.db.collection('attributes').create(attribute); 
-                action = 'Created';
             }
 
             this.request.flash({
-                message : `${action} attribute ${attribute.name}`,
-                success : result ? true : false,
-                error : 'Operation failed'
+                message : `attribute ${attribute.name}`,
+                success : result.success
             });
 
             return await this.get(post.id, attribute);

@@ -20,11 +20,14 @@ class App extends Application{
         let url = this.request.url().pathname();
 
         let [type] = url.toLowerCase().split('/').filter(seg => seg.length > 0);
-        
+
         if(type){
             switch(type){
                 case 'product':
                     this.routes.add(url, 'app/store/modules/catalog/Product');
+                    break;
+                case 'collection':
+                    this.routes.add(url, 'app/store/modules/catalog/Collection');
                     break;
             }
         }
