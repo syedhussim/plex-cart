@@ -10,6 +10,7 @@ class CreateAttribute extends ConsoleController{
         if(!attribute){
             attribute = await this.db.collection('attributes').find(id, {
                 id : '',
+                active : 0,
                 name : '',
                 property : '',
                 type : '',
@@ -39,12 +40,14 @@ class CreateAttribute extends ConsoleController{
         let validator = new Validation.Validator();
 
         let attribute = {
-            name : post.name,
-            property : post.property,
-            type : post.type,
-            menu_items : post.menu_items,
-            visibility : post.visibility,
-            required : post.required
+            id : post.get('id'),
+            active : post.getInt('active'),
+            name : post.get('name'),
+            property : post.get('property'),
+            type : post.get('type'),
+            menu_items : post.get('menu_items'),
+            visibility : post.getInt('visibility'),
+            required : post.getInt('required')
         }; 
 
         validator.add('name', attribute, [
@@ -57,8 +60,6 @@ class CreateAttribute extends ConsoleController{
             new Validation.Required('Type is required')
         ]).add('visibility', attribute, [
             new Validation.Required('Visibility is required')
-        ]).add('required', attribute, [
-            new Validation.Required('Required is required')
         ]);
 
         if(validator.isValid()){

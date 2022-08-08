@@ -33,7 +33,7 @@ class Validator{
 
             for(let j=0; j < field.validators.length; j++){
                 let validator = field.validators[j];
-                validator.value = field.value;
+                validator.value = field.value.toString();
 
                 if(!validator.validate()){
                     this._errors[field.name] = validator.message;

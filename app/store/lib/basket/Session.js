@@ -23,10 +23,16 @@ class Session{
         this._total = 0;
 
         let cartItemIds = this._session.items.map(i => { return i.id });
-        
+
         let products = await this._db.collection('products')
             .where('id', 'in', cartItemIds)
             .get();
+
+        let attributesRes = await this._db.collection('attributes')
+            .where('active', 'eq', 1)
+            .get();
+
+        let tempSession = [];
 
         for(let product of products){
 
@@ -34,14 +40,23 @@ class Session{
 
                 if(this._session.items[i].id == product.id){
 
-                    this._session.items[i].product = new this._productModel(product);
-                    this._session.items[i].line_total = this._session.items[i].quantity * this._session.items[i].product.price;
+                    let item = {
+                        id : this._session.items[i].id,
+                        quantity : this._session.items[i].quantity,
+                        product : new this._productModel(product, attributesRes),
+                        line_total : this._session.items[i].quantity * product.price,
+                    };
+
+                    tempSession.push(item);
                     
-                    this._subtotal += this._session.items[i].line_total;
+                    this._subtotal += item.line_total;
                     break;
                 }
             }
         }
+
+        this._session.items = tempSession;
+        tempSession = null;
 
         this._total = this._subtotal - this._discount;
     }
@@ -74,6 +89,10 @@ class Session{
 
     total(){
         return this._total;
+    }
+
+    items(){
+        return this._session.items;
     }
 
     save(){

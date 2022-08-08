@@ -1,18 +1,18 @@
 class Product{
 
-    constructor(data){
+    constructor(data, attributes){
         Object.assign(this, data);
-    }
 
-    attributes(property = null){
-        if(property){
-            if(this.attributes.hasOwnProperty(property)){
-                return this.attributes[property];
+        let tmpAttributes = [];
+
+        for(let attribute of attributes){
+            if(this.attributes.hasOwnProperty(attribute.property)){
+                this.attributes[attribute.property].property = attribute.property;
+                tmpAttributes.push(this.attributes[attribute.property]);
             }
-            return '';
         }
 
-        return this.attributes;
+        this.attributes = tmpAttributes;
     }
 }
 

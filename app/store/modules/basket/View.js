@@ -3,7 +3,6 @@ const StoreController = req('app.store.lib.controllers.StoreController');
 class View extends StoreController{
 
     async get(){
-        
         return this.view.render('basket/view', {
         });
     }
@@ -18,6 +17,8 @@ class View extends StoreController{
         };
 
         this.basket.add(item);
+
+        return this.get();
     }
 }
 

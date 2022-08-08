@@ -117,6 +117,17 @@ h6 { margin : 0px; font-size : 0.6rem; font-weight : 400; }
 .maxw-1300-px { max-width : 1300px; }
 .maxw-1400-px { max-width : 1400px; }
 
+.ht-10-pc { height : 10%; }
+.ht-20-pc { height : 20%; }
+.ht-30-pc { height : 30%; }
+.ht-40-pc { height : 40%; }
+.ht-50-pc { height : 50%; }
+.ht-60-pc { height : 60%; }
+.ht-70-pc { height : 70%; }
+.ht-80-pc { height : 80%; }
+.ht-90-pc { height : 90%; }
+.ht-100-pc { height : 100%; }
+
 .ht-10-px { height : 10px; }
 .ht-20-px { height : 20px; }
 .ht-30-px { height : 30px; }
@@ -127,6 +138,9 @@ h6 { margin : 0px; font-size : 0.6rem; font-weight : 400; }
 .ht-80-px { height : 80px; }
 .ht-90-px { height : 90px; }
 .ht-100-px { height : 100px; }
+.ht-200-px { height : 200px; }
+.ht-300-px { height : 300px; }
+.ht-400-px { height : 400px; }
 
 .mn-0 { margin : 0px; }
 .mn-5 { margin : 5px; }

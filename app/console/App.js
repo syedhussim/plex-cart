@@ -17,6 +17,9 @@ class App extends Application{
         this.routes.add('/catalog/collections/create', 'app/console/modules/catalog/CreateCollection');
         this.routes.add('/catalog/import/feed', 'app/console/modules/catalog/ImportFeed');
 
+        this.routes.add('/content/pages', 'app/console/modules/content/Pages');
+        this.routes.add('/content/pages/create', 'app/console/modules/content/CreatePage');
+
         this.routes.add('/media/library', 'app/console/modules/media/Library');
         this.routes.add('/media/library.json', 'app/console/modules/media/Library');
 

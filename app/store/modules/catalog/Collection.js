@@ -17,7 +17,6 @@ class Collection extends StoreController{
 
             let productsQuery = this.db.collection('products');
 
-
             for(let [property, data] of Object.entries(filters)){
                 productsQuery.where(`attributes.${property}.value`, data.op, data.value);
             }

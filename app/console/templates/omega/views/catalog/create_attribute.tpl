@@ -24,6 +24,11 @@
                     </div>
                 </div>
 
+                <div class="dy-fx fx-jc-fe mb-20">
+                    <input type="checkbox" id="chk_{{ attribute.id }}" value="1" name="active" {{ attribute.active == 1 ? 'checked' : '' }}>
+                    <label for="chk_{{ attribute.id }}"></label>
+                </div>
+
                 <div class="mb-20">
                     <label class="mb-5 dy-bk fw-700 {{ errors.hasError('name', 'fc-9') }}">{{ errors.get('name', 'Name') }}</label>
                     {{ html.textbox('name', attribute) }}
