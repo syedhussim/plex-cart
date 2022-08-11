@@ -140,6 +140,7 @@ img { display: block; }
     left: 0px;
     bottom: 0px;
 }
+.app-content-header.no-before::before { content: none; }
 .app-content-header .inner-header {
     height: 75px;
     display: flex;
@@ -169,10 +170,16 @@ img { display: block; }
     bottom: 0px;
 }
 .app-content-section .inner-section {
+    height: 75px;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     padding: 20px;
-    background: var(--color-7)
+    background: var(--color-7);
+}
+.app-content-section .inner-section h4{
+    font-weight: 700;
+    text-transform: uppercase;
 }
 
 .app-side-container{
@@ -297,7 +304,6 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="date"]:focus
     border : 1px solid var(--color-5);
     box-shadow : 0px 1px 3px #ddd inset;
 }
-
 input[type=checkbox]{
     display: none;
 }
@@ -332,6 +338,27 @@ input[type=checkbox]:checked + label::before{
     content: 'On';
     background: var(--color-5);
     color: #fff;
+}
+
+input[type=radio]{
+    display: none;
+}
+input[type=radio] + label{
+    display: flex;
+    width: 25px;
+    height: 25px;
+    background: var(--color-7);
+    border:2px solid var(--color-4);
+    position: relative;
+    border-radius: 100%;
+    cursor: pointer;
+}
+input[type=radio]:checked + label{
+    display: flex;
+    border:2px solid #65ca65;
+    background: #65ca65 url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMThweCIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iMThweCIgZmlsbD0iI2ZmZiI+PHBhdGggZD0iTTAgMGgyNHYyNEgwVjB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTkgMTYuMkw0LjggMTJsLTEuNCAxLjRMOSAxOSAyMSA3bC0xLjQtMS40TDkgMTYuMnoiLz48L3N2Zz4=) no-repeat center center;
+    width: 25px;
+    height: 25px;
 }
 
 .btn-commit,

@@ -9,17 +9,17 @@
                     <div class="inner-header">
                         <h4>page</h4>
                         
-                            <div class="dy-fx pn-re">
-                                <span class="btn-action" id="pageMenu"><i class="ico-eclipse"></i></span>
-                                <div class="dropdown-menu wh-200-px dy-ne" id="pageContextMenu">
-                                    <div class="menu-item" id="btnDeleteProduct" data-page_id="{{ page.id }}">
-                                        <i class="ico-trash mr-10 minw-30-px"></i>
-                                        <div class="dy-fx fx-fd-cn">
-                                            <span>Delete</span>
-                                        </div>
+                        <div class="dy-fx pn-re">
+                            <span class="btn-action" id="pageMenu"><i class="ico-eclipse"></i></span>
+                            <div class="dropdown-menu wh-200-px dy-ne" id="pageContextMenu">
+                                <a class="menu-item" href="/content/templates">
+                                    <i class="ico-trash mr-10 minw-30-px"></i>
+                                    <div class="dy-fx fx-fd-cn">
+                                        <span>Templates</span>
                                     </div>
-                                </div>
+                                </a>
                             </div>
+                        </div>
                     </div>
                 </div>
 
@@ -33,10 +33,27 @@
                     {{ html.textbox('name', page) }}
                 </div>
 
-                <div class="mb-20">
-                    <label class="mb-5 dy-bk fw-700 {{ errors.hasError('content', 'fc-9') }}">{{ errors.get('content', 'Content') }}</label>
-                    {{ html.textarea('content', page).css('ht-400-px') }}
+                <div class="app-content-section">
+                    <div class="inner-section">
+                        <h4 class="fw-700">Templates</h4>
+                        <a href="/content/templates/create?pid={{ page.id }}" class="btn-action"><i class="ico-add"></i></a>
+                    </div>
                 </div>
+
+                {% foreach template in templates %}
+                    <div class="dy-fx fx-jc-sb fx-ai-cr br-cr-4 br-4-px mb-15">
+                        <div class="wh-100-pc pl-15 pt-15 pb-15 pr-15">
+                            <div>
+                                <a href="/content/templates/create?pid={{ page.id }}&id={{ template.id }}" class="fs-18 fw-500">{{ template.name }}</a>
+                            </div>
+                            <div class="fs-13 fc-6 mt-5">{{ template.template_file }}</div>
+                        </div>
+                        <div class="pr-15">
+                            <input type="radio" name="template_id" value="{{ template.id }}" id="rdo_{{ template.id }}" {{ page.template_id == template.id ? 'checked' : '' }} />
+                            <label for="rdo_{{ template.id }}"></label>
+                        </div>
+                    </div>
+                {% /foreach %}
 
                 <div class="mb-20 dy-fx">
                     <input type="hidden" value="{{ page.id }}" name="id" />
@@ -59,6 +76,7 @@
                 event.stopPropagation();
 
                 let e = document.querySelector('#pageContextMenu');
+
                 let list = e.classList;
 
                 if(list.contains('dy-ne')){
@@ -68,23 +86,23 @@
                     list.remove('dy-fx');
                     list.add('dy-ne');
                 }
+
+                document.querySelector('#test').addEventListener('click', function(event){
+                    event.stopPropagation();
+                })
             });
 
-            this.click('#btnDeleteProduct', async(sender) => {
+            this.click('#btnAddSection', async(sender) => {
 
-                let response = await fetch('/catalog/pages/create', {
-                    method : 'DELETE',
-                    headers: {
-                        'Content-type': 'application/json;charset=UTF-8'
-                    },
-                    body : JSON.stringify({ id : sender.dataset.page_id })
-                });
+                event.stopPropagation();
 
-                let result = await response.json();
+                let e = document.querySelector('#deleteMsg')
+                e.classList.remove('dy-ne');
+                e.classList.add('dy-fx');
 
-                if(result.success){
-                    window.location = '/catalog/pages';
-                }
+                let ctxMenu = document.querySelector('#pageContextMenu')
+                ctxMenu.classList.remove('wh-200-px');
+                ctxMenu.classList.add('wh-300-px');
             });
         }
     }

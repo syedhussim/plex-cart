@@ -42,7 +42,7 @@
 
             "url_rewrites" : [
                 {
-                    "from" : "/(?<lang>en|fr|sp)/(?<uri>.*)",
+                    "from" : "/(?<lang>en|de)/(?<uri>.*)",
                     "to" : "/$uri"
                 }
             ],

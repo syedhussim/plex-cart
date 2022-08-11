@@ -1,12 +1,12 @@
 class Session{
 
-    constructor(config, request, response, db, models){
+    constructor(config, request, response, db, productModel){
 
         this._config = config;
         this._request = request;
         this._response = response;
         this._db = db;
-        this._productModel = req(models.get('product'));;
+        this._productModel = req(productModel);
         this._session = { items : [], voucher :  '' };
 
         if(request.cookies().has(config.name)){
@@ -25,6 +25,7 @@ class Session{
         let cartItemIds = this._session.items.map(i => { return i.id });
 
         let products = await this._db.collection('products')
+            .where('active', 'eq', 1)
             .where('id', 'in', cartItemIds)
             .get();
 
@@ -76,6 +77,7 @@ class Session{
             this._session.items.push(item);
         }
 
+        this.refresh();
         this.save();
     }
 

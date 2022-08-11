@@ -13,10 +13,15 @@ class Page extends StoreController{
 
             let page = pagesRes.first();
 
-            return this.view.render('content/page', {
-                page : page
-            });
-            
+            let templatesRes = await this.db.collection('templates')
+                .where('id', 'eq', page.template_id)
+                .get();
+
+            if(!templatesRes.empty()){
+                let template = templatesRes.first();
+                let file = template.template_file.substring(0, template.template_file.indexOf('.'))
+                return this.view.render('content/' + file, template.variables);
+            }
         }
     }
 }

@@ -9,5 +9,11 @@
         "name" : "_plx_cart",
         "secure" : false,
         "samesite" :  "Lax"
-    }
+    },
+
+    "controller" : [
+        "lib.middleware.Test"
+    ]
+    
+    
 }

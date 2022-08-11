@@ -6,20 +6,28 @@ class CreatePage extends ConsoleController{
 
     async get(id = null, page = null, errors = new Validation.ValidatorErrors()){
 
-        let pages = await this.db.collection('pages').get();
+        let pagesRes = await this.db.collection('pages')
+            .sort('name')
+            .get();
 
         if(!page){
             page = await this.db.collection('pages').find(id, {
                 id : '',
                 active : 0,
                 name : '',
-                content : ''
+                template_id : ''
             });
         }
 
+        let templatesRes = await this.db.collection('templates')
+            .where('page_id', 'eq', page.id)
+            .sort('name')
+            .get();
+
         return await this.view.render('content/create_page',{
-            pages : pages,
+            pages : pagesRes,
             page : page,
+            templates : templatesRes,
             errors : errors
         });
     }
@@ -32,10 +40,10 @@ class CreatePage extends ConsoleController{
 
         let page = {
             id : post.get('id'),
-            url : Util.url(post.get('name'), 'page'),
+            url : Util.url(post.get('name')),
             active : post.getInt('active'),
             name : post.get('name'),
-            content : post.get('content'),
+            template_id : post.get('template_id')
         }; 
 
         validator.add('name', page, [
@@ -67,9 +75,18 @@ class CreatePage extends ConsoleController{
                 success : result.success
             });
 
-            return await this.get(post.id, page);
-        }
+            let templatesRes = await this.db.collection('templates')
+                .where('page_id', 'eq', page.id)
+                .get();
 
+            if(templatesRes.empty()){ console.log('sss')
+                this.response.redirect(`/content/templates/create?pid=${page.id}`);
+                return;
+            }else{
+                return await this.get(post.id, page);
+            }
+        }
+console.log('ooo')
         return await this.get(post.id, page, validator.errors());
     }
 

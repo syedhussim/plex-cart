@@ -1,5 +1,5 @@
 {% foreach item in basket %}
-
+{% console.log(item); %}
     <div>
         <div><a href="{{ item.product.url | url }}">{{ item.product.name }}</a></div><div>{{ item.quantity }}</div>
         <div>{{ item.product.price | money }}</div>

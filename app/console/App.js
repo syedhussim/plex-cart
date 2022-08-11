@@ -19,6 +19,8 @@ class App extends Application{
 
         this.routes.add('/content/pages', 'app/console/modules/content/Pages');
         this.routes.add('/content/pages/create', 'app/console/modules/content/CreatePage');
+        this.routes.add('/content/templates', 'app/console/modules/content/Templates');
+        this.routes.add('/content/templates/create', 'app/console/modules/content/CreateTemplate');
 
         this.routes.add('/media/library', 'app/console/modules/media/Library');
         this.routes.add('/media/library.json', 'app/console/modules/media/Library');

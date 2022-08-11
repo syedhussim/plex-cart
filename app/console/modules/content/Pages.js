@@ -2,22 +2,15 @@ const ConsoleController = req('app.console.lib.ConsoleController');
 
 class Pages extends ConsoleController{
 
-    async get(search = null){
+    async get(){
 
-        let pagesRes = this.db.collection('pages');
-
-        if(search){
-            pagesRes.where('name', 'eq', search)
-        }
-
-        pagesRes.limit(20,0);
-        pagesRes.sort('created_time', 'DESC');
-
-        let pages = await pagesRes.get();
+        let pagesRes = await this.db.collection('pages')
+            .sort('name')
+            .get();
 
         return await this.view.render('content/pages',{
             page : { id : '' },
-            pages : pages,
+            pages : pagesRes,
         });
     }
 

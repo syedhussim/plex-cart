@@ -11,6 +11,11 @@ class Collection extends StoreController{
 
         if(this.models.has('product')){ 
 
+            let attributesRes = await this.db.collection('attributes')
+                .where('active', 'eq', 1)
+                .where('visibility', 'gt', 0)
+                .get();
+
             let collection = collectionsRes.first();
 
             let filters = collection.filters || {};
@@ -27,7 +32,7 @@ class Collection extends StoreController{
 
             for(let product of productsRes){
                 let model = req(this.models.get('product'));
-                products.push(new model(product));
+                products.push(new model(product, attributesRes));
             }
 
             return this.view.render('catalog/collection', {
