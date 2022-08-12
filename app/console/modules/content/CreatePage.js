@@ -79,14 +79,14 @@ class CreatePage extends ConsoleController{
                 .where('page_id', 'eq', page.id)
                 .get();
 
-            if(templatesRes.empty()){ console.log('sss')
+            if(templatesRes.empty()){
                 this.response.redirect(`/content/templates/create?pid=${page.id}`);
                 return;
             }else{
                 return await this.get(post.id, page);
             }
         }
-console.log('ooo')
+
         return await this.get(post.id, page, validator.errors());
     }
 

@@ -4,22 +4,34 @@
     <div class="app-content-container">
         <form method="post">
             <div class="app-content-left-panel">
-            
                 <div class="app-content-header">
                     <div class="inner-header">
-                        <h4>page</h4>
-                        
-                        <div class="dy-fx pn-re">
-                            <span class="btn-action" id="pageMenu"><i class="ico-eclipse"></i></span>
-                            <div class="dropdown-menu wh-200-px dy-ne" id="pageContextMenu">
-                                <a class="menu-item" href="/content/templates">
-                                    <i class="ico-trash mr-10 minw-30-px"></i>
-                                    <div class="dy-fx fx-fd-cn">
-                                        <span>Templates</span>
+                        <h4>Page</h4>
+                        {% if page.id %}
+                            <div class="dy-fx pn-re">
+                                <span class="btn-action" id="pageMenu"><i class="ico-eclipse"></i></span>
+                                <div class="dropdown-menu wh-200-px dy-ne" id="pageContextMenu">
+                                    <a class="menu-item" href="{{ store.url }}{{ page.url }}" target="_blank">
+                                        <i class="ico-open-window mr-10 minw-30-px"></i>
+                                        <div class="dy-fx fx-fd-cn">
+                                            <span>Store View</span>
+                                        </div>
+                                    </a>
+                                    <div class="menu-item" id="btnConfirmDeletePage">
+                                        <i class="ico-trash mr-10 minw-30-px"></i>
+                                        <div class="dy-fx fx-fd-cn">
+                                            <span>Delete</span>
+                                        </div>
                                     </div>
-                                </a>
+                                    <div class="dy-ne fx-fd-cn pg-15 bg-7" id="deleteMsg">
+                                        <p class="mn-0">Are you sure you want to delete this page?<p>
+                                        <div class="dy-fx fx-jc-fe">
+                                            <button type="button" class="btn-delete" id="btnDeletePage" data-page_id="{{ page.id }}">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        {% /if %}
                     </div>
                 </div>
 
@@ -36,7 +48,9 @@
                 <div class="app-content-section">
                     <div class="inner-section">
                         <h4 class="fw-700">Templates</h4>
-                        <a href="/content/templates/create?pid={{ page.id }}" class="btn-action"><i class="ico-add"></i></a>
+                        {% if page.id %}
+                            <a href="/content/templates/create?pid={{ page.id }}" class="btn-action"><i class="ico-add"></i></a>
+                        {% /if %}
                     </div>
                 </div>
 
@@ -86,13 +100,9 @@
                     list.remove('dy-fx');
                     list.add('dy-ne');
                 }
-
-                document.querySelector('#test').addEventListener('click', function(event){
-                    event.stopPropagation();
-                })
             });
 
-            this.click('#btnAddSection', async(sender) => {
+            this.click('#btnConfirmDeletePage', () => {
 
                 event.stopPropagation();
 
@@ -103,6 +113,23 @@
                 let ctxMenu = document.querySelector('#pageContextMenu')
                 ctxMenu.classList.remove('wh-200-px');
                 ctxMenu.classList.add('wh-300-px');
+            });
+
+            this.click('#btnDeletePage', async (sender) => {
+
+                let response = await fetch('/content/pages/create', {
+                    method : 'DELETE',
+                    headers: {
+                        'Content-type': 'application/json;charset=UTF-8'
+                    },
+                    body : JSON.stringify({ id : sender.dataset.page_id })
+                });
+
+                let result = await response.json();
+
+                if(result.success){
+                    window.location = '/content/pages';
+                }
             });
         }
     }
