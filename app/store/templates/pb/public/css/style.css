@@ -1,6 +1,11 @@
-body { background-color: red ;}
+body { margin:0px; }
+
+.st0 { fill: #fff; }
 
 header a {
     display: inline-block;
     padding:5px 20px;
+    color:#fff;
+    text-decoration: none;
+    text-transform: uppercase;
 }
