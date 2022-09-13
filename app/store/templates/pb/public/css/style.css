@@ -1,11 +1,60 @@
-body { margin:0px; }
+@font-face {
+    font-family:'Playboy Visuelt';
+    src:url(/pb/public/fonts/PlayboyVisuelt-Light.woff2) format("woff2") ,
+    url(../fonts/PlayboyVisuelt-Light.woff) format("woff") ,
+    url(../fonts/PlayboyVisuelt-Light.svg#PlayboyVisuelt-Light) format("svg");
+    font-weight:300;
+    font-style:normal
+}
 
-.st0 { fill: #fff; }
+@font-face {
+    font-family:'Playboy Visuelt';
+    src:url(/pb/public/fonts/PlayboyVisuelt-Regular.woff2) format("woff2") ,
+    url(../fonts/PlayboyVisuelt-Regular.woff) format("woff") ,
+    url(../fonts/PlayboyVisuelt-Regular.svg#PlayboyVisuelt-Regular) format("svg");
+    font-weight:normal;
+    font-style:normal
+}
+
+* {
+    box-sizing: border-box;
+    font-family: "Playboy Visuelt",sans-serif;
+}
+
+
+
+body { margin:0px; font-size: 14px; }
+
+h1, .h1 {
+    font-size: 80px;
+    line-height: 75px;
+    text-transform: uppercase;
+    color: #2d2d2d;
+}
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: .5rem;
+}
 
 header a {
     display: inline-block;
-    padding:5px 20px;
+    padding: .5rem;
+    font-weight: 400;
+    line-height: 1.8rem;
     color:#fff;
     text-decoration: none;
     text-transform: uppercase;
+}
+
+p {
+  font-size: 15px;
+  line-height: 28px;
+}
+
+.maxw-1440-px {
+    max-width: 1440px;
+}
+
+.maxw-1170-px {
+    max-width: 1170px;
 }

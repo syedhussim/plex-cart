@@ -32,7 +32,7 @@ class Page extends StoreController{
 
                 let file = pageModel.template_file.substring(0, pageModel.template_file.indexOf('.'));
 
-                return this.view.render(`content/${file}`, pageModel);
+                return this.view.render(`content/${file}`, { page_name : pageModel.name, ...pageModel.params });
             }
         }
     }

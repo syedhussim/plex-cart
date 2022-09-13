@@ -34,9 +34,10 @@
 
                 <div id="variables">
                     {% foreach varName:varVal in Object.entries(template.variables) %}
-                        <div>
+                        <div class="mb-20">
                             <div>
-                                {{ html.textbox('var_name', varName) }}
+                                <label class="mb-5 dy-bk fw-700 ">{{ varName }}</label>
+                                {{ html.hidden('var_name', varName) }}
                             </div>
                             <div>
                                 {{ html.textarea('var_value', varVal) }}
