@@ -14,6 +14,7 @@ class StoreController extends HttpController{
             this.store = storesRes.first();
 
             this.models = new Map();
+            this.models.set('collection', 'app.store.lib.models.Collection');
             this.models.set('product', 'app.store.lib.models.Product');
             this.models.set('page', 'app.store.lib.models.Page');
 

@@ -19,17 +19,6 @@
                                 <span>Collections</span>
                             </div>
                         </a>
-                        <a class="menu-item" href="/catalog/import/feed">
-                            <i class="ico-paste mr-10 minw-30-px"></i>
-                            <div class="dy-fx fx-fd-cn">
-                                <span>Import Feed</span>
-                                <div class="fs-13 fc-6 mt-5">Import products from a Google product feed.</div>
-                            </div>
-                        </a>
-                        <div class="menu-item">
-                            <i class="ico-paste mr-10 minw-30-px"></i>
-                            <span onclick="alert('paste')">Export</span>
-                        </div>
                     </div>
                 </div>
             </div>

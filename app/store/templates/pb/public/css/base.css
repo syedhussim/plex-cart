@@ -381,6 +381,14 @@ h6 { margin : 0px; font-size : 0.6rem; font-weight : 400; }
 .fs-34 { font-size : 34px; }
 .fs-36 { font-size : 36px; }
 
+.ta-lt { text-align: left; }
+.ta-rt { text-align: right; }
+.ta-cr { text-align: center; }
+
+.tt-le { text-transform : lowercase; }
+.tt-ue { text-transform : uppercase; }
+.tt-ce { text-transform : capitalize; }
+
 .fw-300 { font-weight : 300; }
 .fw-500 { font-weight : 500; }
 .fw-700 { font-weight : 700; }

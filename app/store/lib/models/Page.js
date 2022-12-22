@@ -13,11 +13,7 @@ class Page{
                     this.params[property] += `<p>${section.trim()}</p>`;
                 }
             }
-
-            //console.log(property, value);
         }
-
-        console.log(this.params);
     }
 
     async init(db){}

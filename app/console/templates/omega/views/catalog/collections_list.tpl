@@ -8,11 +8,13 @@
 
         <div class="container">
             {% foreach collectionRow in collections %}
-                <div class="data-row {{ collection.id == collectionRow.id ? 'data-row-selected' : '' }}" >
+                <div class="data-row cr-pr {{ collection.id == collectionRow.id ? 'data-row-selected' : '' }}" onclick="window.location='/catalog/collections/create?pid={{ collectionRow.id }}'" >
                     <div class="wh-100-pc pt-15 pb-15 pl-20 pr-15">
-                        <a href="/catalog/collections/create?id={{ collectionRow.id }}" class="fs-18 fw-500">{{ collectionRow.name }}</a>
+                        <div>
+                            <span class="fs-18 fw-500">{{ collectionRow.name }}</span>
+                        </div>
+                        <div class="fs-13 fc-6 mt-5">{{ collectionRow.url }}</div>
                     </div>
-                    <div class="minw-100-px dy-fx pr-20 fx-jc-fe fs-16"></div>
                 </div>
             {% /foreach %}
         </div>

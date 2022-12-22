@@ -96,7 +96,7 @@
                 let ctx = canvas.getContext("2d");
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-                await fetch('/media/library', {
+                await fetch('/media', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',

@@ -11,6 +11,7 @@ class CreateCollection extends ConsoleController{
                 id : '',
                 active : 0,
                 name : '',
+                template_id : '',
                 filters : {}
             });
         }
@@ -18,11 +19,12 @@ class CreateCollection extends ConsoleController{
         let collectionsRes = await this.db.collection('collections').get();
 
         let attributesRes = await this.db.collection('attributes')
+            .where('active', 'eq', 1)
             .sort('name')
             .get();
 
         for(let attribute of attributesRes){
-            if(attribute.type == 'ATTR_MENU'){
+            if(attribute.type == 'ATTR_MENU'){ 
                 attribute.menu_items = attribute.menu_items.split("\n").map(v => { return v.trim() });
             }
 
@@ -32,10 +34,16 @@ class CreateCollection extends ConsoleController{
             }
         }
 
+        let templatesRes = await this.db.collection('templates')
+            .where('collection_id', 'eq', collection.id)
+            .sort('name')
+            .get();
+
         return await this.view.render('catalog/create_collection',{
             collections : collectionsRes,
             attributes : attributesRes,
             collection : collection,
+            templates : templatesRes,
             errors : errors
         });
     }
@@ -55,6 +63,7 @@ class CreateCollection extends ConsoleController{
             active : post.getInt('active'),
             name : post.get('name'),
             url : Util.url(post.get('name'), 'collection'),
+            template_id : post.get('template_id'),
             filters : {}
         };
 
@@ -124,7 +133,7 @@ class CreateCollection extends ConsoleController{
         let post = this.request.post();
 
         if(post.id){
-            let result = await this.db.collection('attributes').delete(post.id);
+            let result = await this.db.collection('collections').delete(post.id);
 
             return result;
         }

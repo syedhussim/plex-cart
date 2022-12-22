@@ -69,7 +69,9 @@ class AppBase{
     _event(eventType, selector, fn){
         if(selector.substring(0,1) == '#'){
             let e = document.querySelector(selector);
-            e.addEventListener(eventType, function () { fn(e); });
+            if(e){
+                e.addEventListener(eventType, function () { fn(e); });
+            }
         }else{
             let nl = document.querySelectorAll(selector);
             for(let e of nl){

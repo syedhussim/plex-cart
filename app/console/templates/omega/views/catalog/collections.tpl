@@ -5,10 +5,10 @@
     <div class="dy-fx fx-fd-cn fx-ai-cr">
         <h1>Catalog Collections</h1>
         {% if collections.empty() %}
-            <p class="fs-18 fw-500">Create attributes to add dynamic properties to product data.</p>
+            <p class="fs-18 fw-500">Create collections of products.</p>
             <a href="/catalog/collections/create" class="btn-commit maxw-200-px">Create Collection</a>
         {% else %}
-            <p class="fs-18 fw-500">Click an attribute to view and edit details.</p>
+            <p class="fs-18 fw-500">Click a collection to view and edit details.</p>
         {% /if %}
     </div>
 </div>

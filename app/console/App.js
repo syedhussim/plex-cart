@@ -15,7 +15,7 @@ class App extends Application{
         this.routes.add('/catalog/attributes/create', 'app/console/modules/catalog/CreateAttribute');
         this.routes.add('/catalog/collections', 'app/console/modules/catalog/Collections');
         this.routes.add('/catalog/collections/create', 'app/console/modules/catalog/CreateCollection');
-        this.routes.add('/catalog/import/feed', 'app/console/modules/catalog/ImportFeed');
+        this.routes.add('/collections/templates/create', 'app/console/modules/catalog/CreateTemplate');
 
         this.routes.add('/content/pages', 'app/console/modules/content/Pages');
         this.routes.add('/content/pages/create', 'app/console/modules/content/CreatePage');

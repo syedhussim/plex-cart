@@ -14,7 +14,7 @@
                         <div>
                             <span class="fs-18 fw-500">{{ pageRow.name }}</span>
                         </div>
-                        <div class="fs-13 fc-6 mt-5" target="_blank">{{ pageRow.url }}</div>
+                        <div class="fs-13 fc-6 mt-5">{{ pageRow.url }}</div>
                     </div>
                 </div>
             {% /foreach %}

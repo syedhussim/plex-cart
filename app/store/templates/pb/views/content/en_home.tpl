@@ -1,75 +1,53 @@
 {{ await include('shared/en_header') }}
 
-<style>
-
-.slider-background {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    position: relative;
-    z-index: -1;
-    height: 100vh;
-    max-height: 810px;
-    background-position: center bottom;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-.test:before {
-    content: '';
-    display: block;
-    padding-top: 100%;
-}
-
-</style>
-
-<div style="display: flex; justify-content:center;">
+<div class="dy-fx fx-jc-cr">
     <div class="maxw-1440-px wh-100-pc">
-        <div class="slider-background" style="background-image:url(https://playboyfragrances.com/wp-content/themes/playboyfragrance/img/blocks/home-slider/hero-blank.jpg)">
-            <div class="slider-background-overlay" style="display: block;"></div>
-        </div>
+        <video autoplay="" muted="" src="https://designdevprogress.co.uk/kurv/PBY_Mockup_site.mp4" playsinline=""></video>
     </div>
 </div>
 
-<div class="pt-150">
-    <div class="dy-fx fx-jc-cr wh-100-pc">
-        <div class="dy-fx maxw-1170-px">
-            <div class="pl-15 pr-15">
-                <h1>{{ heading_1 }}</h1>
-                {{ heading_body }}
-            </div>
+<div class="dy-fx fx-jc-cr">
+    <div class="mt-60 mb-50">
+        <h2 class="fs-28 fw-700 fc-3">MAKE THE COVER</h2>
+    </div>
+</div>
 
-            <div class="pl-15 pr-15">
-                <div class="slider-image video-wrapper">
-                    <a class="loader--disabled" href="https://vimeo.com/395434482/de27d2334b" target="blank" data-fancybox="" tabindex="0">
-                        <img src="https://playboyfragrances.com/wp-content/uploads/2020/05/gallery.png" alt="gallery" width="756" height="641">
-                    </a>
+<div class="dy-fx fx-jc-cr">
+    <div class="wh-100-pc maxw-1440-px">
+        <div class="dy-fx wh-100-pc">
+            <div class="dy-fx wh-50-pc featured-panel" style="background-image: url(https://playboyfragrances.com/wp-content/uploads/2022/08/ForHer-Front-1.jpg);">
+                <div class="pg-60 dy-fx fx-jc-fe fx-ai-cr" style="aspect-ratio: 1/1; ">
+                    <a href="product/make-the-cover-for-her/" class="fw-700 fc-2 ws-100-vw ta-rt">FLORAL FRUITY WOODY</a>
+                </div>
+            </div>
+            <div class="dy-fx wh-50-pc featured-panel" style="aspect-ratio: 1/1; background-image: url(https://playboyfragrances.com/wp-content/uploads/2022/08/ForHim-Front-1.jpg);">
+                <div class="pg-60 dy-fx fx-jc-fe fx-ai-cr" style="aspect-ratio: 1/1; ">
+                    <a href="product/make-the-cover-for-her/" class="fw-700 fc-2 ws-100-vw">AROMATIC TONIC WOODY</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="pt-50">
-    <div class="dy-fx fx-jc-cr wh-100-pc">
-        <div class="dy-fx maxw-1170-px">
-            <h2>Discover the fragrances</h2>
-        </div>
+<div class="dy-fx fx-jc-cr">
+    <div class="mt-60 mb-50">
+        <a href="https://www.superdrug.com/b/Playboy" target="_blank"><img src="wp-content/themes/playboyfragrance/img/superdrug-logo.png" style="vertical-align:text-bottom;" alt="Superdrug" class="superdrug-logo" width="120"></a>
     </div>
 </div>
 
-<div class="pt-50">
-    <div class="dy-fx fx-jc-cr wh-100-pc">
-        <div class="maxw-1440-px wh-100-pc dy-fx">
-            <div class="dy-fx wh-50-pc test" style="background-image: url(https://playboyfragrances.com/wp-content/themes/playboyfragrance/img/blocks/featured-panels/for-him-bg@2x.jpg); background-size: cover;
-background-position: center center;">A</div>
-            <div class="dy-fx wh-50-pc">B</div>
-        </div>
+<div class="dy-fx fx-jc-cr">
+    <div class="maxw-1440-px wh-100-pc">
+        <video autoplay="" muted="" src="https://designdevprogress.co.uk/kurv/PBY_Website_redesign_page_2-02.mp4" playsinline=""></video>
     </div>
 </div>
+
+<div class="dy-fx fx-jc-cr mt-100">
+    <div class="maxw-1440-px wh-100-pc ta-cr">
+        <div class="mb-10">
+            <img src="/pb/public/images/icons/instagram.svg" class="wh-40-px">
+        </div>
+        <h2 class="tt-ue fs-28 fw-700 fc-3">Follow Us</h2>
+    </div>
+</div>
+
+{{ await include('shared/footer') }}
