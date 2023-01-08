@@ -2,7 +2,7 @@ const HttpController = req('core.http.HttpController');
 const View = req('core.View');
 const Html = req('core.Html');
 
-class StoreController extends HttpController{
+class Frontontroller extends HttpController{
 
     async load(){
 
@@ -17,7 +17,7 @@ class StoreController extends HttpController{
                 middlewareClass.before(this);
             }
             this.store.theme = 'pb';
-            this.view = new View(this.root.concat('/app/store/templates/' + this.store.theme + '/views/'));
+            this.view = new View(this.root.concat('/app/front/templates/' + this.store.theme + '/views/'));
             this.view.param('store', this.store);
             this.view.param('request', this.request);
             this.view.param('html', Html);
@@ -31,4 +31,4 @@ class StoreController extends HttpController{
     }
 }
 
-module.exports = StoreController;
+module.exports = Frontontroller;

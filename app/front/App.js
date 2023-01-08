@@ -14,7 +14,7 @@ class App extends Application{
             .get();
 
         if(!pagesRes.empty()){
-            this.routes.add(url, 'app/store/modules/content/Page');
+            this.routes.add(url, 'app/front/modules/content/Page');
         }
     
         this.dependencies({ db : db });

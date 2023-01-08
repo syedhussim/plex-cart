@@ -1,7 +1,7 @@
-const StoreController = req('app.store.lib.controllers.StoreController');
-const PageContent = req('app.store.lib.content.PageContent');
+const Frontontroller = req('app.front.lib.controllers.Frontontroller');
+const PageContent = req('app.front.lib.content.PageContent');
 
-class Page extends StoreController{
+class Page extends Frontontroller{
 
     async get(){
         
