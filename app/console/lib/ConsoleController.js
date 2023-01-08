@@ -1,5 +1,6 @@
 const HttpController = req('core.http.HttpController');
-const Html= req('core.Html');
+const Html = req('core.Html');
+const Util = req('core.Util');
 
 class ConsoleController extends HttpController{
 
@@ -26,10 +27,10 @@ class ConsoleController extends HttpController{
 
     async load(){
 
-        let storesRes = await this.db.collection('stores').get();
+        let settingsRes = await this.db.collection('settings').get();
 
-        if(!storesRes.empty()){
-            this.store = storesRes.first();
+        if(!settingsRes.empty()){
+            this.settings = settingsRes.first();
         }
 
         this.request.register('flash', (value = null) => {
@@ -45,17 +46,10 @@ class ConsoleController extends HttpController{
             }
         });
 
-        this.view.param('store', this.store);
+        this.view.param('settings', this.settings);
         this.view.param('request', this.request);
         this.view.param('html', Html);
-        this.view.param('money', (amount) => {
-            let formatter = new Intl.NumberFormat(this.store.locale, {
-                style: 'currency',
-                currency: this.store.currency,
-            });
-            
-            return formatter.format(amount);
-        });
+        this.view.param('util', Util);
 
         this.view.prependFile('shared/header');
         this.view.appendFile('shared/footer');

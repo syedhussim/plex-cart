@@ -74,17 +74,6 @@ class CreatePage extends ConsoleController{
                 message : `page ${page.name}`,
                 success : result.success
             });
-
-            let templatesRes = await this.db.collection('templates')
-                .where('page_id', 'eq', page.id)
-                .get();
-
-            if(templatesRes.empty()){
-                this.response.redirect(`/content/templates/create?pid=${page.id}`);
-                return;
-            }else{
-                return await this.get(post.id, page);
-            }
         }
 
         return await this.get(post.id, page, validator.errors());

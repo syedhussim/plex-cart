@@ -6,34 +6,18 @@ class App extends Application{
 
     async load(){
 
-        this.routes.add('/sales/orders', 'app/console/modules/sales/Orders');
-
-        this.routes.add('/catalog/products', 'app/console/modules/catalog/Products');
-        this.routes.add('/catalog/products/create', 'app/console/modules/catalog/CreateProduct');
-        this.routes.add('/catalog/products/clone', 'app/console/modules/catalog/CloneProduct');
-        this.routes.add('/catalog/attributes', 'app/console/modules/catalog/Attributes');
-        this.routes.add('/catalog/attributes/create', 'app/console/modules/catalog/CreateAttribute');
-        this.routes.add('/catalog/collections', 'app/console/modules/catalog/Collections');
-        this.routes.add('/catalog/collections/create', 'app/console/modules/catalog/CreateCollection');
-        this.routes.add('/collections/templates/create', 'app/console/modules/catalog/CreateTemplate');
-
         this.routes.add('/content/pages', 'app/console/modules/content/Pages');
         this.routes.add('/content/pages/create', 'app/console/modules/content/CreatePage');
         this.routes.add('/content/templates', 'app/console/modules/content/Templates');
         this.routes.add('/content/templates/create', 'app/console/modules/content/CreateTemplate');
+        this.routes.add('/content/templates/attributes', 'app/console/modules/content/TemplateAttributes');
+        this.routes.add('/content/attributes', 'app/console/modules/content/Attributes');
+        this.routes.add('/content/attributes/create', 'app/console/modules/content/CreateAttribute');
 
         this.routes.add('/media/library', 'app/console/modules/media/Library');
         this.routes.add('/media/library.json', 'app/console/modules/media/Library');
 
-        this.routes.add('/store/settings', 'app/console/modules/store/Settings');
-        this.routes.add('/store/shipping/countries', 'app/console/modules/store/ShippingCountries');
-        this.routes.add('/store/taxes', 'app/console/modules/store/Taxes');
-        this.routes.add('/store/taxes/country', 'app/console/modules/store/CountryTax');
-        this.routes.add('/store/themes', 'app/console/modules/store/Themes');
-        this.routes.add('/store/payment/gateways', 'app/console/modules/store/PaymentGateways');
-        this.routes.add('/store/payment/gateways/manage', 'app/console/modules/store/ManagePaymentGateway');
-        
-        this.routes.add('/install/setup', 'app/console/modules/install/Setup');
+        this.routes.add('/settings', 'app/console/modules/settings/Edit');
     
         this.dependencies({
             db : DatabaseEngine.create(this.config.db, this.appStorage),

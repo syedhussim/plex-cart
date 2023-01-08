@@ -2,17 +2,23 @@ const Intlz = req('core.Intlz');
 const Validation = req('core.Validation');
 const ConsoleController = req('app.console.lib.ConsoleController');
 
-class Settings extends ConsoleController{
+class Edit extends ConsoleController{
 
     async get(settings = null, errors = new Validation.ValidatorErrors()){
 
         if(!settings){
-            let storesRes = await this.db.collection('stores').get();
+            let settingsRes = await this.db.collection('settings').get();
 
-            settings = storesRes.first(); 
+            settings = settingsRes.firstOrDefault({
+                id : '',
+                name : '',
+                url : '',
+                locale : '',
+                timezone : ''
+            });
         }
 
-        return await this.view.render('store/settings',{
+        return await this.view.render('settings/edit',{
             settings : settings,
             currencies : Intlz.currencies(),
             locales : Intlz.locales(),
@@ -30,8 +36,6 @@ class Settings extends ConsoleController{
         let settings = {
             name : post.get('name'),
             url : post.get('url'),
-            admin_email : post.get('admin_email'),
-            currency : post.get('currency'),
             locale : post.get('locale'),
             timezone : post.get('timezone')
         };
@@ -41,11 +45,6 @@ class Settings extends ConsoleController{
             new Validation.MaxLength(50, 'Name must not exceed @length characters')
         ]).add('url', settings, [
             new Validation.Required('Store URL is required'),
-        ]).add('admin_email', settings, [
-            new Validation.Required('Admin Email is required'),
-        ]).add('currency', settings, [
-            new Validation.Required('Currency is required'),
-            new Validation.MaxLength(3, 'Currency must not exceed @length characters')
         ]).add('locale', settings, [
             new Validation.Required('Regional Format is required'),
             new Validation.MaxLength(10, 'Regional Format must not exceed @length characters')
@@ -56,10 +55,11 @@ class Settings extends ConsoleController{
 
         if(validator.isValid()){
 
-            let result = await this.db.collection('stores').update(post.id, settings);
+
+            let result = await this.db.collection('settings').updateOrInsert(post.id, settings);
 
             this.request.flash({
-                message : 'Store settings have been updated',
+                message : 'Settings have been updated',
                 success : result.success
             });
 
@@ -70,4 +70,4 @@ class Settings extends ConsoleController{
     }
 }
 
-module.exports = Settings;
+module.exports = Edit;

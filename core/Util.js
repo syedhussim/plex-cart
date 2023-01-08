@@ -120,3 +120,16 @@ module.exports.toImage = function(file, data){
         fs.writeFile(file, segments[1], 'base64');
     }
 }
+
+module.exports.getObjProperty = function(obj, property){
+
+    if(!obj){
+        return '';
+    }
+
+    if(obj.hasOwnProperty(property)){
+        return obj[property];
+    }
+    
+    return '';
+}

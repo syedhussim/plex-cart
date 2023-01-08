@@ -13,7 +13,6 @@ class Pages extends ConsoleController{
             pages : pagesRes,
         });
     }
-
 }
 
 module.exports = Pages;

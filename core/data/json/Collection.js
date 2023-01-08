@@ -237,19 +237,37 @@ class Collection{
             }
         }
 
+        if(updated == false){
+            return {
+                success : false,
+                status : 404
+            };
+        }
+
         try{
-            if(updated){
-                await fs.writeFile(collectionFile, serialize(data)); 
+            await fs.writeFile(collectionFile, serialize(data)); 
 
-                return {
-                    success : true
-                };
-            }
-        }catch(e){}
+            return {
+                success : true,
+                status : 200
+            };
+            
+        }catch(e){
+            return {
+                success : false,
+                status : 500,
+                message : e.message
+            };        
+        }
+    }
 
-        return {
-            success : false
-        };
+    async updateOrInsert(id, object){
+        let result = await this.update(id, object);
+        
+        if(result.status == 404){
+            return this.create(object);
+        }
+        return result;
     }
 
     async delete(id){

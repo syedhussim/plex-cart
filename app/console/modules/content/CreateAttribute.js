@@ -13,22 +13,13 @@ class CreateAttribute extends ConsoleController{
                 active : 0,
                 name : '',
                 property : '',
-                type : '',
-                visibility : 3
+                type : ''
             });
         }
 
-        let visibility = [
-            'Internal',
-            'Product',
-            'Product - Collection',
-            'Product - Collection - Basket'
-        ];
-
-        return await this.view.render('catalog/create_attribute',{
+        return await this.view.render('content/create_attribute',{
             attributes : attributes,
             attribute : attribute,
-            visibility : visibility,
             errors : errors
         });
     }
@@ -46,7 +37,6 @@ class CreateAttribute extends ConsoleController{
             property : post.get('property'),
             type : post.get('type'),
             menu_items : post.get('menu_items'),
-            visibility : post.getInt('visibility'),
             required : post.getInt('required')
         }; 
 
@@ -58,8 +48,6 @@ class CreateAttribute extends ConsoleController{
             new Validation.MaxLength(50, 'Property Name must not exceed @length characters')
         ]).add('type', attribute, [
             new Validation.Required('Type is required')
-        ]).add('visibility', attribute, [
-            new Validation.Required('Visibility is required')
         ]);
 
         if(validator.isValid()){

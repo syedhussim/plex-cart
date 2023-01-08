@@ -13,7 +13,7 @@ class Attributes extends ConsoleController{
             'Product - Collection - Basket'
         ];
 
-        return await this.view.render('catalog/attributes',{
+        return await this.view.render('content/attributes',{
             attribute : { id : '' },
             attributes : attributes,
             visibility : visibility

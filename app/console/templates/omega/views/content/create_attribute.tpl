@@ -1,4 +1,4 @@
-{{ await include('catalog/attributes_list') }}
+{{ await include('content/attributes_list') }}
 
 <div class="{{ attributes.empty() ? 'app-container-full' : 'app-container' }}">
     <div class="app-content-container">
@@ -53,14 +53,6 @@
                 <div class="mb-20 menu-items {{ attribute.type != 'ATTR_MENU' ? 'dy-ne' : '' }}">
                     <label class="mb-5 dy-bk fw-700 {{ errors.hasError('menu_items', 'fc-9') }}">{{ errors.get('menu_items', 'Menu Items') }}</label>
                     {{ html.textarea('menu_items', attribute).css('ht-100-px') }}
-                </div>
-
-                <div class="mb-20">
-                    <label class="mb-5 dy-bk fw-700 {{ errors.hasError('visibility', 'fc-9') }}">{{ errors.get('visibility', 'Visibility') }}</label>
-                    {{ 
-                        html.select('visibility', attribute)
-                        .fromArray(visibility, true)
-                    }}
                 </div>
 
                 <div class="mb-20">

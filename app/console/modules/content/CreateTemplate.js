@@ -4,7 +4,7 @@ const fs = require('fs/promises');
 
 class CreateTemplate extends ConsoleController{
 
-    async get(pid, id = null,  template = null, errors = new Validation.ValidatorErrors()){
+    async get(pid, id = null, template = null, errors = new Validation.ValidatorErrors()){
 
         let pageRes = await this.db.collection('pages')
             .where('id', 'eq', pid)
@@ -24,11 +24,24 @@ class CreateTemplate extends ConsoleController{
                     name : '',
                     template_file : '',
                     page_id : page.id,
-                    variables : {}
+                    attributes : {}
                 });
             }
 
-            let files = await fs.readdir(this.root.concat('/app/store/templates/' + this.store.theme + '/views/content'), { 
+            let attributesRes = await this.db.collection('attributes')
+                .where('active', 'eq', 1)
+                .sort('name')
+                .get();
+
+            let templateAttributeRes = await this.db.collection('template_attributes')
+                .where('page_id', 'eq', page.id)
+                .where('template_id', 'eq', template.id)
+                .get();
+
+            attributesRes = attributesRes.fullJoin(templateAttributeRes, 'id', 'attribute_id', ['template_id']);
+
+            this.settings.theme = 'pb';
+            let files = await fs.readdir(this.root.concat('/app/store/templates/' + this.settings.theme + '/views/content'), { 
                 withFileTypes: true
             });
 
@@ -39,6 +52,7 @@ class CreateTemplate extends ConsoleController{
                 page : pageRes.first(),
                 template : template,
                 templateFiles : templateFiles,
+                attributes : attributesRes,
                 errors : errors
             });
         }
@@ -50,12 +64,14 @@ class CreateTemplate extends ConsoleController{
 
         let validator = new Validation.Validator();
 
+        let properties = Object.keys(post);
+
         let template = {
             id : post.get('id'),
             name : post.get('name'),
             template_file : post.get('template_file'),
             page_id : post.get('page_id'),
-            variables : {}
+            attributes : {}
         }; 
 
         validator.add('name', template, [
@@ -65,31 +81,47 @@ class CreateTemplate extends ConsoleController{
             new Validation.Required('Template File is required'),
         ]);
 
-        let varNames = post.getArray('var_name');
-        let varValues = post.getArray('var_value');
+        for(let property of properties){
+            if(property.substring(0,5) == 'attr_'){
+                let productAttribute = property.substring(5);
 
-        for(let i=0; i < varNames.length; i++){
-            template.variables[varNames[i]] = varValues[i];
+                let attributeResult = await this.db.collection('attributes')
+                    .where('property', 'eq', productAttribute)
+                    .get();
+
+                if(!attributeResult.empty()){
+                    let attribute = attributeResult.first();
+
+                    template.attributes[productAttribute] = { name : attribute.name, value : post[property].trim() };
+
+                    if(attribute.required){
+                        validator.add(property, template.attributes[productAttribute].value, [
+                            new Validation.Required(`${attribute.name} is required`)
+                        ]);
+                    }
+                }
+            }
         }
 
         if(validator.isValid()){
             let result;
 
-            if(post.id){
-                result = await this.db.collection('templates').update(post.id, template); 
+            if(template.id){
+                result = await this.db.collection('templates').update(template.id, template); 
             }else{
                 result = await this.db.collection('templates').create(template); 
             }
 
             this.request.flash({
-                message : `template ${template.name}`,
+                message : `Template ${template.name}`,
                 success : result.success
             });
 
-            return await this.get(template.page_id, post.id, template);
+            this.response.redirect(`/content/templates/create?pid=${template.page_id}&id=${template.id}`);
+            return;
         }
 
-        return await this.get(post.id, template, validator.errors());
+        return this.get(template.page_id, template.id, template, validator.errors());
     }
 
     async delete(){

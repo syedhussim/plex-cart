@@ -1,4 +1,5 @@
 const StoreController = req('app.store.lib.controllers.StoreController');
+const PageContent = req('app.store.lib.content.PageContent');
 
 class Page extends StoreController{
 
@@ -14,25 +15,18 @@ class Page extends StoreController{
             let page = pagesRes.first();
 
             let templatesRes = await this.db.collection('templates')
-                .where('id', 'eq', pagesRes.first().template_id)
+                .where('id', 'eq', page.template_id)
                 .get();
 
             if(!templatesRes.empty()){
 
-                let template = templatesRes.first();
-                let model = req(this.models.get('page'));
+                let template = templatesRes.first(); 
 
-                let pageModel = new model({
-                    name : page.name,
-                    template_file : template.template_file,
-                    params : template.variables
+                let file = template.template_file.substring(0, template.template_file.indexOf('.'));
+
+                return this.view.render(`content/${file}`, { 
+                    page : new PageContent(template.attributes)
                 });
-
-                await pageModel.init(this.db);
-
-                let file = pageModel.template_file.substring(0, pageModel.template_file.indexOf('.'));
-
-                return this.view.render(`content/${file}`, { page_name : pageModel.name, ...pageModel.params });
             }
         }
     }

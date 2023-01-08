@@ -29,10 +29,16 @@ class Textbox{
         this._type = type;
         this._classname = '';
 
-        value = value || '';
-
         if(value instanceof Object){
             value = value[name] != null ? value[name] : '';
+        }
+
+        if(typeof value != 'undefined'){
+            if(value.length == 0 || typeof value == 'undefined'){
+                value = '';
+            }
+        }else{
+            value = '';
         }
 
         this._value = value;
