@@ -1,3 +1,12 @@
+{% let groupedPages = new Map(); %}
+{% foreach page in pages %}
+    {% let name = page.group ? page.group : 'Ungrouped'; %}
+    {% if groupedPages.has(name) %}
+        {% groupedPages.get(name).push(page); %}
+    {% else %}
+        {% groupedPages.set(name, [ page ]); %}
+    {% /if %}
+{% /foreach %}
 
 {% if !pages.empty() %}
     <div class="app-panel">
@@ -30,18 +39,25 @@
         </div>
 
         <div class="container">
-            {% foreach pageRow in pages %}
-                <div class="data-row cr-pr {{ page.id == pageRow.id ? 'data-row-selected' : '' }}" onclick="window.location='/content/pages/create?pid={{ pageRow.id }}'" >
-                    <div class="wh-100-pc pt-15 pb-15 pl-20 pr-20 dy-fx fx-jc-sb fx-ai-cr">
-                        <div>
-                            <div>
-                                <span class="fs-16 fw-700">{{ pageRow.name }}</span>
+            {% foreach entry in groupedPages %}
+                <details open>
+                    <summary>{{ entry[0] }}</summary>
+
+                    {% foreach pageRow in entry[1] %}
+                        <div class="data-row cr-pr {{ page.id == pageRow.id ? 'data-row-selected' : '' }}" onclick="window.location='/content/pages/create?pid={{ pageRow.id }}'" >
+                            <div class="wh-100-pc pt-15 pb-15 pl-20 pr-20 dy-fx fx-jc-sb fx-ai-cr">
+                                <div>
+                                    <div>
+                                        <span class="fs-16 fw-700">{{ pageRow.name }}</span>
+                                    </div>
+                                    <div class="fs-13 fc-6 mt-5">{{ pageRow.url }}</div>
+                                </div>
+                                <div><span class="active{{ pageRow.active }}"></span></div>
                             </div>
-                            <div class="fs-13 fc-6 mt-5">{{ pageRow.url }}</div>
                         </div>
-                        <div><span class="active{{ pageRow.active }}"></span></div>
-                    </div>
-                </div>
+                    {% /foreach %}
+
+                </details>
             {% /foreach %}
         </div>
     </div>

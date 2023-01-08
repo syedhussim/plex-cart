@@ -51,6 +51,19 @@
                     {{ html.textbox('name', page) }}
                 </div>
 
+                <div class="mb-20">
+                    <label class="mb-5 dy-bk fw-700">Group</label>
+                    <div class="input-container combobox">
+                        {{ html.textbox('group', page).css('br-0-px') }}
+
+                        <ul>
+                        {% foreach group in pageGroups %}
+                            <li>{{ group.name }}</li>
+                        {% /foreach %}
+                        </ul>
+                    </div>
+                </div>
+
                 {% if !templates.empty() %}
                     <label class="mb-5 dy-bk fw-700">Templates</label>
                 {% /if %}

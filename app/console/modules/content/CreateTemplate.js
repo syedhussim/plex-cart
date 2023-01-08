@@ -41,7 +41,7 @@ class CreateTemplate extends ConsoleController{
             attributesRes = attributesRes.fullJoin(templateAttributeRes, 'id', 'attribute_id', ['template_id']);
 
             this.settings.theme = 'pb';
-            let files = await fs.readdir(this.root.concat('/app/store/templates/' + this.settings.theme + '/views/content'), { 
+            let files = await fs.readdir(this.root.concat('/app/front/templates/' + this.settings.theme + '/views/content'), { 
                 withFileTypes: true
             });
 

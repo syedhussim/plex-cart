@@ -16,7 +16,7 @@
             </form>
         {% else %}
             <h1>Content</h1>
-            <p class="fs-18">Select a page to view or edit.</p>
+            <p class="fs-18">Click on a page to view and edit details.</p>
         {% /if %}
     </div>
 </div>

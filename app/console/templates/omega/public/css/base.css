@@ -19,6 +19,7 @@ h6 { margin : 0px; font-size : 0.6rem; font-weight : 400; }
 .bg-8 { background-color : var(--color-8); }
 .bg-9 { background-color : var(--color-9); }
 
+.br-0-px { border-radius : 0px; }
 .br-1-px { border-radius : 1px; }
 .br-2-px { border-radius : 2px; }
 .br-3-px { border-radius : 3px; }

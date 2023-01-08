@@ -146,7 +146,7 @@ img { display: block; }
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0px 20px;
+    padding: 0px 25px;
     border-top:1px solid var(--color-4);
     border-bottom:1px solid var(--color-4);
 }
@@ -170,11 +170,10 @@ img { display: block; }
     bottom: 0px;
 }
 .app-content-section .inner-section {
-    height: 75px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 18px 25px;
     background: var(--color-7);
 }
 .app-content-section .inner-section h4{
@@ -268,13 +267,55 @@ img { display: block; }
     top :0px;
     left:-3px;
     bottom: 0px;
+}
 
+.combobox > ul{
+    margin: 15px -15px -15px -15px;
+    display: none;
+}
+.combobox > ul > li {
+    padding:15px;
+    border-bottom: 1px solid #eaeaf2;
+    position: relative;
+    cursor: pointer;
+}
+.combobox > ul > li:hover{
+    background-color: var(--color-7);
+}
+.combobox > ul > li:hover::before{
+    width: 3px;
+    content: '';
+    display: flex;
+    background-color: var(--color-5);
+    position: absolute;
+    top: -1px;
+    left: -3px;
+    bottom: -1px;
+}
+.combobox > ul > li:first-child{
+    border-top: 1px solid #eaeaf2;
+}
+.combobox > ul > li:last-child{
+    border-bottom: 0px;
+}
+.combobox:focus-within ul{
+    display: flex;
+    flex-direction: column;
+}
+
+details summary{
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--color-4);
+    color:var(--color-9);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
 }
 
 input[type="text"], 
 input[type="password"],
 input[type="date"], 
-textarea, select{
+textarea, select, .input-container{
     width : 100%;
     border : 1px solid var(--color-4);
     padding : 15px;
@@ -285,6 +326,10 @@ textarea, select{
     font-family : var(--font);
     font-size : var(--font-size);
     color : var(--font-color);
+}
+.input-container > input {
+    border:0px;
+    padding:0px;
 }
 
 .option-row input[type=checkbox]{
@@ -323,10 +368,16 @@ textarea, select{
     outline: 4px solid #65ca6550;
 }
 
-input[type="text"]:focus, input[type="password"]:focus, input[type="date"]:focus, textarea:focus, select:focus {
+input[type="text"]:focus, input[type="password"]:focus, input[type="date"]:focus, textarea:focus, select:focus, .input-container:focus-within {
     border : 1px solid var(--color-5);
     box-shadow : 0px 1px 3px #ddd inset;
 }
+.input-container > input:focus{
+    border:0px;
+    padding:0px;
+    box-shadow: none;
+}
+
 input[type=checkbox]{
     display: none;
 }

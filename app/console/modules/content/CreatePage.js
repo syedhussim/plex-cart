@@ -15,9 +15,13 @@ class CreatePage extends ConsoleController{
                 id : '',
                 active : 0,
                 name : '',
+                group : '',
                 template_id : ''
             });
         }
+
+        let pageGroupsRes = await this.db.collection('page_groups')
+            .get();
 
         let templatesRes = await this.db.collection('templates')
             .where('page_id', 'eq', page.id)
@@ -27,6 +31,7 @@ class CreatePage extends ConsoleController{
         return await this.view.render('content/create_page',{
             pages : pagesRes,
             page : page,
+            pageGroups : pageGroupsRes,
             templates : templatesRes,
             errors : errors
         });
@@ -43,12 +48,13 @@ class CreatePage extends ConsoleController{
             url : Util.url(post.get('name')),
             active : post.getInt('active'),
             name : post.get('name'),
+            group : post.get('group'),
             template_id : post.get('template_id')
         }; 
 
         validator.add('name', page, [
             new Validation.Required('Name is required'),
-            new Validation.MaxLength(50, 'Name must not exceed @length characters')
+            new Validation.MaxLength(100, 'Name must not exceed @length characters')
         ]);
 
         let pagesRes = await this.db.collection('pages')
@@ -62,6 +68,20 @@ class CreatePage extends ConsoleController{
         }
 
         if(validator.isValid()){
+
+            if(page.group.trim()){
+
+                let pageGroupsRes = await this.db.collection('page_groups')
+                    .where('name', 'eq', page.group.trim())
+                    .get();
+
+                if(pageGroupsRes.empty()){
+                    await this.db.collection('page_groups').create({
+                        name : page.group.trim()
+                    });
+                }
+            }
+
             let result;
 
             if(post.id){
