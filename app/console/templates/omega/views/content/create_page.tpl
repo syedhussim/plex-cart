@@ -55,11 +55,12 @@
                     <label class="mb-5 dy-bk fw-700">Group</label>
                     <div class="input-container combobox">
                         {{ html.textbox('group', page).css('br-0-px') }}
-
-                        <ul>
-                        {% foreach group in pageGroups %}
-                            <li>{{ group.name }}</li>
-                        {% /foreach %}
+                        {% if !pageGroups.empty() %}
+                            <ul>
+                            {% foreach group in pageGroups %}
+                                <li>{{ group.name }}</li>
+                            {% /foreach %}
+                        {% /if %}
                         </ul>
                     </div>
                 </div>
@@ -120,11 +121,11 @@
 
                 event.stopPropagation();
 
-                let e = document.querySelector('#deleteMsg')
+                let e = document.querySelector('#deleteMsg');
                 e.classList.remove('dy-ne');
                 e.classList.add('dy-fx');
 
-                let ctxMenu = document.querySelector('#pageContextMenu')
+                let ctxMenu = document.querySelector('#pageContextMenu');
                 ctxMenu.classList.remove('wh-200-px');
                 ctxMenu.classList.add('wh-300-px');
             });

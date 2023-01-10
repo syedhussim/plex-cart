@@ -450,4 +450,24 @@ h6 { margin : 0px; font-size : 0.6rem; font-weight : 400; }
 .lt-20 { left : 20px }
 .lt-30 { left : 30px }
 
+.cr-dt { cursor : default }
 .cr-pr { cursor : pointer; }
+.cr-ne { cursor : none; }
+.cr-na { cursor : not-allowed; }
+
+.ow-hn { overflow : hidden; }
+.ow-sl { overflow : scroll; }
+.ow-ve { overflow : visible; }
+.ow-ao { overflow : auto; }
+
+.ta-lt { text-align : left; }
+.ta-cr { text-align : center; }
+.ta-rt { text-align : right; }
+
+.to-cp { text-overflow : clip; }
+.to-es { text-overflow : ellipsis; }
+.to-us { text-overflow : unset; }
+
+.ws-np { white-space : nowrap; }
+.ws-nl { white-space : normal; }
+.ws-pe { white-space : pre; }

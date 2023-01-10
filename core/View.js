@@ -1,4 +1,5 @@
 const fs = require('fs/promises');
+const { exit } = require('process');
 
 class View{
 
@@ -7,6 +8,7 @@ class View{
         this._params = {};
         this._prependFiles = [];
         this._appendFiles = [];
+        this._ifStatementCount = 0;
     }
 
     prependFile(file){
@@ -45,50 +47,63 @@ class View{
         return await this._parse(string, params);
     }
 
-    async _parse(string, params = {}){
+    async _parse(str, params = {}){
 
-        let len = string.length;
+        let lines = str.split("\n");
+
         let token = '';
         let tokens = [];
         let codeBlock = false;
         let codeType = '';
+        let lineNum = 1;
 
-        for(let i=0; i < len; i++){
-            let ch =  string[i];
-            let nc = string[i + 1] || false;
+        for (let line of lines){
 
-            if((ch == '{' && nc == '%') || (ch == '{' && nc == '{')){
-                codeType = (ch == '{' && nc == '{') ? 'VARIABLE' : 'CODE';
-                tokens.push({
-                    type : 'STRING',
-                    value : token
-                });
+            let len = line.length;
 
-                token = '';
-                codeBlock = true;
-                i++;
-                continue;
+            for(let i=0; i < len; i++){
+                let ch = line[i];
+                let nc = line[i + 1] || false;
+
+                if((ch == '{' && nc == '%') || (ch == '{' && nc == '{')){
+                    codeType = (ch == '{' && nc == '{') ? 'VARIABLE' : 'CODE';
+                    tokens.push({
+                        type : 'STRING',
+                        value : token,
+                        lineNum : lineNum
+                    });
+
+                    token = '';
+                    codeBlock = true;
+                    i++;
+                    continue;
+                }
+
+                if((ch == '%' && nc == '}') || (ch == '}' && nc == '}') && codeBlock){
+                    tokens.push({
+                        type : codeType,
+                        value : token,
+                        lineNum : lineNum
+                    });
+
+                    token = '';
+                    codeBlock = false;
+                    i++;
+                    continue;
+                }
+
+                token += ch;
             }
 
-            if((ch == '%' && nc == '}') || (ch == '}' && nc == '}') && codeBlock){
-                tokens.push({
-                    type : codeType,
-                    value : token
-                });
+            tokens.push({
+                type : 'STRING',
+                value : token,
+                lineNum : lineNum
+            }); 
 
-                token = '';
-                codeBlock = false;
-                i++;
-                continue;
-            }
-
-            token += ch;
+            token = '';
+            lineNum++;
         }
-
-        tokens.push({
-            type : 'STRING',
-            value : token
-        });
 
         let output = "let out = '';";
 
@@ -98,10 +113,10 @@ class View{
                     output += "out +=`" + token.value + "`;"
                     break;
                 case 'VARIABLE':
-                    output += "out +=" + this._parseVariable(token.value) + ";"
+                    output += "out +=" + token.value + ";"
                     break;
                 case 'CODE': 
-                    output += this._processCode(token.value);
+                    output += this._processCode(token);
                     break;
             }
         }
@@ -113,18 +128,6 @@ class View{
         params['include'] = async(file) =>{
             let view = new View(this._viewDir);
             return await view.render(file, params);
-        };
-
-        params['trim'] = function(str){
-            return str.trim()
-        };
-
-        params['upper'] = function(str){
-            return str.toUpperCase();
-        };
-
-        params['lower'] = function(str){
-            return str.toLowerCase();
         };
 
         let keys = [];
@@ -140,53 +143,35 @@ class View{
         let func = new asyncConstructor(...keys, output);
 
         return await func(...vals);
+        
     }
 
-    _parseVariable(tokenValue){
-
-        if(tokenValue.indexOf('|') > -1){
-            let [variable, ...funcs] = tokenValue.split('|').map(i => i.trim());
-
-            if(funcs.length > 0){
-
-                let x = function(str, funcs, idx){
-
-
-                    str = funcs[idx] + '(' + str + ')';
-
-                    idx++;
-
-                    if(idx < funcs.length){
-                        return x(str, funcs, idx);
-                    }
-
-                    return str;
-                };
-
-                let y = x(variable, funcs, 0);
-
-                return y;
-            }
-        }
-
-        return tokenValue;
-    }
-
-    _processCode(blockToken){
+    _processCode(token){
+        let blockToken = token.value;
         let tokens = blockToken.trim().split(' ');
 
         switch(tokens[0]){
             case 'if':  
+                if(tokens.length == 1){
+                    throw new ViewSyntaxError(`On line ${token.lineNum} -> ${token.value.trim()} statement not closed`);
+                }
+                this._ifStatementCount++;
                 return 'if (' + tokens.splice(1).join(' ') + '){';
-            case 'elseif':  
+            case 'elseif':
                 return '}else if (' + tokens.splice(1).join(' ') + '){';
             case 'else': 
+                if(this._ifStatementCount == 0){
+                    throw new ViewSyntaxError(`On line ${token.lineNum} -> ${token.value.trim()} statement without opening if block`);
+                }
                 return '}else{';
             case 'for': 
                 return 'for (' + tokens.splice(1).join(' ') + '){';
             case 'foreach': 
-
                 let item = tokens[1];
+
+                if(tokens.length == 1){
+                    throw new ViewSyntaxError(`On line ${token.lineNum} -> ${token.value.trim()} statement not closed`);
+                }
 
                 if(item.indexOf(':') > -1){
                     let segments = tokens[1].split(':');
@@ -209,13 +194,26 @@ class View{
                     }
                 }
                 return 'for (let ' + item + ' of ' + array.join('') + '){';
+
             case '/if': 
+                if(this._ifStatementCount == 0){
+                    throw new ViewSyntaxError(`On line ${token.lineNum} -> ${token.value.trim()} statement without opening if block`);
+                }
+                this._ifStatementCount--;
+                return '}'
             case '/for': 
             case '/foreach': 
                 return '}';
             default:
                 return blockToken;
         }
+    }
+}
+
+class ViewSyntaxError extends Error{
+    constructor(message, file){
+        super(message);
+        this.stack = '';
     }
 }
 
