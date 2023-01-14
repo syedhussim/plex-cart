@@ -14,7 +14,7 @@
                                     <a class="menu-item" href="{{ settings.url }}{{ page.url }}" target="_blank">
                                         <i class="ico-open-window mr-10 minw-30-px"></i>
                                         <div class="dy-fx fx-fd-cn">
-                                            <span>View</span>
+                                            <span>Preview</span>
                                         </div>
                                     </a>
                                     <a class="menu-item" href="/content/templates/create?pid={{ page.id }}">
@@ -67,24 +67,30 @@
 
                 {% if !templates.empty() %}
                     <label class="mb-5 dy-bk fw-700">Templates</label>
-                {% /if %}
 
-                {% foreach template in templates %}
-                    <div class="option-row {{ page.template_id == template.id ? 'option-row-selected' : '' }}">
-                        <div class="wh-100-pc pl-15 pt-15 pb-15 pr-15">
-                            <div>
-                                <a href="/content/templates/create?pid={{ page.id }}&id={{ template.id }}" class="fw-700">{{ template.name }}</a>
-                            </div>
-                            <div class="fs-13 fc-6 mt-5">{{ template.template_file }}</div>
-                        </div>
-                        <div class="pr-15">
-                            <input type="radio" name="template_id" value="{{ template.id }}" id="rdo_{{ template.id }}" {{ page.template_id == template.id ? 'checked' : '' }} />
-                            <label for="rdo_{{ template.id }}"></label>
+                    <div class="mb-20">
+                        <div class="input-container listbox">
+                            <ul>
+                                {% foreach template in templates %}
+                                    <li>
+                                        <div class="wh-100-pc pl-15 pt-15 pb-15 pr-15">
+                                            <div>
+                                                <a href="/content/templates/create?pid={{ page.id }}&id={{ template.id }}" class="fw-700">{{ template.name }}</a>
+                                            </div>
+                                            <div class="fs-13 fc-6 mt-5">{{ template.template_file }}</div>
+                                        </div>
+                                        <div class="pr-15">
+                                            <input type="radio" name="template_id" value="{{ template.id }}" id="rdo_{{ template.id }}" {{ page.template_id == template.id ? 'checked' : '' }} />
+                                            <label for="rdo_{{ template.id }}"></label>
+                                        </div>
+                                    </li>
+                                {% /foreach %}
+                            </ul>
                         </div>
                     </div>
-                {% /foreach %}
+                 {% /if %}
 
-                <div class="mb-20 dy-fx">
+                <div class="mb-20 dy-fx fx-jc-fe">
                     <input type="hidden" value="{{ page.id }}" name="id" />
                     <button type="submit" class="btn-commit">Save</button>
                 </div>

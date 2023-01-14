@@ -17,6 +17,24 @@
                                             <span>Template Attributes</span>
                                         </div>
                                     </a>
+                                    <a class="menu-item" href="/content/related/pages?&id={{ template.id }}">
+                                        <i class="ico-attr mr-10 minw-30-px"></i>
+                                        <div class="dy-fx fx-fd-cn">
+                                            <span>Related Pages</span>
+                                        </div>
+                                    </a>
+                                    <div class="menu-item" id="btnConfirmDeleteTemplate">
+                                        <i class="ico-trash mr-10 minw-30-px"></i>
+                                        <div class="dy-fx fx-fd-cn">
+                                            <span>Delete</span>
+                                        </div>
+                                    </div>
+                                    <div class="dy-ne fx-fd-cn pg-15 bg-7" id="deleteMsg">
+                                        <p class="mn-0">Are you sure you want to delete this template?<p>
+                                        <div class="dy-fx fx-jc-fe">
+                                            <button type="button" class="btn-delete" id="btnDeleteTemplate" data-page_id="{{ template.id }}">Delete</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         {% /if %}
@@ -65,14 +83,14 @@
                                 {{ 
                                     html.select('attr_' + attribute.property, util.getObjProperty(template.attributes, attribute.property).value)
                                     .option('', '')
-                                    .fromArray(attribute.menu_items)
+                                    .fromArray(trim(split(attribute.menu_items)))
                                 }}
                             {% /if %}
                         </div>
                     {% /foreach %}
                 {% /if %}
 
-                <div class="mb-20 dy-fx">
+                <div class="mb-20 dy-fx fx-jc-fe">
                     <input type="hidden" value="{{ template.page_id }}" name="page_id" />
                     <input type="hidden" value="{{ template.id }}" name="id" />
                     <button type="submit" class="btn-commit">Save</button>
@@ -100,6 +118,36 @@
                 }else{
                     list.remove('dy-fx');
                     list.add('dy-ne');
+                }
+            });
+
+            this.click('#btnConfirmDeleteTemplate', () => {
+
+                event.stopPropagation();
+
+                let e = document.querySelector('#deleteMsg');
+                e.classList.remove('dy-ne');
+                e.classList.add('dy-fx');
+
+                let ctxMenu = document.querySelector('#templateContextMenu');
+                ctxMenu.classList.remove('wh-200-px');
+                ctxMenu.classList.add('wh-300-px');
+            });
+
+            this.click('#btnDeleteTemplate', async (sender) => {
+
+                let response = await fetch(window.location, {
+                    method : 'DELETE',
+                    headers: {
+                        'Content-type': 'application/json;charset=UTF-8'
+                    },
+                    body : JSON.stringify({ id : sender.dataset.page_id })
+                });
+
+                let result = await response.json();
+
+                if(result.success){
+                    window.location = '/content/pages';
                 }
             });
         }

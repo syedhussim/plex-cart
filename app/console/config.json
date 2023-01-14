@@ -4,6 +4,7 @@
         "path" : "/home/syed/Desktop/plex-data",
         "cache" : false
     },
+    
     "session" : {
         "name" : "_plx_id",
         "path" : "/",

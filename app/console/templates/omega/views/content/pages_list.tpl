@@ -27,12 +27,6 @@
                                 <span>Attributes</span>
                             </div>
                         </a>
-                        <a class="menu-item" href="/content/collections">
-                            <i class="ico-collection mr-10 minw-30-px"></i>
-                            <div class="dy-fx fx-fd-cn">
-                                <span>Collections</span>
-                            </div>
-                        </a>
                     </div>
                 </div>
             </div>
