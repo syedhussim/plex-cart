@@ -11,7 +11,10 @@
         "samesite" :  "Lax"
     },
 
-    "controller" : [
+    "middleware" : {
+        "controller" : [],
+        "page" : []
+    }
        
-    ]
+    
 }

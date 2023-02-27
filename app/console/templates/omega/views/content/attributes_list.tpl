@@ -8,7 +8,7 @@
 
         <div class="container">
             {% foreach attributeRow in attributes %}
-                <div class="data-row {{ attribute.id == attributeRow.id ? 'data-row-selected' : '' }}" onclick="window.location='/content/attributes/create?id={{ attributeRow.id }}'">
+                <div class="data-row cr-pr {{ attribute.id == attributeRow.id ? 'data-row-selected' : '' }}" onclick="window.location='/content/attributes/create?id={{ attributeRow.id }}'">
                     <div class="wh-100-pc pt-15 pb-15 pl-20 pr-20 dy-fx fx-jc-sb fx-ai-cr">
                         <div>
                             <div>

@@ -27,12 +27,6 @@
                                 <span>Attributes</span>
                             </div>
                         </a>
-                        <a class="menu-item" href="/content/collections">
-                            <i class="ico-collection mr-10 minw-30-px"></i>
-                            <div class="dy-fx fx-fd-cn">
-                                <span>Collections</span>
-                            </div>
-                        </a>
                     </div>
                 </div>
             </div>
@@ -46,13 +40,17 @@
                     {% foreach pageRow in entry[1] %}
                         <div class="data-row cr-pr {{ page.id == pageRow.id ? 'data-row-selected' : '' }}" onclick="window.location='/content/pages/create?pid={{ pageRow.id }}'" >
                             <div class="wh-100-pc pt-15 pb-15 pl-20 pr-20 dy-fx fx-jc-sb fx-ai-cr">
-                                <div>
-                                    <div>
-                                        <span class="fs-16 fw-700">{{ pageRow.name }}</span>
+                                <div class="ow-hn">
+                                    <div class="ow-hn to-es">
+                                        <span class="fs-16 fw-700 ws-np">{{ pageRow.name }}</span>
                                     </div>
-                                    <div class="fs-13 fc-6 mt-5">{{ pageRow.url }}</div>
+                                    <div class="fs-13 fc-6 mt-5 ow-hn to-es">
+                                        <span class="ws-np">{{ pageRow.url }}</span>
+                                    </div>
                                 </div>
-                                <div><span class="active{{ pageRow.active }}"></span></div>
+                                <div class="pl-30 dy-fx fx-jc-cr dy-ai-cr">
+                                    <span class="active{{ pageRow.active }}"></span>
+                                </div>
                             </div>
                         </div>
                     {% /foreach %}

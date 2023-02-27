@@ -13,6 +13,7 @@ class App extends Application{
         this.routes.add('/content/templates/attributes', 'app/console/modules/content/TemplateAttributes');
         this.routes.add('/content/attributes', 'app/console/modules/content/Attributes');
         this.routes.add('/content/attributes/create', 'app/console/modules/content/CreateAttribute');
+        this.routes.add('/content/related/pages', 'app/console/modules/content/RelatedPages');
 
         this.routes.add('/media/library', 'app/console/modules/media/Library');
         this.routes.add('/media/library.json', 'app/console/modules/media/Library');

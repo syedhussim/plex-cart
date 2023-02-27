@@ -115,8 +115,16 @@ class View{
             return await view.render(file, params);
         };
 
-        params['trim'] = function(str){
-            return str.trim()
+        params['trim'] = function(item){
+            if(Array.isArray(item)){
+                return item.map(i =>  i.trim() );
+            }
+
+            if (typeof item === 'string'){
+                return item.trim();
+            }
+
+            return '';
         };
 
         params['upper'] = function(str){
@@ -125,6 +133,22 @@ class View{
 
         params['lower'] = function(str){
             return str.toLowerCase();
+        };
+
+        params['split'] = function(str){
+            return str.split(/,|_| |\n/);
+        };
+
+        params['last'] = function(item){
+            if(Array.isArray(item)){
+                return item.pop();
+            }
+
+            if (typeof item === 'string'){
+                return item.substring(item.length -1);
+            }
+
+            return '';
         };
 
         let keys = [];

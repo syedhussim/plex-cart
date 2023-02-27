@@ -77,6 +77,7 @@ class Server{
         vars.set('uri', request.url().pathname());
 
         for(let location of locations){
+            
             let uri = location.uri || '';
             let paths = location.paths || [];
             let deny = location.deny || false;

@@ -62,9 +62,13 @@ h6 { margin : 0px; font-size : 0.6rem; font-weight : 400; }
 .wh-80-px { width : 80px; }
 .wh-90-px { width : 90px; }
 .wh-100-px { width : 100px; }
+.wh-150-px { width : 150px; }
 .wh-200-px { width : 200px; }
+.wh-250-px { width : 250px; }
 .wh-300-px { width : 300px; }
+.wh-350-px { width : 350px; }
 .wh-400-px { width : 400px; }
+.wh-450-px { width : 450px; }
 .wh-500-px { width : 500px; }
 .wh-600-px { width : 600px; }
 .wh-700-px { width : 700px; }
@@ -450,4 +454,24 @@ h6 { margin : 0px; font-size : 0.6rem; font-weight : 400; }
 .lt-20 { left : 20px }
 .lt-30 { left : 30px }
 
+.cr-dt { cursor : default }
 .cr-pr { cursor : pointer; }
+.cr-ne { cursor : none; }
+.cr-na { cursor : not-allowed; }
+
+.ow-hn { overflow : hidden; }
+.ow-sl { overflow : scroll; }
+.ow-ve { overflow : visible; }
+.ow-ao { overflow : auto; }
+
+.ta-lt { text-align : left; }
+.ta-cr { text-align : center; }
+.ta-rt { text-align : right; }
+
+.to-cp { text-overflow : clip; }
+.to-es { text-overflow : ellipsis; }
+.to-us { text-overflow : unset; }
+
+.ws-np { white-space : nowrap; }
+.ws-nl { white-space : normal; }
+.ws-pe { white-space : pre; }
