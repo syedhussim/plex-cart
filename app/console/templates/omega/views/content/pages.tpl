@@ -2,7 +2,6 @@
 
 <div class="{{ pages.empty() ? 'app-container-full' : 'app-container' }} fx-jc-cr fx-ai-cr">
     <div class="dy-fx fx-fd-cn fx-ai-cr">
-
         {% if pages.empty() %}
             <form method="post" action="/content/pages/create" class="dy-fx fx-fd-cn fx-ai-cr">
                 <h1>Content</h1>
