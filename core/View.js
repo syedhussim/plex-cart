@@ -175,6 +175,7 @@ class View{
 
                 let x = function(str, funcs, idx){
 
+
                     str = funcs[idx] + '(' + str + ')';
 
                     idx++;

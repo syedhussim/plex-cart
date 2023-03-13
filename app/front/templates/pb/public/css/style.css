@@ -33,6 +33,7 @@
     --color-1 : #000;
     --color-2 : #fff;
     --color-3 : #2d2d2d;
+    --color-4 : #79bfd0;
 }
 
 body { margin:0px; font-size: 14px; line-height: 1.5;  font-family: "Playboy Visuelt",sans-serif; }
@@ -46,6 +47,14 @@ h1, .h1 {
 h1, h2, h3, h4, h5, h6 {
     margin-top: 0;
     margin-bottom: .5rem;
+}
+
+.h2{
+    font-size: 58px;
+    font-weight: 700;
+    line-height: 54px;
+    text-transform: uppercase;
+    color: var(--color-4);
 }
 
 p{
@@ -96,6 +105,10 @@ header nav a:hover::after{
     width: 100%;
 }
 
+main{
+    margin-top:100px;
+}
+
 .featured-panel{
     background-position: center;
     background-repeat: no-repeat;
@@ -105,6 +118,7 @@ header nav a:hover::after{
     text-decoration: none;
     font-size: 42px;
 }
+
 footer {
     margin-top:35px;
 }
@@ -205,7 +219,29 @@ footer {
     right:0px;
 }
 
+.btn{
+    display: inline-block;
+    height: 48px;
+    padding-right: 32px;
+    padding-left: 32px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: .93px;
+    line-height: 48px;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--color-4);
+    border-radius: 50px;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
 /** GENERIC **/
+
+.maxw-450-px {
+    max-width: 450px;
+}
 
 .maxw-1440-px {
     max-width: 1440px;

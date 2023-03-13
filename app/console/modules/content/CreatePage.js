@@ -1,4 +1,3 @@
-const Util = req('core.Util');
 const Validation = req('core.Validation');
 const ConsoleController = req('app.console.lib.ConsoleController');
 
@@ -45,7 +44,7 @@ class CreatePage extends ConsoleController{
 
         let page = {
             id : post.get('id'),
-            url : Util.url(post.get('name')),
+            url : post.get('url'),
             active : post.getInt('active'),
             name : post.get('name'),
             group : post.get('group'),

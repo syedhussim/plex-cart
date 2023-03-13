@@ -39,7 +39,7 @@ class CreateTemplate extends ConsoleController{
                 .get();
 
             attributesRes = attributesRes.fullJoin(templateAttributeRes, 'id', 'attribute_id', ['template_id']);
-console.log(attributesRes);
+
             this.settings.theme = 'pb';
             let files = await fs.readdir(this.root.concat('/app/front/templates/' + this.settings.theme + '/views/content'), { 
                 withFileTypes: true
@@ -49,7 +49,7 @@ console.log(attributesRes);
 
             return await this.view.render('content/create_template',{
                 pages : pagesRes,
-                page : pageRes.first(),
+                page : page,
                 template : template,
                 templateFiles : templateFiles,
                 attributes : attributesRes,

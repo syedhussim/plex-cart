@@ -87,6 +87,11 @@ class Select{
         return this;
     }
 
+    fromString(str){
+        let array = str.split("\n").map(i => { return i.trim() });
+        return this.fromArray(array);
+    }
+
     fromArray(array = [], useIndex = false){
         for(let idx in array){
 

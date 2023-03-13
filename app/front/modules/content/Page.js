@@ -24,8 +24,31 @@ class Page extends Frontontroller{
 
                 let file = template.template_file.substring(0, template.template_file.indexOf('.'));
 
+                let relatedPagesRes = await this.db.collection('related_pages')
+                    .where('parent_page_id', 'eq', page.id)
+                    .get();
+
+                let relatedPages = [];
+                
+                if(!relatedPagesRes.empty()){
+                    pagesRes = await this.db.collection('pages')
+                        .where('id', 'in', relatedPagesRes.select('page_id'))
+                        .get();
+                    
+                    for(let page of pagesRes){
+                        let templatesRes = await this.db.collection('templates')
+                            .where('id', 'eq', page.template_id)
+                            .get();
+
+                        if(!templatesRes.empty()){
+                            let template = templatesRes.first();
+                            relatedPages.push(new PageContent(template.attributes));
+                        }
+                    }
+                }
+
                 return this.view.render(`content/${file}`, { 
-                    page : new PageContent(template.attributes)
+                    page : new PageContent(template.attributes, relatedPages)
                 });
             }
         }

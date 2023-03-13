@@ -17,12 +17,6 @@
                                             <span>Template Attributes</span>
                                         </div>
                                     </a>
-                                    <a class="menu-item" href="/content/related/pages?&id={{ template.id }}">
-                                        <i class="ico-attr mr-10 minw-30-px"></i>
-                                        <div class="dy-fx fx-fd-cn">
-                                            <span>Related Pages</span>
-                                        </div>
-                                    </a>
                                     <div class="menu-item" id="btnConfirmDeleteTemplate">
                                         <i class="ico-trash mr-10 minw-30-px"></i>
                                         <div class="dy-fx fx-fd-cn">
@@ -83,7 +77,7 @@
                                 {{ 
                                     html.select('attr_' + attribute.property, util.getObjProperty(template.attributes, attribute.property).value)
                                     .option('', '')
-                                    .fromArray(trim(split(attribute.menu_items)))
+                                    .fromString(attribute.menu_items)
                                 }}
                             {% /if %}
                         </div>

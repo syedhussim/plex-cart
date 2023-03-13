@@ -7,64 +7,35 @@
             
                 <div class="app-content-header">
                     <div class="inner-header">
-                        <h4>Template / Related Pages / <span class="fc-9">{{ template.name }}</span></h4>
+                        <h4>Related Pages / <span class="fc-9">{{ page.name }}</span></h4>
                     </div>
                 </div>
 
                 <div class="mb-20">
                     <div class="input-container listbox">
                         <ul>
-                            {% foreach attribute in attributes %}
-                                {% if ['ATTR_TEXT', 'ATTR_DATE', 'ATTR_MENU'].includes(attribute.type) %}
-                                    <li>
-                                        <div class="wh-100-pc pl-15 pt-15 pb-15 pr-15">
-                                            <div>
-                                                <span class="fw-700">{{ attribute.name }}</span>
-                                            </div>
-                                            <div class="fs-13 fc-6 mt-5">
-                                                <span>{{ attribute.property }} / {{ attribute.type | lower | split | last }}</span>
-                                            </div>
+                            {% foreach page in pages %}
+                                <li>
+                                    <div class="wh-100-pc pl-15 pt-15 pb-15 pr-15">
+                                        <div>
+                                            <span class="fw-700">{{ page.name }}</span>
                                         </div>
-
-                                        <div class="dy-fx  mr-15">
-                                            <div class="dy-fx wh-150-px mr-20">
-                                                {{ 
-                                                    html.select('op', attribute)
-                                                    .id('')
-                                                    .option('eq', 'Equals')
-                                                    .option('lk', 'Like')
-                                                    .option('lt', 'Less Than')
-                                                    .option('gt', 'Greater Than')
-                                                }}
-                                            </div>
-
-                                            <div class="dy-fx wh-300-px">
-                                                {% if attribute.type == 'ATTR_TEXT' %}
-                                                    {{ html.textbox('property_value', attribute.value).css('input-1') }}
-                                                {% /if %}       
-
-                                                {% if attribute.type == 'ATTR_DATE' %}
-                                                    {{ html.date('property_value', attribute.value).css('input-1') }}
-                                                {% /if %}
-
-                                                {% if attribute.type == 'ATTR_MENU' %}
-                                                    {{ 
-                                                        html.select('property_value', attribute.value)
-                                                        .option('', '')
-                                                        .fromArray(attribute.menu_items)
-                                                    }}
-                                                {% /if %}
-                                            </div>
+                                        <div class="fs-13 fc-6 mt-5">
+                                            <span>{{ page.url }}</span>
                                         </div>
-                                    </li>
-                                {% /if %}
+                                    </div>
+                                    <div class="pr-15">
+                                        <input type="checkbox" name="page_id" value="{{ page.id }}" id="chk_{{ page.id }}" {{ page.page_id ? 'checked' : '' }} />
+                                        <label for="chk_{{ page.id }}"></label>
+                                    </div>
+                                </li>
                             {% /foreach %}
                         </ul>
                     </div>
                 </div>
 
                 <div class="mb-20 dy-fx fx-jc-fe">
-                    <input type="hidden" value="{{ template.id }}" name="id" />
+                    <input type="hidden" value="{{ page.id }}" name="pid" />
                     <button type="submit" class="btn-commit">Save</button>
                 </div>
 

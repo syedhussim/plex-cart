@@ -1,14 +1,19 @@
 class PageContent{
 
-    constructor(data){
-        this.data = data;
+    constructor(data, relatedPages = []){
+        this._data = data;
+        this._relatedPages = relatedPages;
     }
 
     get(property){
-        if(this.data.hasOwnProperty(property)){
-            return this.data[property].value;
+        if(this._data.hasOwnProperty(property)){
+            return this._data[property].value;
         }
         return '';
+    }
+
+    relatedPages(){
+        return this._relatedPages;
     }
 }
 

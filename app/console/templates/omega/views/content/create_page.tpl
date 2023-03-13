@@ -23,6 +23,12 @@
                                             <span>Add Template</span>
                                         </div>
                                     </a>
+                                    <a class="menu-item" href="/content/related/pages?&pid={{ page.id }}">
+                                        <i class="ico-attr mr-10 minw-30-px"></i>
+                                        <div class="dy-fx fx-fd-cn">
+                                            <span>Related Pages</span>
+                                        </div>
+                                    </a>
                                     <div class="menu-item" id="btnConfirmDeletePage">
                                         <i class="ico-trash mr-10 minw-30-px"></i>
                                         <div class="dy-fx fx-fd-cn">
@@ -49,6 +55,11 @@
                 <div class="mb-20">
                     <label class="mb-5 dy-bk fw-700 {{ errors.hasError('name', 'fc-9') }}">{{ errors.get('name', 'Name') }}</label>
                     {{ html.textbox('name', page) }}
+                </div>
+
+                <div class="mb-20">
+                    <label class="mb-5 dy-bk fw-700 {{ errors.hasError('url', 'fc-9') }}">{{ errors.get('url', 'URL') }}</label>
+                    {{ html.textbox('url', page) }}
                 </div>
 
                 <div class="mb-20">
