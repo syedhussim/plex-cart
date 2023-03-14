@@ -11,10 +11,7 @@
         "samesite" :  "Lax"
     },
 
-    "middleware" : {
-        "controller" : [],
-        "page" : []
-    }
-       
-    
+    "middleware" : [
+        "lib.middleware.Test"
+    ]
 }

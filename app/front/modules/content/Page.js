@@ -14,15 +14,11 @@ class Page extends Frontontroller{
 
             let page = pagesRes.first();
 
-            let templatesRes = await this.db.collection('templates')
-                .where('id', 'eq', page.template_id)
-                .get();
+            let templatesRes = await this.template(page);
 
             if(!templatesRes.empty()){
 
-                let template = templatesRes.first(); 
-
-                let file = template.template_file.substring(0, template.template_file.indexOf('.'));
+                let template = templatesRes.first();
 
                 let relatedPagesRes = await this.db.collection('related_pages')
                     .where('parent_page_id', 'eq', page.id)
@@ -36,22 +32,33 @@ class Page extends Frontontroller{
                         .get();
                     
                     for(let page of pagesRes){
-                        let templatesRes = await this.db.collection('templates')
+                        let relatedTemplatesRes = await this.db.collection('templates')
                             .where('id', 'eq', page.template_id)
                             .get();
 
-                        if(!templatesRes.empty()){
-                            let template = templatesRes.first();
-                            relatedPages.push(new PageContent(template.attributes));
+                        if(!relatedTemplatesRes.empty()){
+                            let relatedTemplate = relatedTemplatesRes.first();
+                            relatedPages.push(new PageContent(relatedTemplate.attributes));
                         }
                     }
                 }
+
+                let file = template.template_file.substring(0, template.template_file.indexOf('.'));
 
                 return this.view.render(`content/${file}`, { 
                     page : new PageContent(template.attributes, relatedPages)
                 });
             }
         }
+    }
+
+    async template(page){
+
+        let templatesRes = await this.db.collection('templates')
+            .where('id', 'eq', page.template_id)
+            .get();
+
+        return templatesRes;
     }
 }
 

@@ -34,6 +34,14 @@
                     }}
                 </div>
 
+                <div class="mb-20">
+                    <label class="mb-5 dy-bk fw-700 {{ errors.hasError('theme', 'fc-9') }}">{{ errors.get('theme', 'Theme') }}</label>
+                    {{ 
+                        html.select('theme', settings)
+                        .fromArray(themes)
+                    }}
+                </div>
+
                 <div class="mb-20 dy-fx">
                     <input type="hidden" value="{{ settings.id }}" name="id" />
                     <button type="submit" class="btn-commit">Save</button>

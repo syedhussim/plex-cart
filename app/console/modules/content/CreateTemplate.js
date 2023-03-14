@@ -22,6 +22,7 @@ class CreateTemplate extends ConsoleController{
                 template = await this.db.collection('templates').find(id, {
                     id : '',
                     name : '',
+                    code : '',
                     template_file : '',
                     page_id : page.id,
                     attributes : {}
@@ -69,6 +70,7 @@ class CreateTemplate extends ConsoleController{
         let template = {
             id : post.get('id'),
             name : post.get('name'),
+            code : post.get('code').toUpperCase(),
             template_file : post.get('template_file'),
             page_id : post.get('page_id'),
             attributes : {}

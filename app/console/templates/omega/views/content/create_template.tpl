@@ -41,6 +41,11 @@
                 </div>
 
                 <div class="mb-20">
+                    <label class="mb-5 dy-bk fw-700 {{ errors.hasError('code', 'fc-9') }}">{{ errors.get('code', 'Code') }}</label>
+                    {{ html.textbox('code', template) }}
+                </div>
+
+                <div class="mb-20">
                     <label class="mb-5 dy-bk fw-700 {{ errors.hasError('template_file', 'fc-9') }}">{{ errors.get('template_file', 'Template File') }}</label>
                     {{ 
                         html.select('template_file', template)

@@ -1,6 +1,7 @@
 const Intlz = req('core.Intlz');
 const Validation = req('core.Validation');
 const ConsoleController = req('app.console.lib.ConsoleController');
+const fs = require('fs/promises');
 
 class Edit extends ConsoleController{
 
@@ -18,11 +19,24 @@ class Edit extends ConsoleController{
             });
         }
 
+        let files = await fs.readdir(this.root.concat('/app/front/templates'), { 
+            withFileTypes: true
+        });
+
+        let themeNames = files.filter((dirent) => dirent.isDirectory());
+
+        let themes = [];
+
+        for(let entry of themeNames){
+            themes.push(entry.name);
+        }
+
         return await this.view.render('settings/edit',{
             settings : settings,
             currencies : Intlz.currencies(),
             locales : Intlz.locales(),
             timeZones : Intlz.timeZones(),
+            themes : themes,
             errors : errors
         });
     }
@@ -37,7 +51,8 @@ class Edit extends ConsoleController{
             name : post.get('name'),
             url : post.get('url'),
             locale : post.get('locale'),
-            timezone : post.get('timezone')
+            timezone : post.get('timezone'),
+            theme : post.get('theme')
         };
 
         validator.add('name', settings, [
@@ -51,10 +66,11 @@ class Edit extends ConsoleController{
         ]).add('timezone', settings, [
             new Validation.Required('Timezone is required'),
             new Validation.MaxLength(50, 'Timezone must not exceed @length characters')
+        ]).add('theme', settings, [
+            new Validation.Required('Theme is required')
         ]);
 
         if(validator.isValid()){
-
 
             let result = await this.db.collection('settings').updateOrInsert(post.id, settings);
 

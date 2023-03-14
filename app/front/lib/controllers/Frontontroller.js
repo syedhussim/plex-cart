@@ -12,18 +12,18 @@ class Frontontroller extends HttpController{
 
             this.store = settingsRes.first();
 
-            for(let middleware of this.config.controller || []){
+            for(let middleware of this.config.middleware || []){
                 let middlewareClass = new (req(middleware))();
                 middlewareClass.before(this);
             }
-            this.store.theme = 'pb';
+
             this.view = new View(this.root.concat('/app/front/templates/' + this.store.theme + '/views/'));
             this.view.param('store', this.store);
             this.view.param('request', this.request);
             this.view.param('html', Html);
             this.view.param('url', (path) => { return this.store.url + path; });
 
-            for(let middleware of this.config.controller || []){
+            for(let middleware of this.config.middleware || []){
                 let middlewareClass = new (req(middleware))();
                 middlewareClass.after(this);
             }
