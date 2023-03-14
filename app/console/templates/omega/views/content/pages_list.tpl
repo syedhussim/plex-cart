@@ -61,30 +61,30 @@
     </div>
 {% /if %}
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
-        class PageListMenu extends AppBase{
+    class PageListMenu extends AppBase{
 
-            mount(){
+        mount(){
 
-                this.click('#pageListMenu', () => {
+            this.click('#pageListMenu', () => {
 
-                    event.stopPropagation();
+                event.stopPropagation();
 
-                    let e = document.querySelector('#pageListContextMenu');
-                    let list = e.classList;
+                let e = document.querySelector('#pageListContextMenu');
+                let list = e.classList;
 
-                    if(list.contains('dy-ne')){
-                        list.remove('dy-ne');
-                        list.add('dy-fx');
-                    }else{
-                        list.remove('dy-fx');
-                        list.add('dy-ne');
-                    }
-                });
-            }
+                if(list.contains('dy-ne')){
+                    list.remove('dy-ne');
+                    list.add('dy-fx');
+                }else{
+                    list.remove('dy-fx');
+                    list.add('dy-ne');
+                }
+            });
         }
+    }
 
-        new PageListMenu();
+    new PageListMenu();
 
-    </script>
+</script>

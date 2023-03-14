@@ -66,16 +66,24 @@ class AppBase{
         this._event('keyup', selector, fn);
     }
 
+    ondrop(selector, fn){
+        this._event('drop', selector, fn);
+    }
+
+    ondragover(selector, fn){
+        this._event('dragover', selector, fn);
+    }
+
     _event(eventType, selector, fn){
-        if(selector.substring(0,1) == '#'){
+        if(selector.substring(0,1) == '#'){ 
             let e = document.querySelector(selector);
             if(e){
-                e.addEventListener(eventType, function () { fn(e); });
+                e.addEventListener(eventType, function(ev) { fn(e, ev); });
             }
         }else{
             let nl = document.querySelectorAll(selector);
             for(let e of nl){
-                e.addEventListener(eventType, function () { fn(e); });
+                e.addEventListener(eventType, function(ev) { fn(e, ev); });
             }
         }
     }

@@ -1,132 +1,95 @@
-<div class="app-panel" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
-    <div class="container" id="test">
+<div class="app-container-full">
+    <div class="app-content-container">
+        <div class="app-content-left-panel fx-fx-maxc" id="dropzone">
+            <div class="app-content-header">
+                <div class="inner-header">
+                    <h4 class="fw-700">Media Library</h4>
+                </div>
+            </div>
 
-    </div>
-</div>
-
-<div class="app-container">
-    <div style="margin:30px; width:100%; display:flex; align-items:center; justify-content:center;">
-        <div style="background-color:#444; background-image: linear-gradient(45deg, #808080 25%, transparent 25%), linear-gradient(-45deg, #808080 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #808080 75%), linear-gradient(-45deg, transparent 75%, #808080 75%);
-  background-size: 20px 20px;
-  background-position: 0 0, 0 10px, 10px -10px, -10px 0px; width:75%"><img id="selectedImg" width="100%" /></div></div>
+            <div id="media" class="dy-fx" style="gap:10px; flex-wrap: wrap;"></div>
+        </div>
     </div>
 </div>
 
 <template id="item">
-    <div class="data-row" onclick="select(this)">
+    <div class="data-card" onclick="select(this)">
         <div class="dy-fx pl-15 pr-15">
             <div class="dy-fx minw-80-px fx-jc-cr">
-                <div><img data-name="img" class="wh-100-pc maxw-80-px " /></div>
+                <div><img data-src="img" class="wh-100-pc maxw-80-px" /></div>
             </div>
         </div>
-        <div class="fx fx-fx-maxc pt-15 pb-15 pr-15 wh-350-px">
-            <a data-name="name" class="fs-18 fw-500"></a>
-            <div class="fs-13 fc-6 mt-5" data-name="image_size"></div>
+        <div class="dy-fx fx-fd-cn fx-ai-cr mt-10 mb-10 wh-100-pc">
+            <a data-name="name" class="fs-16 fw-500 dy-ib"></a>
+            <div class="fs-13 fc-6 mt-5 dy-ib" data-name="image_size"></div>
         </div>
     </div>
 </template>
 
+
 <script type="text/javascript">
 
-    const media = ${JSON.stringify(media.toArray())};
+    class MediaLibrary extends AppBase{
 
-    for(let item of media){
-        item.img = '/' + item.name;
-        item.image_size = item.image_size.join(' x ');
-        render('test', 'item', item);
-    }
+        mount(){
+            const media = {{ JSON.stringify(media.toArray()) }};
 
-    function render(host, templateId, data = {}){
-
-        let template = document.getElementById(templateId);
-        let clone = template.content.cloneNode(true);
-        let nodeList = clone.querySelectorAll('[data-name]');
-
-        for(let node of nodeList){
-            let name = node.dataset.name || '';
-            
-            switch(node.tagName){
-                case 'IMG':
-                    node.src = data[name];
-                    break;
-                default:
-                    node.innerHTML = data[name];
-                
+            for(let item of media){
+                item.img = '/' + item.name;
+                item.image_size = item.image_size.join(' x ');
+                this.render('media', 'item', item);
             }
-        }
 
-        document.getElementById(host).appendChild(clone);
-    }
+            this.ondrop('#dropzone', (e, event) => {
 
-    let selectedRow = null;
+                let that = this;
 
-    function select(sender){
-        sender.classList.add('data-row-selected');
+                event.preventDefault();
 
-        if(selectedRow != null){
-            selectedRow.classList.remove('data-row-selected')
-        }
+                const file = event.dataTransfer.items[0].getAsFile();
 
-        let imgSrc = sender.getElementsByTagName('img')[0].src;
+                const reader = new FileReader();
 
-        document.querySelector('#selectedImg').src = imgSrc
+                reader.readAsDataURL(file);
+                reader.onload = function(evt) {
 
-        selectedRow = sender;
-    }
+                    let img = document.createElement('img');
+                    img.src = URL.createObjectURL(file);
 
-    function dropHandler(ev) {
+                    img.onload = async function(){
 
-        ev.preventDefault();
+                        await fetch(window.location, {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ 
+                                image: reader.result, 
+                                name: file.name, 
+                                file_size : file.size, 
+                                image_size : [img.width, img.height],
+                                type : file.type
+                            })
+                        });
 
-        const file = ev.dataTransfer.items[0].getAsFile();
+                        let item = {
+                            name : file.name,
+                            image_size : [img.width, img.height].join(' x '),
+                            img :  img.src
+                        };
 
-        const reader = new FileReader();
-
-        reader.readAsDataURL(file);
-        reader.onload = function(evt) {
-
-            let img = document.createElement('img');
-            img.src = URL.createObjectURL(file);
-
-            img.onload = async function(){
-                let canvas = document.createElement('canvas');
-                canvas.width = img.width / 2;
-                canvas.height = img.height / 2;
-
-                let ctx = canvas.getContext("2d");
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-                await fetch('/media', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ 
-                        image: reader.result, 
-                        name: file.name, 
-                        file_size : file.size, 
-                        image_size : [img.width, img.height],
-                        type : file.type
-                    })
-                });
-
-                //const content = await rawResponse.json();
-
-                let data = {
-                    name : file.name,
-                    image_size : [img.width, img.height].join(' x '),
-                    img :  canvas.toDataURL()
+                        that.render('media', 'item', item);
+                    }
                 };
+            });
 
-                render('test', 'item', data);
-            }
-        };
-
+            this.ondragover('#dropzone', (e, event) => {
+                event.preventDefault();
+            });
+        }
     }
 
-    function dragOverHandler(ev) {
-        ev.preventDefault();
-    }
+    new MediaLibrary();
 
 </script>
