@@ -7,20 +7,22 @@ class ConsoleController extends HttpController{
     async authorize(){
 
         let session = this.config.session;
-
+console.log(this.request.url())
         if(session.dev){
             return true;
         }
 
-        if(this.request.cookies().has(session.name)){
+        if(this.request.cookies().has(session.name)){ 
             let id = this.request.cookies().get(session.name);
-            
-            if(this.appStorage.has(id)){
-                return true;
+
+            if(this.appStorage.has(session.name)){
+                if(this.appStorage.get(session.name) == id){
+                    return true;
+                }
             }
         }
 
-        this.response.html(await this.view.render('signin/index'));
+        this.response.html(await this.view.render('home/login'));
 
         return false;
     }

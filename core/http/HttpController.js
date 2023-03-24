@@ -18,18 +18,20 @@ class HttpController extends Controller{
 
         let params = this.request.query().values();
 
-        let result;
+        let result = '';
 
-        switch(this.request.method()){
-            case 'GET':
-                result = await this.get(...params);
-                break;
-            case 'POST': 
-                result = await this.post(...params);
-                break;
-            case 'DELETE': 
-                result = await this.delete(...params);
-                break;
+        if(this.authorize()){
+            switch(this.request.method()){
+                case 'GET':
+                    result = await this.get(...params);
+                    break;
+                case 'POST': 
+                    result = await this.post(...params);
+                    break;
+                case 'DELETE': 
+                    result = await this.delete(...params);
+                    break;
+            }
         }
 
         await this.unload();

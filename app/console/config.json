@@ -11,5 +11,10 @@
         "secure" : false,
         "samesite" :  "None",
         "dev" : true
+    },
+
+    "auth" : {
+        "username" : "DEV01",
+        "password" : "0799"
     }
 }

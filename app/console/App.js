@@ -6,6 +6,7 @@ class App extends Application{
 
     async load(){
 
+        this.routes.add('/', 'app/console/modules/home/Login');
         this.routes.add('/content/pages', 'app/console/modules/content/Pages');
         this.routes.add('/content/pages/create', 'app/console/modules/content/CreatePage');
         this.routes.add('/content/templates', 'app/console/modules/content/Templates');
