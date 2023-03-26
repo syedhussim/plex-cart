@@ -48,8 +48,11 @@
                                         <span class="ws-np">{{ pageRow.url }}</span>
                                     </div>
                                 </div>
-                                <div class="pl-30 dy-fx fx-jc-cr dy-ai-cr">
-                                    <span class="active{{ pageRow.active }}"></span>
+                                <div class="dy-fx fx-jc-fe fx-ai-cr wh-40-px">
+                                    {% if pageRow.is_default_page %}
+                                        <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="18px" viewBox="0 0 24 24" width="18px" fill="orange"><g><path d="M0 0h24v24H0V0z" fill="none"/><path d="M0 0h24v24H0V0z" fill="none"/></g><g><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z"/></g></svg>
+                                    {% /if %}
+                                    <span class="active{{ pageRow.active }} ml-10"></span>
                                 </div>
                             </div>
                         </div>

@@ -13,6 +13,7 @@ class CreatePage extends ConsoleController{
             page = await this.db.collection('pages').find(id, {
                 id : '',
                 active : 0,
+                is_default_page : 0,
                 name : '',
                 group : '',
                 template_id : ''
@@ -86,16 +87,48 @@ class CreatePage extends ConsoleController{
             if(post.id){
                 result = await this.db.collection('pages').update(post.id, page); 
             }else{
+
+                page.is_default_page = false;
+
                 result = await this.db.collection('pages').create(page); 
             }
 
             this.request.flash({
-                message : `page ${page.name}`,
+                message : `Page ${page.name} saved.`,
                 success : result.success
             });
         }
 
         return await this.get(post.id, page, validator.errors());
+    }
+
+    async put(){
+        let post = this.request.post();
+
+        let id = post.get('id');
+        let state = post.getInt('state');
+
+        if(id){
+            let pagesRes = await this.db.collection('pages')
+                .where('id', 'eq', id)
+                .get();
+
+            if(!pagesRes.empty()){
+
+                let page = pagesRes.first();
+                page.is_default_page = state == 1 ? 0 : 1;
+
+                let result = await this.db.collection('pages').update(page.id, page); 
+
+                return {
+                    success : result.success
+                }
+            }
+        }
+
+        return {
+            success : false
+        }
     }
 
     async delete(){

@@ -7,7 +7,7 @@ class ConsoleController extends HttpController{
     async authorize(){
 
         let session = this.config.session;
-console.log(this.request.url())
+
         if(session.dev){
             return true;
         }
@@ -22,7 +22,7 @@ console.log(this.request.url())
             }
         }
 
-        this.response.html(await this.view.render('home/login'));
+        this.response.html(await this.view.render('home/login'), 401);
 
         return false;
     }

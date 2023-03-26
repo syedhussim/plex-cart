@@ -9,9 +9,9 @@ class Request{
         this._url = new Url(new URL(protocol + '://' + request.headers.host + request.url));
         this._method = request.method;
         this._headers = new Map(Object.entries(request.headers));
-        this._cookies = null;
+        this._cookies = new Map();
         this._query = new URLSearchParams(this._url.search());
-        this._post = null;
+        this._post = new Post({});
 
         if(this.headers().has('content-type')){
             let [ contentType, charset ] = this.headers().get('content-type').split(';');

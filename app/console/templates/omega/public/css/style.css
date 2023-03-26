@@ -584,6 +584,13 @@ input[type=radio]:checked + label{
     height: 24px;
 }
 
+.ico-home{
+    display: flex;
+    background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iMjRweCIgZmlsbD0iIzY4Njg4NiI+PHBhdGggZD0iTTAgMGgyNHYyNEgwVjB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTEyIDUuNjlsNSA0LjVWMThoLTJ2LTZIOXY2SDd2LTcuODFsNS00LjVNMTIgM0wyIDEyaDN2OGg2di02aDJ2Nmg2di04aDNMMTIgM3oiLz48L3N2Zz4=) no-repeat center center;
+    width: 24px;
+    height: 24px;
+}
+
 .ico-done{
     display: flex;
     background: url(/omega/public/images/done.svg) no-repeat center center;

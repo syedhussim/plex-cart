@@ -1,16 +1,8 @@
 class WebRequest{
 
-    static async get(options){ 
-        return WebRequest._request(options, null);
-    }
+    static async request(options = {}, postData = null){
 
-    static async post(options, data = {}){ 
-        return WebRequest._request(options, data);
-    }
-
-    static async _request(options = {}, postData = null){
-
-        let client = options.port == 443 ? require('https') : require('http');
+        let client = options.https ? require('https') : require('http');
 
         let response = await new Promise((resolve, reject) => {
             

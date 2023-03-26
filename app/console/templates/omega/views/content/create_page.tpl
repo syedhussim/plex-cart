@@ -11,6 +11,15 @@
                             <div class="dy-fx pn-re">
                                 <span class="btn-action" id="pageMenu"><i class="ico-eclipse"></i></span>
                                 <div class="dropdown-menu wh-200-px dy-ne" id="pageContextMenu">
+                                    <div class="menu-item" id="btnHomePage" data-page_id="{{ page.id }}" data-state="{{ page.is_default_page }}">
+                                        <i class="ico-home mr-10 minw-30-px"></i>
+                                        <div class="dy-fx fx-fd-cn">
+                                            <span>Home Page</span>
+                                        </div>
+                                        {% if page.is_default_page %}
+                                            <i class="ico-done minw-30-px"></i>
+                                        {% /if %}
+                                    </div>
                                     <a class="menu-item" href="{{ settings.url }}{{ page.url }}" target="_blank">
                                         <i class="ico-open-window mr-10 minw-30-px"></i>
                                         <div class="dy-fx fx-fd-cn">
@@ -161,6 +170,23 @@
 
                 if(result.success){
                     window.location = '/content/pages';
+                }
+            });
+
+            this.click('#btnHomePage', async (sender) => {
+
+                let response = await fetch('/content/pages/create', {
+                    method : 'PUT',
+                    headers: {
+                        'Content-type': 'application/json;charset=UTF-8'
+                    },
+                    body : JSON.stringify({ id : sender.dataset.page_id, state : sender.dataset.state })
+                });
+
+                let result = await response.json();
+
+                if(result.success){
+                    window.location = window.location;
                 }
             });
         }

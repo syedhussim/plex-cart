@@ -19,6 +19,8 @@ class App extends Application{
         this.routes.add('/media/library', 'app/console/modules/media/Library');
         this.routes.add('/media/library.json', 'app/console/modules/media/Library');
 
+        this.routes.add('/upload/file', 'app/console/modules/upload/File');
+
         this.routes.add('/settings', 'app/console/modules/settings/Edit');
     
         this.dependencies({

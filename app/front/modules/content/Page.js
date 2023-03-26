@@ -4,11 +4,20 @@ const PageContent = req('app.front.lib.content.PageContent');
 class Page extends Frontontroller{
 
     async get(){
-        
-        let pagesRes = await this.db.collection('pages')
-            .where('url', 'eq', this.request.url().pathname())
-            .where('active', 'eq', 1)
-            .get();
+
+        let pagesRes = null;
+
+        if(this.request.url().pathname() == '/'){
+            pagesRes = await this.db.collection('pages')
+                .where('is_default_page', 'eq', 1)
+                .where('active', 'eq', 1)
+                .get();
+        }else{
+            pagesRes = await this.db.collection('pages')
+                .where('url', 'eq', this.request.url().pathname())
+                .where('active', 'eq', 1)
+                .get();
+        }
 
         if(!pagesRes.empty()){
 
