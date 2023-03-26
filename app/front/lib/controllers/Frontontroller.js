@@ -18,7 +18,7 @@ class Frontontroller extends HttpController{
             }
 
             this.view = new View(this.root.concat('/app/front/templates/' + this.settings.theme + '/views/'));
-            this.view.param('store', this.settings);
+            this.view.param('settings', this.settings);
             this.view.param('request', this.request);
             this.view.param('html', Html);
             this.view.param('url', (path) => { return this.settings.url + path; });
