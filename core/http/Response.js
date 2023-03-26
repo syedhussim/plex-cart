@@ -62,7 +62,14 @@ class Response{
         this.contentType('text/html').write(string).flush();
     }
 
-     redirect(location, code = 302){
+    json(object, httpCode = null){
+        if(httpCode){
+            this.httpCode(httpCode);
+        }
+        this.contentType('application/json').write(JSON.stringify(object)).flush();
+    }
+
+    redirect(location, code = 302){
         this._redirectLocation = location;
         this.httpCode(code);
         this.flush();

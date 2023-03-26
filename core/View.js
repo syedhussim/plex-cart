@@ -173,24 +173,25 @@ class View{
 
             if(funcs.length > 0){
 
-                let x = function(str, funcs, idx){
-
+                let func = function(str, funcs, idx){
 
                     str = funcs[idx] + '(' + str + ')';
 
                     idx++;
 
                     if(idx < funcs.length){
-                        return x(str, funcs, idx);
+                        return func(str, funcs, idx);
                     }
 
                     return str;
                 };
 
-                let y = x(variable, funcs, 0);
-
-                return y;
+                return func(variable, funcs, 0);
             }
+        }
+
+        if(tokenValue[tokenValue.trim().length] == '?'){
+            tokenValue = tokenValue.trim() + tokenValue.trim().replace('?', '') + ' : ""';
         }
 
         return tokenValue;

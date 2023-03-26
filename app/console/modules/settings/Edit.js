@@ -1,5 +1,6 @@
 const Intlz = req('core.Intlz');
 const Validation = req('core.Validation');
+const Util = req('core.Util');
 const ConsoleController = req('app.console.lib.ConsoleController');
 const fs = require('fs/promises');
 
@@ -15,7 +16,8 @@ class Edit extends ConsoleController{
                 name : '',
                 url : '',
                 locale : '',
-                timezone : ''
+                timezone : '',
+                api_key : ''
             });
         }
 
@@ -83,6 +85,28 @@ class Edit extends ConsoleController{
         }
 
         return await this.get(settings, validator.errors());
+    }
+
+    async put(){
+        
+        let post = this.request.post();
+        
+        let settingsRes = await this.db.collection('settings')
+            .where('id', 'eq', post.get('id'))
+            .get();
+
+        if(!settingsRes.empty()){
+
+            let settings = settingsRes.first();
+
+            settings.api_key = await Util.randomString(50);
+
+            let result = await this.db.collection('settings').update(settings.id, settings);
+
+            return {
+                success : result.success
+            }
+        }
     }
 }
 
