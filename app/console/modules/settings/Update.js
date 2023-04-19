@@ -8,6 +8,13 @@ class Update extends ConsoleController{
 
         await this.readDir(this.root.concat('/app'));
         await this.readDir(this.root.concat('/core'));
+
+        this.request.flash({
+            message : 'System updated',
+            success : true
+        });
+
+        this.response.redirect(`/settings`);
     }
 
     async readDir(path){
@@ -33,9 +40,7 @@ class Update extends ConsoleController{
                 let response = await WebRequest.request(options);
 
                 if(response.statusCode == 200){
-
-                    let data = await fs.writeFile(path + '/' + entry.name, response.data);
-                    console.log(path + '/' + entry.name);
+                    await fs.writeFile(path + '/' + entry.name, response.data);
                 }
             }
         }
