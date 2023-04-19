@@ -15,6 +15,13 @@
                                             <span>New API Key</span>
                                         </div>
                                     </div>
+
+                                    <a class="menu-item" href="/settings/update">
+                                        <i class="ico-home mr-10 minw-30-px"></i>
+                                        <div class="dy-fx fx-fd-cn">
+                                            <span>Install Update</span>
+                                        </div>
+                                    </a>
                                 </div>
                             </div>
                         {% /if %}

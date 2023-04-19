@@ -22,6 +22,7 @@ class App extends Application{
         this.routes.add('/upload/file', 'app/console/modules/upload/File');
 
         this.routes.add('/settings', 'app/console/modules/settings/Edit');
+        this.routes.add('/settings/update', 'app/console/modules/settings/Update');
     
         this.dependencies({
             db : DatabaseEngine.create(this.config.db, this.appStorage),
