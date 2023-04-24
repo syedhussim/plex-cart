@@ -88,3 +88,32 @@ class AppBase{
         }
     }
 }
+
+function url(str, prefix = '', suffix = ''){
+    str = str.toLowerCase();
+    let retString = '/'; 
+
+    for(let i in str){
+        let chCode = str[i].charCodeAt();
+
+        if(chCode == 32 || chCode == 45){
+            if(retString[retString.length - 1] != '-'){
+                retString += '-';
+            }
+        }
+        
+        if((chCode >= 48 && chCode <= 57) || (chCode >= 97 && chCode <= 122)){
+            retString += str[i];
+        }
+    }
+
+    if(prefix){
+        retString = '/' + prefix.toLowerCase() + retString;
+    }
+
+    if(suffix){
+        retString = retString + '/' + suffix.toLowerCase();
+    }
+
+    return retString;
+}

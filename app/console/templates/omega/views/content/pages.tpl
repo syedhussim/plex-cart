@@ -11,6 +11,7 @@
                     <label class="mb-5 dy-bk fw-700"></label>
                     {{ html.hidden('active', '1') }}
                     {{ html.textbox('name') }}
+                    {{ html.hidden('url') }}
                 </div>
                 <input type="submit" class="btn-commit maxw-200-px" value="Create Page" />
             </form>
@@ -20,3 +21,19 @@
         {% /if %}
     </div>
 </div>
+
+<script type="text/javascript">
+
+    class Content extends AppBase{
+
+        mount(){
+
+            this.change('#name', (sender) => {
+                document.querySelector("#url").value = url(sender.value);
+            });
+        }
+    }
+
+    new Content();
+
+</script>

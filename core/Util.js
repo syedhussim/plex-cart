@@ -20,6 +20,7 @@ module.exports.randomString = async function(len){
 };
 
 module.exports.url = function(str, prefix = '', suffix = ''){
+    
     str = str.toLowerCase();
     let retString = '/'; 
 
